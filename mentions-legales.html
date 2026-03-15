@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black: #080808; --white: #ffffff; --mint: #c8f5e8; --pink: #f5c6d8; }
+    body {
+      background: var(--black);
+      color: rgba(255,255,255,0.82);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 100;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 72px clamp(24px, 5vw, 60px) 120px;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mint);
+      text-decoration: none;
+      opacity: 0.55;
+      margin-bottom: 64px;
+      transition: opacity 0.2s;
+    }
+    .back:hover { opacity: 1; }
+    .page-label {
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--mint);
+      opacity: 0.5;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-weight: 100;
+      font-size: clamp(28px, 4.5vw, 48px);
+      color: rgba(255,255,255,0.92);
+      line-height: 1.15;
+      margin-bottom: 52px;
+      letter-spacing: -0.01em;
+    }
+    h2 {
+      font-weight: 100;
+      font-size: 13px;
+      color: var(--mint);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin: 48px 0 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(200,245,232,0.1);
+      opacity: 0.85;
+    }
+    p { margin-bottom: 16px; color: rgba(255,255,255,0.78); }
+    .intro-note {
+      border-left: 2px solid rgba(200,245,232,0.3);
+      padding: 12px 20px;
+      margin-bottom: 40px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      font-style: italic;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 32px;
+    }
+    .data-table th {
+      text-align: left;
+      font-weight: 100;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mint);
+      opacity: 0.65;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(200,245,232,0.12);
+    }
+    .data-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: top;
+      line-height: 1.7;
+    }
+    .data-table td:first-child {
+      color: rgba(255,255,255,0.88);
+      white-space: nowrap;
+      padding-right: 24px;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    ul, ol { padding-left: 0; list-style: none; margin-bottom: 16px; }
+    li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.75;
+    }
+    li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: rgba(200,245,232,0.4);
+    }
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 40px 0;
+    }
+    .footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.1em;
+    }
+    strong { font-weight: 300; color: rgba(255,255,255,0.92); }
+    @media (max-width: 640px) {
+      .data-table td:first-child { white-space: normal; }
+    }
+
+    /* ── SITE FOOTER ── */
+    .site-footer {
+      padding: 28px clamp(20px, 4vw, 52px);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 100;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .footer-nav a {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.32);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: rgba(255,255,255,0.65); }
+    .footer-sep { color: rgba(255,255,255,0.12); font-size: 10px; }
+    .footer-copy {
+      font-size: 10px;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.1em;
+    }
+  
+@media (max-width: 768px) {
+  .cursor { display: none !important; }
+  body, a, button, label, input, textarea, select {
+    cursor: auto !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  * { cursor: auto !important; }
+  a, button, label, [onclick] {
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    touch-action: manipulation;
+  }
+}
+
+</style>
+  <title>Mentions légales — Give Me The Pitch</title>
+</head>
+<body>
+<div class="page">
+  <a class="back" href="javascript:history.back()">← retour</a>
+  <div class="page-label">01 / Mentions légales</div>
+  <h1>Mentions légales</h1>
+
+  <h2>1. Éditeur du site</h2>
+  <table class="data-table">
+    <tr><td>Dénomination</td><td>GIVE ME THE PITCH, SASU</td></tr>
+    <tr><td>Capital social</td><td>[MONTANT] euros</td></tr>
+    <tr><td>Siège social</td><td>[ADRESSE COMPLÈTE]</td></tr>
+    <tr><td>Immatriculation</td><td>RCS [VILLE] n° [SIREN]</td></tr>
+    <tr><td>TVA intracommunautaire</td><td>[TVA]</td></tr>
+    <tr><td>Directeur de la publication</td><td>[NOM PRÉNOM]</td></tr>
+    <tr><td>Email de contact</td><td>[EMAIL]</td></tr>
+    <tr><td>Téléphone</td><td>[TÉLÉPHONE]</td></tr>
+  </table>
+
+  <h2>2. Hébergeur</h2>
+  <table class="data-table">
+    <tr><td>Société</td><td>Netlify, Inc.</td></tr>
+    <tr><td>Adresse</td><td>[ADRESSE NETLIFY]</td></tr>
+    <tr><td>Email</td><td>[EMAIL NETLIFY]</td></tr>
+    <tr><td>Téléphone</td><td>[TÉLÉPHONE NETLIFY]</td></tr>
+  </table>
+
+  <h2>3. Propriété intellectuelle</h2>
+  <p>Le site, sa structure générale, les contenus, marques, logos, textes, visuels, éléments graphiques, documents et bases de données, ainsi que tout élément le composant, sont protégés par le droit de la propriété intellectuelle applicable.</p>
+  <p>Toute reproduction, représentation, modification, adaptation, diffusion ou exploitation, totale ou partielle, sans autorisation écrite préalable de l'Éditeur, est strictement interdite et susceptible de constituer une contrefaçon au sens des articles L.335-2 et suivants du Code de la propriété intellectuelle.</p>
+
+  <h2>4. Responsabilité</h2>
+  <p>L'Éditeur met en œuvre des moyens raisonnables pour assurer l'accès et le bon fonctionnement du site. Il ne saurait garantir l'absence d'erreurs, d'interruptions ou d'indisponibilités techniques.</p>
+  <p>L'utilisation du site se fait sous l'entière responsabilité de l'utilisateur.</p>
+
+  <h2>5. Données personnelles et cookies</h2>
+  <p>Les informations relatives au traitement des données personnelles et à l'utilisation des cookies et traceurs figurent respectivement dans la <a href="confidentialite.html" style="color:var(--mint);opacity:0.8;">Politique de confidentialité</a> et la <a href="cookies.html" style="color:var(--mint);opacity:0.8;">Politique cookies</a> accessibles sur le site.</p>
+
+  <div class="footer">© GIVE ME THE PITCH — Tous droits réservés — Dernière mise à jour : [DATE]</div>
+</div>
+
+<footer class="site-footer">
+  <nav class="footer-nav">
+    <a href="mentions-legales.html">Mentions légales</a>
+    <span class="footer-sep">·</span>
+    <a href="confidentialite.html">Confidentialité</a>
+    <span class="footer-sep">·</span>
+    <a href="cgu.html">CGU</a>
+    <span class="footer-sep">·</span>
+    <a href="cookies.html">Cookies</a>
+  </nav>
+  <p class="footer-copy">© GIVE ME THE PITCH</p>
+</footer>
+</body>
+</html>
