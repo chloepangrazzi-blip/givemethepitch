@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import MareeNoirePageClient from "../../components/mareenoire/MareeNoirePageClient";
 import { getMareeNoirePageData } from "../../lib/mareenoire-page";
