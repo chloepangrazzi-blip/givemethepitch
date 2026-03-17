@@ -3,6 +3,62 @@
 import { useEffect, useMemo } from "react";
 import useDesktopCursor from "../shared/useDesktopCursor";
 
+function getInputLabel(input) {
+  return input?.closest("label")?.querySelector(".chip-label")?.textContent?.trim() || input?.value || "";
+}
+
+function collectFormAnswers() {
+  const answers = {};
+
+  document.querySelectorAll("input[name], textarea[name], select[name]").forEach((field) => {
+    const key = field.name;
+    if (!key) {
+      return;
+    }
+
+    if (field.type === "radio") {
+      if (!field.checked) {
+        return;
+      }
+      answers[key] = field.value || getInputLabel(field);
+      return;
+    }
+
+    if (field.type === "checkbox") {
+      if (!field.checked) {
+        return;
+      }
+      const currentValue = field.value || getInputLabel(field);
+      answers[key] = Array.isArray(answers[key])
+        ? [...answers[key], currentValue]
+        : answers[key]
+          ? [answers[key], currentValue]
+          : [currentValue];
+      return;
+    }
+
+    if (field.value?.trim()) {
+      answers[key] = field.value.trim();
+    }
+  });
+
+  return answers;
+}
+
+function hasMissingRequiredAnswers() {
+  const requiredFields = Array.from(document.querySelectorAll("input[required], textarea[required], select[required]"));
+
+  return requiredFields.some((field) => {
+    if (field.type === "radio") {
+      return !document.querySelector(`input[name="${field.name}"]:checked`);
+    }
+    if (field.type === "checkbox") {
+      return !field.checked;
+    }
+    return !field.value?.trim();
+  });
+}
+
 export default function FormtestPageClient({ styles, bodyHtml }) {
   useDesktopCursor({
     hoverSelector: "button, label, select, input, textarea",
@@ -26,10 +82,11 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
       "Consolidation du panel...",
       "Analyse des dimensions...",
       "Scoring en cours...",
-      "",
+      "Restitution en préparation...",
     ];
     let cleanupTimeouts = [];
     let cleanupInterval = null;
+    let isSubmitting = false;
 
     const handleEmotionChange = (event) => {
       if (!emotionCond) {
@@ -53,17 +110,47 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
       }
     };
 
-    const handleSubmit = () => {
-      if (!processing || !confirm) {
+    const handleSubmit = async () => {
+      if (isSubmitting || !processing || !confirm) {
         return;
       }
 
+      if (hasMissingRequiredAnswers()) {
+        window.alert("Merci de renseigner tous les champs obligatoires avant de soumettre.");
+        return;
+      }
+
+      isSubmitting = true;
+      submitButton && (submitButton.disabled = true);
       processing.classList.add("visible");
       window.scrollTo({ top: 0, behavior: "smooth" });
       dots.forEach((dot) => dot.classList.remove("lit"));
       if (status) {
         status.textContent = messages[0];
       }
+
+      const requestPromise = fetch("/api/tests/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ answers: collectFormAnswers() }),
+      }).then(async (response) => {
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || "test_submit_failed");
+        }
+        return result;
+      });
+
+      let requestSucceeded = false;
+      requestPromise
+        .then(() => {
+          requestSucceeded = true;
+        })
+        .catch(() => {
+          requestSucceeded = false;
+        });
 
       let index = 0;
       cleanupInterval = window.setInterval(() => {
@@ -78,12 +165,20 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
         if (index >= dots.length) {
           window.clearInterval(cleanupInterval);
           cleanupInterval = null;
-          const timeoutA = window.setTimeout(() => {
-            const timeoutB = window.setTimeout(() => {
+          const timeoutA = window.setTimeout(async () => {
+            try {
+              await requestPromise;
+              const timeoutB = window.setTimeout(() => {
+                processing.classList.remove("visible");
+                confirm.classList.add("visible");
+              }, 400);
+              cleanupTimeouts.push(timeoutB);
+            } catch (error) {
               processing.classList.remove("visible");
-              confirm.classList.add("visible");
-            }, 400);
-            cleanupTimeouts.push(timeoutB);
+              isSubmitting = false;
+              submitButton && (submitButton.disabled = false);
+              window.alert("Une erreur est survenue pendant l'envoi du questionnaire.");
+            }
           }, 400);
           cleanupTimeouts.push(timeoutA);
         }

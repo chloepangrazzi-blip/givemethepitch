@@ -7,6 +7,25 @@ const HtmlSection = memo(function HtmlSection({ html }) {
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 });
 
+function getChipLabel(input) {
+  return input?.closest("label")?.querySelector(".chip-label")?.textContent?.trim() || input?.value || "";
+}
+
+function getCheckedRadioLabel(root, name) {
+  const input = root.querySelector(`input[name="${name}"]:checked`);
+  return getChipLabel(input);
+}
+
+function getCheckedLabelsInGroup(group) {
+  if (!group) {
+    return [];
+  }
+
+  return Array.from(group.querySelectorAll('input[type="checkbox"]:checked'))
+    .map((input) => getChipLabel(input))
+    .filter(Boolean);
+}
+
 function collectJoinTheRoomPayload() {
   const formRoot = document.getElementById("page-form");
 
@@ -14,35 +33,54 @@ function collectJoinTheRoomPayload() {
     return null;
   }
 
-  const identityInputs = formRoot.querySelectorAll('.form-row .field-input');
+  const identityInputs = formRoot.querySelectorAll(".form-row .field-input");
   const fullName = identityInputs[0]?.value.trim() || "";
   const email = identityInputs[1]?.value.trim() || "";
   const mobile = identityInputs[2]?.value.trim() || "";
   const city = identityInputs[3]?.value.trim() || "";
-  const consent = Boolean(formRoot.querySelector('#consent')?.checked);
+  const consent = Boolean(formRoot.querySelector("#consent")?.checked);
 
-  const answers = {};
-  formRoot.querySelectorAll('input, textarea').forEach((field, index) => {
-    const key = field.name || field.id || `field_${index}`;
+  const cardSections = formRoot.querySelectorAll(".card-section");
+  const habitsSection = cardSections[0];
+  const tastesSection = cardSections[1];
 
-    if (field.type === 'checkbox' || field.type === 'radio') {
-      if (!field.checked) {
-        return;
-      }
-      if (answers[key]) {
-        answers[key] = Array.isArray(answers[key])
-          ? [...answers[key], field.value || true]
-          : [answers[key], field.value || true];
-      } else {
-        answers[key] = field.value || true;
-      }
-      return;
-    }
+  const habitsGroups = habitsSection?.querySelectorAll(".chip-group") || [];
+  const tastesGroups = tastesSection?.querySelectorAll(".chip-group") || [];
+  const tastesTextareas = tastesSection?.querySelectorAll("textarea.field-input") || [];
 
-    if (field.value?.trim()) {
-      answers[key] = field.value.trim();
-    }
-  });
+  const panelProfile = {
+    ageBand: getCheckedRadioLabel(formRoot, "age"),
+    viewingFrequency: getCheckedRadioLabel(formRoot, "freq"),
+    platforms: [
+      ...getCheckedLabelsInGroup(habitsGroups[2]),
+      ...getCheckedLabelsInGroup(habitsGroups[4]),
+      ...getCheckedLabelsInGroup(habitsGroups[6]),
+    ].filter(Boolean),
+    likedGenres: getCheckedLabelsInGroup(tastesGroups[0]),
+    mainGenre: getCheckedRadioLabel(formRoot, "genre_favori"),
+    frenchSeriesPerception: getCheckedRadioLabel(formRoot, "fr_quality"),
+    frenchSeriesReason: getCheckedRadioLabel(formRoot, "fr_raison"),
+    recommendationFrequency: getCheckedRadioLabel(formRoot, "prescripteur"),
+  };
+
+  const answers = {
+    age_band: panelProfile.ageBand,
+    viewing_frequency: panelProfile.viewingFrequency,
+    streaming_subscription: getCheckedRadioLabel(formRoot, "platforms_yn"),
+    streaming_platforms: getCheckedLabelsInGroup(habitsGroups[2]),
+    tv_series_watching: getCheckedRadioLabel(formRoot, "tv_yn"),
+    tv_channels: getCheckedLabelsInGroup(habitsGroups[4]),
+    replay_series_watching: getCheckedRadioLabel(formRoot, "replay_yn"),
+    replay_platforms: getCheckedLabelsInGroup(habitsGroups[6]),
+    liked_genres: panelProfile.likedGenres,
+    main_genre: panelProfile.mainGenre,
+    origin_preference: getCheckedRadioLabel(formRoot, "origin"),
+    origin_preference_reason: tastesTextareas[0]?.value.trim() || "",
+    french_series_perception: panelProfile.frenchSeriesPerception,
+    french_series_reason_primary: panelProfile.frenchSeriesReason,
+    french_series_reason_detail: tastesTextareas[1]?.value.trim() || "",
+    recommendation_frequency: panelProfile.recommendationFrequency,
+  };
 
   return {
     fullName,
@@ -51,6 +89,7 @@ function collectJoinTheRoomPayload() {
     city,
     consent,
     answers,
+    panelProfile,
   };
 }
 
@@ -88,10 +127,10 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
     });
 
     try {
-      const response = await fetch('/api/access/request', {
-        method: 'POST',
+      const response = await fetch("/api/access/request", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
@@ -99,7 +138,7 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
       const result = await response.json();
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || 'request_failed');
+        throw new Error(result.error || "request_failed");
       }
 
       if (submitButton) {
@@ -166,9 +205,9 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
   }, []);
 
   useEffect(() => {
-    const enterButton = document.querySelector('#page-landing .btn-enter');
-    const aboutJoinButton = document.querySelector('#page-about .closing-cta .btn-pill');
-    const formJoinButton = document.querySelector('#page-form .form-submit-wrap .btn-pill');
+    const enterButton = document.querySelector("#page-landing .btn-enter");
+    const aboutJoinButton = document.querySelector("#page-about .closing-cta .btn-pill");
+    const formJoinButton = document.querySelector("#page-form .form-submit-wrap .btn-pill");
 
     const handleEnter = (event) => {
       event.preventDefault();
@@ -190,29 +229,29 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
 
     if (enterButton) {
       enterButton.onclick = handleEnter;
-      enterButton.addEventListener('click', handleEnter);
+      enterButton.addEventListener("click", handleEnter);
     }
 
     if (aboutJoinButton) {
       aboutJoinButton.onclick = handleAboutJoin;
-      aboutJoinButton.addEventListener('click', handleAboutJoin);
+      aboutJoinButton.addEventListener("click", handleAboutJoin);
     }
 
     if (formJoinButton) {
       formJoinButton.onclick = handleFormJoin;
-      formJoinButton.type = 'button';
-      formJoinButton.addEventListener('click', handleFormJoin);
+      formJoinButton.type = "button";
+      formJoinButton.addEventListener("click", handleFormJoin);
     }
 
     return () => {
       if (enterButton) {
-        enterButton.removeEventListener('click', handleEnter);
+        enterButton.removeEventListener("click", handleEnter);
       }
       if (aboutJoinButton) {
-        aboutJoinButton.removeEventListener('click', handleAboutJoin);
+        aboutJoinButton.removeEventListener("click", handleAboutJoin);
       }
       if (formJoinButton) {
-        formJoinButton.removeEventListener('click', handleFormJoin);
+        formJoinButton.removeEventListener("click", handleFormJoin);
       }
     };
   }, [view]);
@@ -236,7 +275,9 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
         />
       ))}
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .request-feedback {
           max-width: 720px;
           margin: 28px auto 0;
@@ -268,24 +309,9 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
           line-height: 1.8;
           margin-bottom: 14px;
         }
-        .request-feedback-code {
-          display: inline-block;
-          padding: 10px 16px;
-          border-radius: 999px;
-          background: var(--mint);
-          color: var(--black);
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          font-size: 18px;
-          margin-bottom: 14px;
-        }
-        .request-feedback-link {
-          color: var(--mint);
-          word-break: break-all;
-          font-size: 13px;
-          line-height: 1.7;
-        }
-      ` }} />
+      `,
+        }}
+      />
 
       <div className="cursor" id="cursor" />
       <div dangerouslySetInnerHTML={{ __html: navHtml }} />
@@ -295,7 +321,6 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
         <div className={`request-feedback${requestState.type === "error" ? " is-error" : ""}`}>
           <div className="request-feedback-title">{requestState.title}</div>
           <div className="request-feedback-body">{requestState.body}</div>
-          
         </div>
       ) : null}
     </>
