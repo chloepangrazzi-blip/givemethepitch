@@ -72,7 +72,7 @@ export default function KeyAccessPageClient({ styles }) {
     <>
       {styleNodes}
       <style>{`
-        nav, .bottom-bar {
+        nav {
           height: 52px !important;
           min-height: 52px !important;
           padding-top: 0 !important;
@@ -81,11 +81,16 @@ export default function KeyAccessPageClient({ styles }) {
 
         .bottom-bar {
           display: block !important;
+          height: 52px !important;
+          min-height: 52px !important;
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+          bottom: env(safe-area-inset-bottom, 0px) !important;
         }
 
         .canvas {
           margin-top: 52px !important;
-          margin-bottom: 52px !important;
+          margin-bottom: calc(52px + env(safe-area-inset-bottom, 0px)) !important;
         }
 
         .access-input {

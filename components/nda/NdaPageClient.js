@@ -22,6 +22,7 @@ export default function NdaPageClient({ styles, bodyHtml }) {
     const nomInput = root.querySelector("#sigNom");
     const consentInput = root.querySelector("#ndaConsent");
     const submitButton = root.querySelector(".btn-pill");
+    submitButton?.removeAttribute("onclick");
 
     const flashError = () => {
       setShowError(true);
