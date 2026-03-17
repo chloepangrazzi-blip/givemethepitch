@@ -72,9 +72,21 @@ export default function KeyAccessPageClient({ styles }) {
     <>
       {styleNodes}
       <style>{`
-        body {
+        html, body {
           background: var(--black) !important;
           overflow: hidden !important;
+        }
+
+        body::after {
+          content: "";
+          position: fixed;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: env(safe-area-inset-bottom, 0px);
+          background: var(--black) !important;
+          z-index: 119;
+          pointer-events: none;
         }
 
         nav {

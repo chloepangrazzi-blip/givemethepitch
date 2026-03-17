@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import useDesktopCursor from "../shared/useDesktopCursor";
 
 export default function NdaPageClient({ styles, bodyHtml }) {
-  const [showError, setShowError] = useState(false);
   const timeoutRef = useRef(null);
 
   useDesktopCursor({
@@ -22,25 +21,56 @@ export default function NdaPageClient({ styles, bodyHtml }) {
     const nomInput = root.querySelector("#sigNom");
     const consentInput = root.querySelector("#ndaConsent");
     const submitButton = root.querySelector(".btn-pill");
-    submitButton?.removeAttribute("onclick");
+    const errorHint = root.querySelector("#errorHint");
+
+    if (!prenomInput || !nomInput || !consentInput || !submitButton || !errorHint) {
+      return undefined;
+    }
+
+    submitButton.removeAttribute("onclick");
+    submitButton.setAttribute("type", "button");
+
+    let isSubmitting = false;
+
+    const clearError = () => {
+      errorHint.classList.remove("visible");
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
 
     const flashError = () => {
-      setShowError(true);
+      errorHint.classList.add("visible");
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
       }
-      timeoutRef.current = window.setTimeout(() => setShowError(false), 3000);
+      timeoutRef.current = window.setTimeout(() => {
+        errorHint.classList.remove("visible");
+        timeoutRef.current = null;
+      }, 3000);
     };
 
-    const submit = async () => {
-      const prenom = prenomInput?.value.trim() ?? "";
-      const nom = nomInput?.value.trim() ?? "";
-      const consent = Boolean(consentInput?.checked);
+    const submit = async (event) => {
+      event?.preventDefault?.();
+      event?.stopPropagation?.();
+
+      if (isSubmitting) {
+        return;
+      }
+
+      const prenom = prenomInput.value.trim();
+      const nom = nomInput.value.trim();
+      const consent = Boolean(consentInput.checked);
 
       if (!prenom || !nom || !consent) {
         flashError();
         return;
       }
+
+      clearError();
+      isSubmitting = true;
+      submitButton.disabled = true;
 
       try {
         const response = await fetch("/api/nda/sign", {
@@ -59,38 +89,41 @@ export default function NdaPageClient({ styles, bodyHtml }) {
 
         window.location.href = result.nextPath || "/mareenoire";
       } catch (error) {
+        isSubmitting = false;
+        submitButton.disabled = false;
         flashError();
       }
     };
 
     const handleEnter = (event) => {
       if (event.key === "Enter") {
-        event.preventDefault();
-        submit();
+        submit(event);
       }
     };
 
-    prenomInput?.addEventListener("keydown", handleEnter);
-    nomInput?.addEventListener("keydown", handleEnter);
-    submitButton?.addEventListener("click", submit);
+    const handleInput = () => {
+      if (errorHint.classList.contains("visible")) {
+        clearError();
+      }
+    };
+
+    prenomInput.addEventListener("keydown", handleEnter);
+    nomInput.addEventListener("keydown", handleEnter);
+    prenomInput.addEventListener("input", handleInput);
+    nomInput.addEventListener("input", handleInput);
+    consentInput.addEventListener("change", handleInput);
+    submitButton.addEventListener("click", submit);
 
     return () => {
-      prenomInput?.removeEventListener("keydown", handleEnter);
-      nomInput?.removeEventListener("keydown", handleEnter);
-      submitButton?.removeEventListener("click", submit);
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-      }
+      prenomInput.removeEventListener("keydown", handleEnter);
+      nomInput.removeEventListener("keydown", handleEnter);
+      prenomInput.removeEventListener("input", handleInput);
+      nomInput.removeEventListener("input", handleInput);
+      consentInput.removeEventListener("change", handleInput);
+      submitButton.removeEventListener("click", submit);
+      clearError();
     };
   }, []);
-
-  useEffect(() => {
-    const root = document.getElementById("nda-root");
-    const errorHint = root?.querySelector("#errorHint");
-    if (errorHint) {
-      errorHint.classList.toggle("visible", showError);
-    }
-  }, [showError]);
 
   const styleNodes = useMemo(
     () => styles.map((style, index) => (
