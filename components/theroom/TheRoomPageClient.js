@@ -138,7 +138,7 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
       const result = await response.json();
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || "request_failed");
+        throw new Error(result.detail || result.error || "request_failed");
       }
 
       if (submitButton) {
@@ -199,6 +199,7 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
     const enterButton = document.querySelector("#page-landing .btn-enter");
     const aboutJoinButton = document.querySelector("#page-about .closing-cta .btn-pill");
     const formJoinButton = document.querySelector("#page-form .form-submit-wrap .btn-pill");
+    const formRoot = document.querySelector("#page-form form") || document.querySelector("#page-form");
 
     const handleEnter = (event) => {
       event.preventDefault();
@@ -229,9 +230,14 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
     }
 
     if (formJoinButton) {
+      formJoinButton.removeAttribute("onclick");
       formJoinButton.onclick = handleFormJoin;
       formJoinButton.type = "button";
       formJoinButton.addEventListener("click", handleFormJoin);
+    }
+
+    if (formRoot) {
+      formRoot.addEventListener("submit", handleFormJoin);
     }
 
     return () => {
@@ -243,6 +249,9 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
       }
       if (formJoinButton) {
         formJoinButton.removeEventListener("click", handleFormJoin);
+      }
+      if (formRoot) {
+        formRoot.removeEventListener("submit", handleFormJoin);
       }
     };
   }, [view]);
