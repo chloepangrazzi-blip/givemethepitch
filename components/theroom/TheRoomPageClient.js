@@ -129,6 +129,7 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
     try {
       const response = await fetch("/api/access/request", {
         method: "POST",
+        credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
         },

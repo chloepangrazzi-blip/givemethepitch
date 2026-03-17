@@ -5,6 +5,7 @@ const TEST_ACCESS_CODE = "THEROOM01";
 
 export async function POST(request) {
   try {
+    const isSecure = (request.headers.get("x-forwarded-proto") || new URL(request.url).protocol.replace(":", "")) === "https";
     const { accessCode } = await request.json();
     const normalizedCode = String(accessCode || "").trim().toUpperCase();
 
@@ -18,7 +19,7 @@ export async function POST(request) {
       response.cookies.set("gmtp_access_code", TEST_ACCESS_CODE, {
         httpOnly: true,
         sameSite: "lax",
-        secure: false,
+        secure: isSecure,
         path: "/",
         maxAge: 60 * 60 * 24,
       });

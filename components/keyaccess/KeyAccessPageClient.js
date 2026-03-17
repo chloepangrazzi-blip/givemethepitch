@@ -43,6 +43,7 @@ export default function KeyAccessPageClient({ styles }) {
     try {
       const response = await fetch("/api/access/verify", {
         method: "POST",
+        credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
         },

@@ -131,6 +131,7 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
 
       const requestPromise = fetch("/api/tests/submit", {
         method: "POST",
+        credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
         },
