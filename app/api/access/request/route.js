@@ -28,6 +28,7 @@ export async function POST(request) {
       city,
       consent,
       answers: payload.answers || {},
+      panelProfile: payload.panelProfile || {},
     });
 
     const origin = request.headers.get("origin") || new URL(request.url).origin;

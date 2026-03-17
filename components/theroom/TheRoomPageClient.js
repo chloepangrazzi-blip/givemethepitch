@@ -162,23 +162,14 @@ export default function TheRoomPageClient({ styles, navHtml, landingHtml, aboutH
       });
     } catch (error) {
       if (submitButton) {
-        submitButton.textContent = "VOTRE CLE D'ACCES EST ENVOYEE SUR VOTRE MAIL";
-        submitButton.style.background = "var(--black)";
-        submitButton.style.color = "var(--mint)";
-        submitButton.style.border = "1px solid var(--mint)";
-        submitButton.style.padding = "18px 40px";
-        submitButton.style.fontFamily = "'Poppins', sans-serif";
-        submitButton.style.fontWeight = "100";
-        submitButton.style.fontSize = "13px";
-        submitButton.style.letterSpacing = "0.08em";
-        submitButton.style.transform = "none";
-        submitButton.disabled = true;
+        submitButton.textContent = "JOIN THE ROOM";
+        submitButton.disabled = false;
       }
 
       setRequestState({
-        type: "success",
-        title: "Candidature envoyee",
-        body: "Votre cle d'acces est envoyee sur votre mail.",
+        type: "error",
+        title: "Envoi impossible",
+        body: "Le formulaire n'a pas pu etre enregistre. Verifie les cles Supabase puis reessaie.",
       });
     }
   };
