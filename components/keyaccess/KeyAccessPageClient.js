@@ -72,25 +72,54 @@ export default function KeyAccessPageClient({ styles }) {
     <>
       {styleNodes}
       <style>{`
+        body {
+          background: var(--black) !important;
+          overflow: hidden !important;
+        }
+
         nav {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
           height: 52px !important;
           min-height: 52px !important;
           padding-top: 0 !important;
           padding-bottom: 0 !important;
+          z-index: 120 !important;
         }
 
         .bottom-bar {
           display: block !important;
+          position: fixed !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
           height: 52px !important;
           min-height: 52px !important;
-          padding-top: 0 !important;
-          padding-bottom: 0 !important;
-          bottom: env(safe-area-inset-bottom, 0px) !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          z-index: 120 !important;
         }
 
         .canvas {
-          margin-top: 52px !important;
-          margin-bottom: calc(52px + env(safe-area-inset-bottom, 0px)) !important;
+          position: fixed !important;
+          top: 52px !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 52px !important;
+          min-height: auto !important;
+          margin: 0 !important;
+          padding: 20px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+
+        .access-form,
+        .welcome-screen {
+          width: min(340px, 88vw) !important;
+          margin: 0 auto !important;
         }
 
         .access-input {
@@ -113,8 +142,13 @@ export default function KeyAccessPageClient({ styles }) {
           opacity: 0.92 !important;
           transform: none !important;
         }
-      `}</style>
-      <div className="cursor" id="cursor" />
+
+        @media (max-width: 768px) {
+          .canvas {
+            padding: 24px 20px !important;
+          }
+        }
+      `}</style>      <div className="cursor" id="cursor" />
 
       <nav>
         <div className="gmtp-logo">
