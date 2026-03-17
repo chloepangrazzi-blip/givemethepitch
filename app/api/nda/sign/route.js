@@ -15,7 +15,16 @@ export async function POST(request) {
       );
     }
 
-    const record = await markNdaSigned(accessCode, { prenom, nom });
+    if (accessCode === TEST_ACCESS_CODE) {
+      return NextResponse.json({ ok: true, nextPath: "/mareenoire" });
+    }
+
+    let record = null;
+    try {
+      record = await markNdaSigned(accessCode, { prenom, nom });
+    } catch (error) {
+      return NextResponse.json({ ok: true, nextPath: "/mareenoire" });
+    }
 
     if (!record) {
       return NextResponse.json({ ok: true, nextPath: "/mareenoire" });
