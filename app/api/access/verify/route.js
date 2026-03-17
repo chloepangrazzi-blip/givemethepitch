@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAccessRequestByCode, markAccessVerified } from "../../../../lib/access-repository";
+import { ensureTestAccessRequest, getAccessRequestByCode, markAccessVerified } from "../../../../lib/access-repository";
 
 const TEST_ACCESS_CODE = "THEROOM01";
 
@@ -9,9 +9,10 @@ export async function POST(request) {
     const normalizedCode = String(accessCode || "").trim().toUpperCase();
 
     if (normalizedCode === TEST_ACCESS_CODE) {
+      const record = await ensureTestAccessRequest(TEST_ACCESS_CODE);
       const response = NextResponse.json({
         ok: true,
-        sessionSlug: "mareenoire",
+        sessionSlug: record.sessionSlug || "mareenoire",
       });
 
       response.cookies.set("gmtp_access_code", TEST_ACCESS_CODE, {
