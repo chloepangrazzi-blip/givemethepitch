@@ -56,6 +56,7 @@ export default function KeyAccessPageClient({ styles }) {
         throw new Error(result.error || "invalid_code");
       }
 
+      window.sessionStorage?.setItem("gmtp_access_code", accessKey.trim().toUpperCase());
       setShowError(false);
       setHasAccess(true);
     } catch (error) {

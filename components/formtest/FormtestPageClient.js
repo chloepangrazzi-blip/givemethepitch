@@ -135,7 +135,10 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ answers: collectFormAnswers() }),
+        body: JSON.stringify({
+          accessCode: window.sessionStorage?.getItem("gmtp_access_code") || "",
+          answers: collectFormAnswers(),
+        }),
       }).then(async (response) => {
         const result = await response.json();
         if (!response.ok || !result.ok) {

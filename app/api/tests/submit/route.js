@@ -5,8 +5,9 @@ const TEST_ACCESS_CODE = "THEROOM01";
 
 export async function POST(request) {
   try {
-    const accessCode = request.cookies.get("gmtp_access_code")?.value || TEST_ACCESS_CODE;
-    const { answers } = await request.json();
+    const payload = await request.json();
+    const accessCode = String(payload.accessCode || request.cookies.get("gmtp_access_code")?.value || TEST_ACCESS_CODE).trim().toUpperCase();
+    const { answers } = payload;
 
     if (!answers || typeof answers !== "object") {
       return NextResponse.json(

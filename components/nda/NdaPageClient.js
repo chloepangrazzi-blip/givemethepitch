@@ -78,7 +78,12 @@ export default function NdaPageClient({ styles, bodyHtml }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ prenom, nom, consent }),
+          body: JSON.stringify({
+            prenom,
+            nom,
+            consent,
+            accessCode: window.sessionStorage?.getItem("gmtp_access_code") || "",
+          }),
         });
 
         const result = await response.json();

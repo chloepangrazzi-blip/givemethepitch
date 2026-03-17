@@ -6,8 +6,9 @@ const TEST_ACCESS_CODE = "THEROOM01";
 export async function POST(request) {
   try {
     const isSecure = (request.headers.get("x-forwarded-proto") || new URL(request.url).protocol.replace(":", "")) === "https";
-    const accessCode = request.cookies.get("gmtp_access_code")?.value || TEST_ACCESS_CODE;
-    const { prenom, nom, consent } = await request.json();
+    const payload = await request.json();
+    const accessCode = String(payload.accessCode || request.cookies.get("gmtp_access_code")?.value || TEST_ACCESS_CODE).trim().toUpperCase();
+    const { prenom, nom, consent } = payload;
 
     if (!prenom || !nom || !consent) {
       return NextResponse.json(
@@ -39,7 +40,7 @@ export async function POST(request) {
     response.cookies.set("gmtp_nda_signed", "yes", {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: isSecure,
       path: "/",
       maxAge: 60 * 60 * 24,
     });
