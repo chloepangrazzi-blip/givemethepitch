@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useDesktopCursor from "../shared/useDesktopCursor";
 
 function getInputLabel(input) {
@@ -60,12 +60,19 @@ function hasMissingRequiredAnswers() {
 }
 
 export default function FormtestPageClient({ styles, bodyHtml }) {
+  const [debugInfo, setDebugInfo] = useState({ accessCode: "", lastError: "" });
+
   useDesktopCursor({
     hoverSelector: "button, label, select, input, textarea",
     spotlightSelector: ".btn-pill",
   });
 
   useEffect(() => {
+    setDebugInfo((current) => ({
+      ...current,
+      accessCode: window.sessionStorage?.getItem("gmtp_access_code") || "",
+    }));
+
     const emotionInputs = document.querySelectorAll('input[name="emotion"]');
     const emotionCond = document.getElementById("cond-emotion");
     const roomInputs = document.querySelectorAll('input[name="room_suffisant"]');
@@ -129,6 +136,9 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
         status.textContent = messages[0];
       }
 
+      const submittedAccessCode = window.sessionStorage?.getItem("gmtp_access_code") || "";
+      setDebugInfo({ accessCode: submittedAccessCode, lastError: "" });
+
       const requestPromise = fetch("/api/tests/submit", {
         method: "POST",
         credentials: "same-origin",
@@ -136,13 +146,13 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          accessCode: window.sessionStorage?.getItem("gmtp_access_code") || "",
+          accessCode: submittedAccessCode,
           answers: collectFormAnswers(),
         }),
       }).then(async (response) => {
         const result = await response.json();
         if (!response.ok || !result.ok) {
-          throw new Error(result.error || "test_submit_failed");
+          throw new Error(result.detail || result.error || "test_submit_failed");
         }
         return result;
       });
@@ -181,7 +191,9 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
               processing.classList.remove("visible");
               isSubmitting = false;
               submitButton && (submitButton.disabled = false);
-              window.alert("Une erreur est survenue pendant l'envoi du questionnaire.");
+              const message = error instanceof Error ? error.message : "test_submit_failed";
+              setDebugInfo((current) => ({ ...current, lastError: message }));
+              window.alert(`Une erreur est survenue pendant l'envoi du questionnaire.\n${message}`);
             }
           }, 400);
           cleanupTimeouts.push(timeoutA);
@@ -217,7 +229,32 @@ export default function FormtestPageClient({ styles, bodyHtml }) {
   return (
     <>
       {styleNodes}
+      <style>{`
+        .formtest-debug {
+          position: fixed;
+          right: 14px;
+          bottom: 14px;
+          z-index: 9999;
+          width: min(320px, calc(100vw - 28px));
+          padding: 12px 14px;
+          border: 1px solid rgba(200,245,232,0.45);
+          border-radius: 16px;
+          background: rgba(8,8,8,0.92);
+          color: var(--mint);
+          font-family: 'Poppins', sans-serif;
+          font-size: 11px;
+          line-height: 1.5;
+          letter-spacing: 0.03em;
+        }
+        .formtest-debug strong {
+          color: #fff;
+        }
+      `}</style>
       <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+      <div className="formtest-debug">
+        <div><strong>debug accessCode:</strong> {debugInfo.accessCode || "(vide)"}</div>
+        <div><strong>debug lastError:</strong> {debugInfo.lastError || "(aucune)"}</div>
+      </div>
     </>
   );
 }
