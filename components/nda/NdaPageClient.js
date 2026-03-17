@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useDesktopCursor from "../shared/useDesktopCursor";
 
 export default function NdaPageClient({ styles, bodyHtml }) {
-  const [form, setForm] = useState({ prenom: "", nom: "", consent: false });
   const [showError, setShowError] = useState(false);
+  const timeoutRef = useRef(null);
 
   useDesktopCursor({
     hoverSelector: "button, label, input",
@@ -22,21 +22,13 @@ export default function NdaPageClient({ styles, bodyHtml }) {
     const nomInput = root.querySelector("#sigNom");
     const consentInput = root.querySelector("#ndaConsent");
     const submitButton = root.querySelector(".btn-pill");
-    const errorHint = root.querySelector("#errorHint");
 
-    if (prenomInput) prenomInput.value = form.prenom;
-    if (nomInput) nomInput.value = form.nom;
-    if (consentInput) consentInput.checked = form.consent;
-    if (errorHint) {
-      errorHint.classList.toggle("visible", showError);
-    }
-
-    const syncForm = () => {
-      setForm({
-        prenom: prenomInput?.value ?? "",
-        nom: nomInput?.value ?? "",
-        consent: Boolean(consentInput?.checked),
-      });
+    const flashError = () => {
+      setShowError(true);
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => setShowError(false), 3000);
     };
 
     const submit = async () => {
@@ -45,16 +37,15 @@ export default function NdaPageClient({ styles, bodyHtml }) {
       const consent = Boolean(consentInput?.checked);
 
       if (!prenom || !nom || !consent) {
-        setShowError(true);
-        window.setTimeout(() => setShowError(false), 3000);
+        flashError();
         return;
       }
 
       try {
-        const response = await fetch('/api/nda/sign', {
-          method: 'POST',
+        const response = await fetch("/api/nda/sign", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ prenom, nom, consent }),
         });
@@ -62,28 +53,43 @@ export default function NdaPageClient({ styles, bodyHtml }) {
         const result = await response.json();
 
         if (!response.ok || !result.ok) {
-          throw new Error(result.error || 'nda_sign_failed');
+          throw new Error(result.error || "nda_sign_failed");
         }
 
-        window.location.href = result.nextPath || '/mareenoire';
+        window.location.href = result.nextPath || "/mareenoire";
       } catch (error) {
-        setShowError(true);
-        window.setTimeout(() => setShowError(false), 3000);
+        flashError();
       }
     };
 
-    prenomInput?.addEventListener("input", syncForm);
-    nomInput?.addEventListener("input", syncForm);
-    consentInput?.addEventListener("change", syncForm);
+    const handleEnter = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submit();
+      }
+    };
+
+    prenomInput?.addEventListener("keydown", handleEnter);
+    nomInput?.addEventListener("keydown", handleEnter);
     submitButton?.addEventListener("click", submit);
 
     return () => {
-      prenomInput?.removeEventListener("input", syncForm);
-      nomInput?.removeEventListener("input", syncForm);
-      consentInput?.removeEventListener("change", syncForm);
+      prenomInput?.removeEventListener("keydown", handleEnter);
+      nomInput?.removeEventListener("keydown", handleEnter);
       submitButton?.removeEventListener("click", submit);
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
     };
-  }, [form.consent, form.nom, form.prenom, showError]);
+  }, []);
+
+  useEffect(() => {
+    const root = document.getElementById("nda-root");
+    const errorHint = root?.querySelector("#errorHint");
+    if (errorHint) {
+      errorHint.classList.toggle("visible", showError);
+    }
+  }, [showError]);
 
   const styleNodes = useMemo(
     () => styles.map((style, index) => (
@@ -98,6 +104,11 @@ export default function NdaPageClient({ styles, bodyHtml }) {
   return (
     <>
       {styleNodes}
+      <style>{`
+        .field-input {
+          caret-color: var(--white) !important;
+        }
+      `}</style>
       <div id="nda-root" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </>
   );

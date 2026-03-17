@@ -11,7 +11,6 @@ export default function KeyAccessPageClient({ styles }) {
 
   useDesktopCursor({
     hoverSelector: "button",
-    pointerSelector: "input",
     spotlightSelector: ".btn-enter, .btn-session",
   });
 
@@ -26,6 +25,10 @@ export default function KeyAccessPageClient({ styles }) {
   );
 
   const checkKey = async () => {
+    if (isLoading) {
+      return;
+    }
+
     if (!accessKey.trim()) {
       setShowError(false);
       window.requestAnimationFrame(() => {
@@ -38,10 +41,10 @@ export default function KeyAccessPageClient({ styles }) {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/access/verify', {
-        method: 'POST',
+      const response = await fetch("/api/access/verify", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ accessCode: accessKey }),
       });
@@ -49,7 +52,7 @@ export default function KeyAccessPageClient({ styles }) {
       const result = await response.json();
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || 'invalid_code');
+        throw new Error(result.error || "invalid_code");
       }
 
       setShowError(false);
@@ -68,6 +71,44 @@ export default function KeyAccessPageClient({ styles }) {
   return (
     <>
       {styleNodes}
+      <style>{`
+        nav, .bottom-bar {
+          height: 52px !important;
+          min-height: 52px !important;
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+        }
+
+        .bottom-bar {
+          display: block !important;
+        }
+
+        .canvas {
+          margin-top: 52px !important;
+          margin-bottom: 52px !important;
+        }
+
+        .access-input {
+          caret-color: var(--white) !important;
+          -webkit-appearance: none !important;
+          appearance: none !important;
+        }
+
+        .access-input::-webkit-credentials-auto-fill-button,
+        .access-input::-webkit-contacts-auto-fill-button,
+        .access-input::-webkit-caps-lock-indicator {
+          display: none !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+          position: absolute !important;
+          right: 0 !important;
+        }
+
+        .btn-enter[disabled] {
+          opacity: 0.92 !important;
+          transform: none !important;
+        }
+      `}</style>
       <div className="cursor" id="cursor" />
 
       <nav>
@@ -103,16 +144,20 @@ export default function KeyAccessPageClient({ styles }) {
             type="password"
             placeholder="access key"
             autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="characters"
+            spellCheck={false}
             value={accessKey}
             onChange={(event) => setAccessKey(event.target.value.toUpperCase())}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
+                event.preventDefault();
                 checkKey();
               }
             }}
           />
           <button className="btn-enter" id="btnEnter" type="button" onClick={checkKey} disabled={isLoading}>
-            {isLoading ? '...' : 'enter'}
+            enter
           </button>
           <div className={`error-msg${showError ? " visible" : ""}`} id="errorMsg">
             cle incorrecte - reessayez
