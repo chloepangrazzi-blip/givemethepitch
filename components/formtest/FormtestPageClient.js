@@ -20,7 +20,10 @@ function collectFormAnswers() {
       if (!field.checked) {
         return;
       }
-      answers[key] = field.value || getInputLabel(field);
+      const currentValue = field.value && field.value !== "on"
+        ? field.value
+        : getInputLabel(field);
+      answers[key] = currentValue;
       return;
     }
 
@@ -28,7 +31,9 @@ function collectFormAnswers() {
       if (!field.checked) {
         return;
       }
-      const currentValue = field.value || getInputLabel(field);
+      const currentValue = field.value && field.value !== "on"
+        ? field.value
+        : getInputLabel(field);
       answers[key] = Array.isArray(answers[key])
         ? [...answers[key], currentValue]
         : answers[key]
