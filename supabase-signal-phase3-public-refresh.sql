@@ -1,0 +1,9 @@
+-- Obsolete.
+-- This script was superseded by:
+-- 1. supabase-signal-phase4-campaigns-cleanup.sql
+-- 2. supabase-signal-phase5-pilot-layer.sql
+--
+-- Reason:
+-- the old public refresh recreated a pilot layer that mirrored the
+-- technical model too closely and mixed recruitment / scoring / sales.
+-- Keep this file as a pointer only to avoid reintroducing that layer.

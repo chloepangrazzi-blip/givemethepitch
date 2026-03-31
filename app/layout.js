@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export const metadata = {
   title: "Give Me The Pitch",
   description: "Legacy site migrated to Next.js",

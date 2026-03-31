@@ -1,0 +1,62 @@
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Thin.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src:
+    url("/fonts/Poppins-Light.woff2") format("woff2"),
+    url("/fonts/Poppins-Light.woff") format("woff");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src:
+    url("/fonts/Poppins-Regular.woff2") format("woff2"),
+    url("/fonts/Poppins-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Horizon";
+  src:
+    url("/fonts/Horizon.woff2") format("woff2"),
+    url("/fonts/Horizon.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Made Soulmaze";
+  src: url("/fonts/MADE-Soulmaze.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #f6f3ee;
+  font-family: "Poppins", "Avenir Next", "Avenir", "Helvetica Neue", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

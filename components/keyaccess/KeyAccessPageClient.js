@@ -1,41 +1,49 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useDesktopCursor from "../shared/useDesktopCursor";
 
-export default function KeyAccessPageClient({ styles }) {
+function normalizeAccessCode(value) {
+  return String(value || "").trim().toUpperCase();
+}
+
+export default function KeyAccessPageClient({
+  nextPath = "/nda",
+  pageTitle = "THE ROOM",
+  eyebrow = "ideas begin with you",
+  placeholder = "access key",
+  submitLabel = "enter",
+  loadingLabel = "verification...",
+  errorLabel = "clé incorrecte - réessaie",
+}) {
   const [accessKey, setAccessKey] = useState("");
-  const [hasAccess, setHasAccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const hasAutoSubmitted = useRef(false);
 
   useDesktopCursor({
-    hoverSelector: "button",
-    spotlightSelector: ".btn-enter, .btn-session",
+    hoverSelector: "button, input",
+    spotlightSelector: ".ka-enter, .ka-input-shell",
   });
 
-  const styleNodes = useMemo(
-    () => styles.map((style, index) => (
-      <style
-        key={`keyaccess-style-${index}`}
-        dangerouslySetInnerHTML={{ __html: style }}
-      />
-    )),
-    [styles]
-  );
+  const flashError = () => {
+    setShowError(false);
+    window.requestAnimationFrame(() => {
+      setShowError(true);
+      window.setTimeout(() => setShowError(false), 2500);
+    });
+  };
 
-  const checkKey = async () => {
+  const verifyKey = async (rawCode) => {
     if (isLoading) {
-      return;
+      return false;
     }
 
-    if (!accessKey.trim()) {
-      setShowError(false);
-      window.requestAnimationFrame(() => {
-        setShowError(true);
-        window.setTimeout(() => setShowError(false), 2500);
-      });
-      return;
+    const normalizedCode = normalizeAccessCode(rawCode);
+
+    if (!normalizedCode) {
+      flashError();
+      return false;
     }
 
     setIsLoading(true);
@@ -47,7 +55,7 @@ export default function KeyAccessPageClient({ styles }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ accessCode: accessKey }),
+        body: JSON.stringify({ accessCode: normalizedCode }),
       });
 
       const result = await response.json();
@@ -56,183 +64,329 @@ export default function KeyAccessPageClient({ styles }) {
         throw new Error(result.error || "invalid_code");
       }
 
-      window.sessionStorage?.setItem("gmtp_access_code", accessKey.trim().toUpperCase());
+      window.sessionStorage?.setItem("gmtp_access_code", normalizedCode);
+      window.sessionStorage?.removeItem("gmtp_access_code_prefill");
       setShowError(false);
-      setHasAccess(true);
-    } catch (error) {
-      setShowError(false);
-      window.requestAnimationFrame(() => {
-        setShowError(true);
-        window.setTimeout(() => setShowError(false), 2500);
-      });
+      window.location.href = nextPath;
+      return true;
+    } catch {
+      flashError();
+      return false;
     } finally {
       setIsLoading(false);
     }
   };
 
+  const checkKey = async () => {
+    await verifyKey(accessKey);
+  };
+
+  useEffect(() => {
+    if (typeof window === "undefined" || hasAutoSubmitted.current) {
+      return;
+    }
+
+    const codeFromUrl = normalizeAccessCode(new URL(window.location.href).searchParams.get("code"));
+    const storedCode = normalizeAccessCode(window.sessionStorage?.getItem("gmtp_access_code_prefill"));
+    const resolvedCode = codeFromUrl || storedCode;
+
+    if (!resolvedCode) {
+      return;
+    }
+
+    hasAutoSubmitted.current = true;
+    setAccessKey(resolvedCode);
+    window.sessionStorage?.setItem("gmtp_access_code_prefill", resolvedCode);
+
+    if (codeFromUrl) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("code");
+      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    void verifyKey(resolvedCode);
+  }, []);
+
   return (
     <>
-      {styleNodes}
       <style>{`
-        html, body {
-          background: var(--black) !important;
-          overflow: hidden !important;
+        :root {
+          --ka-bg: #000000;
+          --ka-card: #070707;
+          --ka-line-mint: rgba(191, 248, 220, 0.28);
+          --ka-text: #ffffff;
+          --ka-mint: #c8f5e8;
+          --ka-rose: #f5c6d8;
+          --ka-sans: "Poppins", "Avenir Next", "Avenir", "Helvetica Neue", "Segoe UI", sans-serif;
+          --ka-display: "Made Soulmaze", "Poppins", sans-serif;
         }
 
-        body::after {
-          content: "";
+        html,
+        body {
+          margin: 0;
+          background: var(--ka-bg);
+          color: var(--ka-text);
+          font-family: var(--ka-sans);
+          cursor: none;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        .ka-page,
+        .ka-page * {
+          cursor: none !important;
+        }
+
+        .cursor {
           position: fixed;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: env(safe-area-inset-bottom, 0px);
-          background: var(--black) !important;
-          z-index: 119;
+          width: 14px;
+          height: 14px;
+          background: var(--ka-mint);
+          border-radius: 50%;
           pointer-events: none;
+          z-index: 9999;
+          transform: translate(-50%, -50%);
+          transition: width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
+          mix-blend-mode: difference;
         }
 
-        nav {
-          position: fixed !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          height: 52px !important;
-          min-height: 52px !important;
-          padding-top: 0 !important;
-          padding-bottom: 0 !important;
-          z-index: 120 !important;
+        .cursor.hovering {
+          width: 42px;
+          height: 42px;
         }
 
-        .bottom-bar {
-          display: block !important;
-          position: fixed !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 0 !important;
-          height: 52px !important;
-          min-height: 52px !important;
-          padding: 0 !important;
-          margin: 0 !important;
-          z-index: 120 !important;
+        .ka-page {
+          min-height: 100vh;
+          padding: 32px 20px 72px;
         }
 
-        .canvas {
-          position: fixed !important;
-          top: 52px !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 52px !important;
-          min-height: auto !important;
-          margin: 0 !important;
-          padding: 20px !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
+        .ka-shell {
+          width: min(1360px, 100%);
+          margin: 0 auto;
         }
 
-        .access-form,
-        .welcome-screen {
-          width: min(340px, 88vw) !important;
-          margin: 0 auto !important;
+        .ka-stage {
+          min-height: calc(100vh - 64px);
+          border: 1px solid var(--ka-line-mint);
+          border-radius: 34px;
+          overflow: hidden;
+          background: var(--ka-card);
+          display: grid;
+          grid-template-rows: 62px 1fr 62px;
         }
 
-        .access-input {
-          caret-color: var(--white) !important;
-          -webkit-appearance: none !important;
-          appearance: none !important;
+        .ka-rail {
+          background: var(--ka-mint);
         }
 
-        .access-input::-webkit-credentials-auto-fill-button,
-        .access-input::-webkit-contacts-auto-fill-button,
-        .access-input::-webkit-caps-lock-indicator {
-          display: none !important;
-          visibility: hidden !important;
-          pointer-events: none !important;
-          position: absolute !important;
-          right: 0 !important;
+        .ka-main {
+          display: grid;
+          place-items: center;
+          padding: clamp(28px, 6vw, 72px);
+          background: #000000;
         }
 
-        .btn-enter[disabled] {
-          opacity: 0.92 !important;
-          transform: none !important;
+        .ka-content {
+          width: min(1200px, 100%);
+          display: grid;
+          justify-items: center;
+          gap: 22px;
         }
 
-        @media (max-width: 768px) {
-          .canvas {
-            padding: 24px 20px !important;
+        .ka-title {
+          margin: 0;
+          color: #ffffff;
+          font-family: var(--ka-display);
+          font-size: clamp(4.2rem, 13vw, 11rem);
+          line-height: 0.88;
+          letter-spacing: 0.01em;
+          text-align: center;
+        }
+
+        .ka-eyebrow {
+          margin: -6px 0 8px;
+          color: var(--ka-mint);
+          font-size: 0.76rem;
+          font-weight: 100;
+          letter-spacing: 0.26em;
+          text-transform: uppercase;
+        }
+
+        .ka-form {
+          width: min(760px, 100%);
+          display: grid;
+          justify-items: center;
+          gap: 18px;
+        }
+
+        .ka-input-shell {
+          width: min(266px, 100%);
+          min-height: 80px;
+          border: 1.5px solid rgba(200, 245, 232, 0.62);
+          border-radius: 999px;
+          background: rgba(200, 245, 232, 0.1);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .ka-input {
+          width: 100%;
+          min-height: 80px;
+          padding: 0 22px;
+          border: none;
+          border-radius: 999px;
+          background: transparent;
+          color: var(--ka-mint);
+          font-family: var(--ka-sans);
+          font-size: 1.12rem;
+          font-weight: 300;
+          letter-spacing: 0.12em;
+          text-align: center;
+          text-transform: lowercase;
+          outline: none;
+          caret-color: var(--ka-mint);
+        }
+
+        .ka-input::placeholder {
+          color: rgba(200, 245, 232, 0.68);
+          letter-spacing: 0.16em;
+          text-transform: lowercase;
+        }
+
+        .ka-input-shake {
+          animation: ka-shake 0.35s linear;
+        }
+
+        .ka-enter {
+          min-width: 266px;
+          min-height: 80px;
+          padding: 0 34px;
+          border: none;
+          border-radius: 999px;
+          background: var(--ka-mint);
+          color: #000000;
+          font-family: var(--ka-sans);
+          font-size: 1.38rem;
+          font-weight: 300;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+        }
+
+        .ka-enter:hover {
+          transform: translateY(-2px);
+          background: #d4ffee;
+          box-shadow: 0 16px 30px rgba(191, 248, 220, 0.18);
+        }
+
+        .ka-enter:disabled {
+          opacity: 0.65;
+        }
+
+        .ka-error {
+          min-height: 20px;
+          margin: 0;
+          color: var(--ka-rose);
+          font-size: 0.78rem;
+          font-weight: 300;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          opacity: 0;
+          transition: opacity 160ms ease;
+        }
+
+        .ka-error-visible {
+          opacity: 1;
+        }
+
+        @keyframes ka-shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-6px); }
+          75% { transform: translateX(6px); }
+        }
+
+        @media (max-width: 760px) {
+          .ka-page {
+            padding: 18px 14px 56px;
+          }
+
+          .ka-stage {
+            min-height: calc(100vh - 74px);
+            grid-template-rows: 52px 1fr 52px;
+            border-radius: 28px;
+          }
+
+          .ka-title {
+            font-size: clamp(3.1rem, 18vw, 6.4rem);
+          }
+
+          .ka-input {
+            width: 100%;
+            min-height: 68px;
+            padding: 0 18px;
+            font-size: 0.9rem;
+          }
+
+          .ka-input-shell {
+            min-width: 220px;
+            min-height: 68px;
+          }
+
+          .ka-enter {
+            min-width: 220px;
+            min-height: 68px;
+            font-size: 1.14rem;
+          }
+
+          .cursor {
+            display: none;
           }
         }
-      `}</style>      <div className="cursor" id="cursor" />
+      `}</style>
 
-      <nav>
-        <div className="gmtp-logo">
-          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="1" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="12" y="1" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="23" y="1" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="1" y="12" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="12" y="12" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="23" y="12" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="1" y="23" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="12" y="23" width="8" height="8" rx="2.4" fill="#080808" />
-            <rect x="23" y="23" width="8" height="8" rx="2.4" fill="#080808" />
-          </svg>
+      <div className="cursor" id="cursor" />
+
+      <main className="ka-page">
+        <div className="ka-shell">
+          <section className="ka-stage">
+            <div className="ka-rail" />
+            <div className="ka-main">
+              <div className="ka-content">
+                <h1 className="ka-title">{pageTitle}</h1>
+                <p className="ka-eyebrow">{eyebrow}</p>
+
+                <div className="ka-form">
+                  <div className="ka-input-shell">
+                    <input
+                      autoCapitalize="characters"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className={`ka-input${showError ? " ka-input-shake" : ""}`}
+                      onChange={(event) => setAccessKey(event.target.value.toUpperCase())}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          event.preventDefault();
+                          checkKey();
+                        }
+                      }}
+                      placeholder={placeholder}
+                      spellCheck={false}
+                      type="password"
+                      value={accessKey}
+                    />
+                  </div>
+                  <button className="ka-enter" disabled={isLoading} onClick={checkKey} type="button">
+                    {isLoading ? loadingLabel : submitLabel}
+                  </button>
+                  <p className={`ka-error${showError ? " ka-error-visible" : ""}`}>{errorLabel}</p>
+                </div>
+              </div>
+            </div>
+            <div className="ka-rail" />
+          </section>
         </div>
-      </nav>
-
-      <div className="canvas">
-        <div
-          className="access-form"
-          id="accessForm"
-          style={{
-            opacity: hasAccess ? 0 : 1,
-            transform: hasAccess ? "translateY(-10px)" : "translateY(0)",
-            transition: "opacity 0.5s ease, transform 0.5s ease",
-            pointerEvents: hasAccess ? "none" : "all",
-          }}
-        >
-          <input
-            className={`access-input${showError ? " shake" : ""}`}
-            id="accessInput"
-            type="password"
-            placeholder="access key"
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="characters"
-            spellCheck={false}
-            value={accessKey}
-            onChange={(event) => setAccessKey(event.target.value.toUpperCase())}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                checkKey();
-              }
-            }}
-          />
-          <button className="btn-enter" id="btnEnter" type="button" onClick={checkKey} disabled={isLoading}>
-            enter
-          </button>
-          <div className={`error-msg${showError ? " visible" : ""}`} id="errorMsg">
-            cle incorrecte - reessayez
-          </div>
-        </div>
-
-        <div className={`welcome-screen${hasAccess ? " visible" : ""}`} id="welcomeScreen">
-          <div className="welcome-title">welcome inside</div>
-          <button
-            className="btn-session"
-            id="btnSession"
-            type="button"
-            onClick={() => {
-              window.location.href = "/nda";
-            }}
-          >
-            session 01
-          </button>
-        </div>
-      </div>
-
-      <div className="bottom-bar" />
+      </main>
     </>
   );
 }

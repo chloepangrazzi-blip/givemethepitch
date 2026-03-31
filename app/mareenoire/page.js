@@ -23,5 +23,5 @@ export default function MareeNoirePage() {
     notFound();
   }
 
-  return <MareeNoirePageClient {...page} />;
+  return <MareeNoirePageClient page={page} />;
 }

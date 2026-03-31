@@ -1,22 +1,28 @@
 import { NextResponse } from "next/server";
-import { ensureTestAccessRequest, getAccessRequestByCode, markAccessVerified } from "../../../../lib/access-repository";
-
-const TEST_ACCESS_CODE = "THEROOM01";
+import {
+  ensureTestAccessRequest,
+  getAccessRequestByCode,
+  markAccessVerified,
+} from "../../../../lib/access-repository";
+import { getTestAccessCode } from "../../../../lib/runtime-config";
 
 export async function POST(request) {
   try {
-    const isSecure = (request.headers.get("x-forwarded-proto") || new URL(request.url).protocol.replace(":", "")) === "https";
+    const isSecure =
+      (request.headers.get("x-forwarded-proto") ||
+        new URL(request.url).protocol.replace(":", "")) === "https";
     const { accessCode } = await request.json();
     const normalizedCode = String(accessCode || "").trim().toUpperCase();
+    const testAccessCode = getTestAccessCode();
 
-    if (normalizedCode === TEST_ACCESS_CODE) {
-      const record = await ensureTestAccessRequest(TEST_ACCESS_CODE);
+    if (testAccessCode && normalizedCode === testAccessCode) {
+      const record = await ensureTestAccessRequest(testAccessCode);
       const response = NextResponse.json({
         ok: true,
         sessionSlug: record.sessionSlug || "mareenoire",
       });
 
-      response.cookies.set("gmtp_access_code", TEST_ACCESS_CODE, {
+      response.cookies.set("gmtp_access_code", testAccessCode, {
         httpOnly: true,
         sameSite: "lax",
         secure: isSecure,
@@ -45,7 +51,7 @@ export async function POST(request) {
     response.cookies.set("gmtp_access_code", verified.accessCode, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: isSecure,
       path: "/",
       maxAge: 60 * 60 * 24,
     });

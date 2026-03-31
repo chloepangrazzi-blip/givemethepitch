@@ -1,13 +1,22 @@
 import { NextResponse } from "next/server";
 import { markNdaSigned } from "../../../../lib/access-repository";
-
-const TEST_ACCESS_CODE = "THEROOM01";
+import { getTestAccessCode } from "../../../../lib/runtime-config";
 
 export async function POST(request) {
   try {
-    const isSecure = (request.headers.get("x-forwarded-proto") || new URL(request.url).protocol.replace(":", "")) === "https";
+    const isSecure =
+      (request.headers.get("x-forwarded-proto") ||
+        new URL(request.url).protocol.replace(":", "")) === "https";
     const payload = await request.json();
-    const accessCode = String(payload.accessCode || request.cookies.get("gmtp_access_code")?.value || TEST_ACCESS_CODE).trim().toUpperCase();
+    const testAccessCode = getTestAccessCode();
+    const accessCode = String(
+      payload.accessCode ||
+        request.cookies.get("gmtp_access_code")?.value ||
+        testAccessCode ||
+        ""
+    )
+      .trim()
+      .toUpperCase();
     const { prenom, nom, consent } = payload;
 
     if (!prenom || !nom || !consent) {
@@ -17,7 +26,14 @@ export async function POST(request) {
       );
     }
 
-    if (accessCode === TEST_ACCESS_CODE) {
+    if (!accessCode) {
+      return NextResponse.json(
+        { ok: false, error: "missing_access_code" },
+        { status: 400 }
+      );
+    }
+
+    if (testAccessCode && accessCode === testAccessCode) {
       return NextResponse.json({ ok: true, nextPath: "/mareenoire" });
     }
 
@@ -25,11 +41,17 @@ export async function POST(request) {
     try {
       record = await markNdaSigned(accessCode, { prenom, nom });
     } catch (error) {
-      return NextResponse.json({ ok: true, nextPath: "/mareenoire" });
+      return NextResponse.json(
+        { ok: false, error: "nda_sign_failed", detail: error.message },
+        { status: 500 }
+      );
     }
 
     if (!record) {
-      return NextResponse.json({ ok: true, nextPath: "/mareenoire" });
+      return NextResponse.json(
+        { ok: false, error: "invalid_code" },
+        { status: 401 }
+      );
     }
 
     const response = NextResponse.json({

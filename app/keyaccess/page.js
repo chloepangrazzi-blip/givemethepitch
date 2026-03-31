@@ -21,5 +21,5 @@ export default function KeyAccessPage() {
     notFound();
   }
 
-  return <KeyAccessPageClient styles={page.styles} />;
+  return <KeyAccessPageClient {...page} />;
 }

@@ -14,12 +14,18 @@ export function generateMetadata() {
   };
 }
 
-export default function FormtestPage() {
+export default async function FormtestPage({ searchParams }) {
   const page = getFormtestPageData();
 
   if (!page) {
     notFound();
   }
 
-  return <FormtestPageClient {...page} />;
+  const resolvedSearchParams = await searchParams;
+  const previewMode =
+    resolvedSearchParams?.preview === "confirm" || resolvedSearchParams?.preview === "processing"
+      ? resolvedSearchParams.preview
+      : "";
+
+  return <FormtestPageClient {...page} previewMode={previewMode} />;
 }
