@@ -23,16 +23,6 @@ function truncateByWords(text, maxChars) {
   return excerpt ? `${excerpt}...` : text;
 }
 
-function chunkItems(items, size) {
-  const chunks = [];
-
-  for (let index = 0; index < items.length; index += size) {
-    chunks.push(items.slice(index, index + size));
-  }
-
-  return chunks;
-}
-
 function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -101,51 +91,87 @@ function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }
 function MobileProjectCard({ project, onReadMore }) {
   const tagsClassName = `catalog-tags${project.stackTags ? " is-stacked" : ""}`;
   const canExpand = project.expandable !== false;
+  const collapsedPitch = truncateByWords(
+    project.shortPitch,
+    project.previewChars ?? (project.previewSize === "tall" ? 220 : 140),
+  );
+  const displayedPitch = canExpand ? collapsedPitch : project.shortPitch;
+
+  if (project.featured) {
+    return (
+      <article className="catalog-mobile-card is-featured" data-project-id={project.id}>
+        <div className="catalog-mobile-featured-poster-wrap">
+          {project.href ? (
+            <Link aria-label={`Voir le projet ${project.title}`} className="catalog-mobile-poster-link" href={project.href}>
+              <span className="catalog-mobile-poster-frame is-featured">
+                <img alt={project.title} className="catalog-mobile-poster is-featured" src={project.posterSrc} />
+                <span className="catalog-mobile-status is-featured">{project.status}</span>
+              </span>
+            </Link>
+          ) : (
+            <div aria-label={project.title} className="catalog-mobile-poster-static" role="img">
+              <span className="catalog-mobile-poster-frame is-featured">
+                <img alt={project.title} className="catalog-mobile-poster is-featured" src={project.posterSrc} />
+                <span className="catalog-mobile-status is-featured">{project.status}</span>
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="catalog-mobile-meta is-featured">
+          <div className={`${tagsClassName} is-featured-line`}>
+            <span>{project.genre}</span>
+            <span>{project.format}</span>
+            {project.href ? (
+              <Link className="catalog-tag-action" href={project.href}>
+                VOIR LE PROJET
+              </Link>
+            ) : null}
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
-    <article className={`catalog-mobile-card${project.featured ? " is-featured" : ""}`} data-project-id={project.id}>
-      <button
-        aria-label={`Ouvrir la fiche ${project.title}`}
-        className="catalog-mobile-poster-button"
-        onClick={() => onReadMore?.(project)}
-        type="button"
-      >
-        <span className="catalog-mobile-poster-frame">
-          <img alt={project.title} className="catalog-mobile-poster" src={project.posterSrc} />
-          <span className="catalog-mobile-status">
-            {project.status}
+    <article className="catalog-mobile-card" data-project-id={project.id}>
+      {project.href ? (
+        <Link aria-label={`Voir le projet ${project.title}`} className="catalog-mobile-poster-link" href={project.href}>
+          <span className="catalog-mobile-poster-frame">
+            <img alt={project.title} className="catalog-mobile-poster" src={project.posterSrc} />
           </span>
-        </span>
-      </button>
+        </Link>
+      ) : (
+        <div aria-label={project.title} className="catalog-mobile-poster-static" role="img">
+          <span className="catalog-mobile-poster-frame">
+            <img alt={project.title} className="catalog-mobile-poster" src={project.posterSrc} />
+          </span>
+        </div>
+      )}
 
-      <div className={`catalog-mobile-meta${project.featured ? " is-featured" : ""}`}>
-        {!project.featured ? <span className="catalog-status-inline">{project.status}</span> : null}
+      <div className="catalog-mobile-meta">
+        <span className="catalog-status-inline">{project.status}</span>
 
         <div className={tagsClassName}>
           <span>{project.genre}</span>
           <span>{project.format}</span>
-          {project.featured && project.href ? (
-            <Link className="catalog-tag-action" href={project.href}>
-              VOIR LE PROJET
+        </div>
+
+        <p className="catalog-pitch catalog-mobile-pitch">{displayedPitch}</p>
+
+        <div className="catalog-actions">
+          {canExpand ? (
+            <button className="catalog-more" onClick={() => onReadMore?.(project)} type="button">
+              Lire la suite
+            </button>
+          ) : null}
+
+          {project.href ? (
+            <Link className="catalog-action" href={project.href}>
+              Voir le projet
             </Link>
           ) : null}
         </div>
-
-        {!project.featured ? (
-          <div className="catalog-actions">
-            {canExpand ? (
-              <button className="catalog-more" onClick={() => onReadMore?.(project)} type="button">
-                Lire la suite
-              </button>
-            ) : null}
-
-            {project.href ? (
-              <Link className="catalog-action" href={project.href}>
-                Voir le projet
-              </Link>
-            ) : null}
-          </div>
-        ) : null}
       </div>
     </article>
   );
@@ -156,7 +182,6 @@ export default function CataloguePageClient({ page }) {
   const [activeProject, setActiveProject] = useState(null);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
-  const mobileRows = chunkItems(shelfProjects, 3);
 
   useDesktopCursor({
     hoverSelector: "button, a, .catalog-modal-backdrop",
@@ -809,6 +834,11 @@ export default function CataloguePageClient({ page }) {
             padding: 22px 16px 48px;
           }
 
+          .catalog-title {
+            font-size: clamp(2.4rem, 14vw, 4rem);
+            line-height: 0.92;
+          }
+
           .catalog-header {
             align-items: start;
             flex-direction: column;
@@ -834,7 +864,7 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-mobile-card.is-featured {
-            min-width: 100%;
+            gap: 10px;
           }
 
           .catalog-mobile-hero {
@@ -842,42 +872,14 @@ export default function CataloguePageClient({ page }) {
             gap: 12px;
           }
 
-          .catalog-mobile-shelf {
+          .catalog-mobile-list {
             display: grid;
-            gap: 14px;
+            gap: 20px;
           }
 
-          .catalog-mobile-row {
-            display: flex;
-            gap: 14px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x proximity;
-          }
-
-          .catalog-mobile-row::-webkit-scrollbar {
-            display: none;
-          }
-
-          .catalog-mobile-row .catalog-mobile-card {
-            flex: 0 0 42vw;
-            max-width: 172px;
-            scroll-snap-align: start;
-          }
-
-          .catalog-mobile-row .catalog-mobile-card.is-featured {
-            flex-basis: 100%;
-            max-width: none;
-          }
-
-          .catalog-mobile-poster-button {
+          .catalog-mobile-poster-link,
+          .catalog-mobile-poster-static {
             display: block;
-            width: 100%;
-            border: 0;
-            padding: 0;
-            background: transparent;
-            text-align: left;
           }
 
           .catalog-mobile-poster-frame {
@@ -890,7 +892,7 @@ export default function CataloguePageClient({ page }) {
             overflow: hidden;
           }
 
-          .catalog-mobile-card.is-featured .catalog-mobile-poster-frame {
+          .catalog-mobile-poster-frame.is-featured {
             padding: 10px;
             border-radius: 24px;
             border-color: rgba(191, 248, 220, 0.2);
@@ -904,7 +906,7 @@ export default function CataloguePageClient({ page }) {
             border-radius: 14px;
           }
 
-          .catalog-mobile-card.is-featured .catalog-mobile-poster {
+          .catalog-mobile-poster.is-featured {
             aspect-ratio: 2 / 3;
             border-radius: 18px;
           }
@@ -924,7 +926,7 @@ export default function CataloguePageClient({ page }) {
             text-transform: uppercase;
           }
 
-          .catalog-mobile-card.is-featured .catalog-mobile-status {
+          .catalog-mobile-status.is-featured {
             position: absolute;
             left: 16px;
             top: 16px;
@@ -934,10 +936,6 @@ export default function CataloguePageClient({ page }) {
           .catalog-mobile-meta {
             display: grid;
             gap: 10px;
-          }
-
-          .catalog-mobile-meta.is-featured .catalog-tags {
-            align-items: center;
           }
 
           .catalog-mobile-meta .catalog-tags,
@@ -954,6 +952,34 @@ export default function CataloguePageClient({ page }) {
           .catalog-mobile-meta .catalog-tags span {
             min-height: 30px;
             padding: 0 10px;
+          }
+
+          .catalog-mobile-meta .catalog-tags.is-featured-line {
+            flex-wrap: nowrap;
+            gap: 8px;
+            align-items: center;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .catalog-mobile-meta .catalog-tags.is-featured-line::-webkit-scrollbar {
+            display: none;
+          }
+
+          .catalog-mobile-meta .catalog-tags.is-featured-line span {
+            white-space: nowrap;
+          }
+
+          .catalog-mobile-meta .catalog-tag-action {
+            flex: 1 1 auto;
+            min-width: 132px;
+            width: auto;
+          }
+
+          .catalog-mobile-pitch {
+            font-size: 0.92rem;
+            line-height: 1.62;
           }
 
           .catalog-mobile-meta .catalog-actions {
@@ -1019,13 +1045,9 @@ export default function CataloguePageClient({ page }) {
             ) : null}
 
             {shelfProjects.length ? (
-              <section className="catalog-mobile-shelf">
-                {mobileRows.map((row, index) => (
-                  <div className="catalog-mobile-row" key={`mobile-row-${index}`}>
-                    {row.map((project) => (
-                      <MobileProjectCard key={project.id} onReadMore={setActiveProject} project={project} />
-                    ))}
-                  </div>
+              <section className="catalog-mobile-list">
+                {shelfProjects.map((project) => (
+                  <MobileProjectCard key={project.id} onReadMore={setActiveProject} project={project} />
                 ))}
               </section>
             ) : null}
