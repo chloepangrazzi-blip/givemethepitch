@@ -90,7 +90,6 @@ function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }
 
 function MobileProjectCard({ project, onReadMore }) {
   const tagsClassName = `catalog-tags${project.stackTags ? " is-stacked" : ""}`;
-  const canExpand = project.expandable !== false;
 
   return (
     <article className={`catalog-mobile-card${project.featured ? " is-featured" : ""}`} data-project-id={project.id}>
@@ -102,32 +101,25 @@ function MobileProjectCard({ project, onReadMore }) {
       >
         <span className="catalog-mobile-poster-frame">
           <img alt={project.title} className="catalog-mobile-poster" src={project.posterSrc} />
-        </span>
-        <span className="catalog-mobile-status">
-          {project.status}
+          <span className="catalog-mobile-status">
+            {project.status}
+          </span>
         </span>
       </button>
 
-      <div className="catalog-mobile-meta">
-        <div className={tagsClassName}>
-          <span>{project.genre}</span>
-          <span>{project.format}</span>
+      {project.featured ? (
+        <div className="catalog-mobile-meta is-featured">
+          <div className={tagsClassName}>
+            <span>{project.genre}</span>
+            <span>{project.format}</span>
+            {project.href ? (
+              <Link className="catalog-tag-action" href={project.href}>
+                VOIR LE PROJET
+              </Link>
+            ) : null}
+          </div>
         </div>
-
-        <div className="catalog-actions">
-          {canExpand ? (
-            <button className="catalog-more" onClick={() => onReadMore?.(project)} type="button">
-              Lire la suite
-            </button>
-          ) : null}
-
-          {project.href ? (
-            <Link className="catalog-action" href={project.href}>
-              Voir le projet
-            </Link>
-          ) : null}
-        </div>
-      </div>
+      ) : null}
     </article>
   );
 }
@@ -739,6 +731,13 @@ export default function CataloguePageClient({ page }) {
           white-space: pre-wrap;
         }
 
+        .catalog-modal-actions {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          margin-top: 22px;
+        }
+
         @media (min-width: 1280px) {
           .catalog-grid {
             grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -797,13 +796,13 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-mobile-layout {
             display: grid;
-            gap: 20px;
+            gap: 24px;
           }
 
           .catalog-mobile-card {
             display: grid;
-            gap: 10px;
-            min-width: min(74vw, 280px);
+            gap: 12px;
+            min-width: 0;
           }
 
           .catalog-mobile-card.is-featured {
@@ -820,22 +819,27 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-mobile-row {
-            display: grid;
-            grid-auto-flow: column;
-            grid-auto-columns: minmax(220px, 74vw);
+            display: flex;
             gap: 14px;
             overflow-x: auto;
             padding-bottom: 8px;
-            scroll-snap-type: x proximity;
             -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x proximity;
           }
 
           .catalog-mobile-row::-webkit-scrollbar {
             display: none;
           }
 
-          .catalog-mobile-card {
+          .catalog-mobile-row .catalog-mobile-card {
+            flex: 0 0 38vw;
+            max-width: 152px;
             scroll-snap-align: start;
+          }
+
+          .catalog-mobile-row .catalog-mobile-card.is-featured {
+            flex-basis: 100%;
+            max-width: none;
           }
 
           .catalog-mobile-poster-button {
@@ -851,7 +855,7 @@ export default function CataloguePageClient({ page }) {
             position: relative;
             display: block;
             padding: 8px;
-            border-radius: 22px;
+            border-radius: 20px;
             background: #050505;
             border: 1px solid rgba(255, 255, 255, 0.08);
             overflow: hidden;
@@ -868,27 +872,36 @@ export default function CataloguePageClient({ page }) {
             width: 100%;
             aspect-ratio: 9 / 16;
             object-fit: cover;
-            border-radius: 16px;
+            border-radius: 14px;
           }
 
           .catalog-mobile-card.is-featured .catalog-mobile-poster {
             aspect-ratio: 2 / 3;
+            border-radius: 18px;
           }
 
           .catalog-mobile-status {
+            position: absolute;
+            left: 16px;
+            bottom: 16px;
             display: inline-flex;
             align-items: center;
             width: fit-content;
             min-height: 30px;
-            margin-top: 8px;
             padding: 0 10px;
             border-radius: 999px;
             border: 1px solid rgba(191, 248, 220, 0.18);
-            background: rgba(191, 248, 220, 0.08);
+            background: rgba(0, 0, 0, 0.74);
             color: var(--catalog-mint);
             font-size: 0.7rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
+            z-index: 2;
+          }
+
+          .catalog-mobile-card.is-featured .catalog-mobile-status {
+            top: 16px;
+            bottom: auto;
           }
 
           .catalog-mobile-meta {
@@ -904,24 +917,12 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-mobile-meta .catalog-tags {
             min-height: 0;
+            align-items: center;
           }
 
           .catalog-mobile-meta .catalog-tags span {
             min-height: 30px;
             padding: 0 10px;
-          }
-
-          .catalog-mobile-meta .catalog-actions {
-            gap: 8px;
-          }
-
-          .catalog-mobile-meta .catalog-more,
-          .catalog-mobile-meta .catalog-action {
-            min-height: 38px;
-            padding: 0 14px;
-            font-size: 0.76rem;
-            letter-spacing: 0.09em;
-            width: fit-content;
           }
 
           .catalog-modal-backdrop {
@@ -1026,6 +1027,13 @@ export default function CataloguePageClient({ page }) {
             </div>
 
             <p className="catalog-modal-copy">{activeProject.shortPitch}</p>
+            {activeProject.href ? (
+              <div className="catalog-modal-actions">
+                <Link className="catalog-action" href={activeProject.href} onClick={() => setActiveProject(null)}>
+                  Voir le projet
+                </Link>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}
