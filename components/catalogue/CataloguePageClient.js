@@ -23,6 +23,16 @@ function truncateByWords(text, maxChars) {
   return excerpt ? `${excerpt}...` : text;
 }
 
+function chunkItems(items, size) {
+  const chunks = [];
+
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size));
+  }
+
+  return chunks;
+}
+
 function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -90,6 +100,7 @@ function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }
 
 function MobileProjectCard({ project, onReadMore }) {
   const tagsClassName = `catalog-tags${project.stackTags ? " is-stacked" : ""}`;
+  const canExpand = project.expandable !== false;
 
   return (
     <article className={`catalog-mobile-card${project.featured ? " is-featured" : ""}`} data-project-id={project.id}>
@@ -107,19 +118,35 @@ function MobileProjectCard({ project, onReadMore }) {
         </span>
       </button>
 
-      {project.featured ? (
-        <div className="catalog-mobile-meta is-featured">
-          <div className={tagsClassName}>
-            <span>{project.genre}</span>
-            <span>{project.format}</span>
+      <div className={`catalog-mobile-meta${project.featured ? " is-featured" : ""}`}>
+        {!project.featured ? <span className="catalog-status-inline">{project.status}</span> : null}
+
+        <div className={tagsClassName}>
+          <span>{project.genre}</span>
+          <span>{project.format}</span>
+          {project.featured && project.href ? (
+            <Link className="catalog-tag-action" href={project.href}>
+              VOIR LE PROJET
+            </Link>
+          ) : null}
+        </div>
+
+        {!project.featured ? (
+          <div className="catalog-actions">
+            {canExpand ? (
+              <button className="catalog-more" onClick={() => onReadMore?.(project)} type="button">
+                Lire la suite
+              </button>
+            ) : null}
+
             {project.href ? (
-              <Link className="catalog-tag-action" href={project.href}>
-                VOIR LE PROJET
+              <Link className="catalog-action" href={project.href}>
+                Voir le projet
               </Link>
             ) : null}
           </div>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
     </article>
   );
 }
@@ -129,6 +156,7 @@ export default function CataloguePageClient({ page }) {
   const [activeProject, setActiveProject] = useState(null);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
+  const mobileRows = chunkItems(shelfProjects, 3);
 
   useDesktopCursor({
     hoverSelector: "button, a, .catalog-modal-backdrop",
@@ -816,6 +844,7 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-mobile-shelf {
             display: grid;
+            gap: 14px;
           }
 
           .catalog-mobile-row {
@@ -832,8 +861,8 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-mobile-row .catalog-mobile-card {
-            flex: 0 0 38vw;
-            max-width: 152px;
+            flex: 0 0 42vw;
+            max-width: 172px;
             scroll-snap-align: start;
           }
 
@@ -881,9 +910,6 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-mobile-status {
-            position: absolute;
-            left: 16px;
-            bottom: 16px;
             display: inline-flex;
             align-items: center;
             width: fit-content;
@@ -896,17 +922,22 @@ export default function CataloguePageClient({ page }) {
             font-size: 0.7rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            z-index: 2;
           }
 
           .catalog-mobile-card.is-featured .catalog-mobile-status {
+            position: absolute;
+            left: 16px;
             top: 16px;
-            bottom: auto;
+            z-index: 2;
           }
 
           .catalog-mobile-meta {
             display: grid;
             gap: 10px;
+          }
+
+          .catalog-mobile-meta.is-featured .catalog-tags {
+            align-items: center;
           }
 
           .catalog-mobile-meta .catalog-tags,
@@ -923,6 +954,19 @@ export default function CataloguePageClient({ page }) {
           .catalog-mobile-meta .catalog-tags span {
             min-height: 30px;
             padding: 0 10px;
+          }
+
+          .catalog-mobile-meta .catalog-actions {
+            gap: 8px;
+          }
+
+          .catalog-mobile-meta .catalog-more,
+          .catalog-mobile-meta .catalog-action {
+            min-height: 38px;
+            padding: 0 14px;
+            font-size: 0.76rem;
+            letter-spacing: 0.09em;
+            width: fit-content;
           }
 
           .catalog-modal-backdrop {
@@ -976,11 +1020,13 @@ export default function CataloguePageClient({ page }) {
 
             {shelfProjects.length ? (
               <section className="catalog-mobile-shelf">
-                <div className="catalog-mobile-row">
-                  {shelfProjects.map((project) => (
-                    <MobileProjectCard key={project.id} onReadMore={setActiveProject} project={project} />
-                  ))}
-                </div>
+                {mobileRows.map((row, index) => (
+                  <div className="catalog-mobile-row" key={`mobile-row-${index}`}>
+                    {row.map((project) => (
+                      <MobileProjectCard key={project.id} onReadMore={setActiveProject} project={project} />
+                    ))}
+                  </div>
+                ))}
               </section>
             ) : null}
           </section>
