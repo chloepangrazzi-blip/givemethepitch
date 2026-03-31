@@ -1676,7 +1676,7 @@ export default function MareeNoirePageClient({ page }) {
           .mn-dive-grid,
           .mn-feature-grid,
           .mn-feature-reverse,
-          .mn-arena-grid {
+          .mn-arenas-grid {
             grid-template-columns: 1fr;
           }
 
@@ -1699,12 +1699,12 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-media-cell-character {
-            min-height: 520px;
+            min-height: 420px;
             height: auto;
           }
 
           .mn-media-cell-story {
-            min-height: 520px;
+            min-height: 420px;
             height: auto;
           }
 
@@ -1715,11 +1715,15 @@ export default function MareeNoirePageClient({ page }) {
           .mn-tele-card,
           .mn-cliff-card,
           .mn-final-image-card {
-            min-height: 520px;
+            min-height: 420px;
           }
 
           .mn-gallery-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .mn-arenas-grid {
+            gap: 34px;
           }
 
           .mn-finale-quote {
@@ -1731,20 +1735,20 @@ export default function MareeNoirePageClient({ page }) {
 
         @media (max-width: 720px) {
           .mn-page {
-            padding: 18px 14px 72px;
+            padding: 16px 12px 64px;
           }
 
           .mn-shell {
-            gap: 18px;
+            gap: 16px;
           }
 
           .mn-body-shell {
-            padding: 18px;
-            border-radius: 26px;
+            padding: 16px;
+            border-radius: 24px;
           }
 
           .mn-body-shell-inner {
-            gap: 18px;
+            gap: 20px;
           }
 
           .mn-intro-card,
@@ -1755,8 +1759,8 @@ export default function MareeNoirePageClient({ page }) {
           .mn-sea-card,
           .mn-arena-text,
           .mn-final-action {
-            padding: 20px;
-            border-radius: 24px;
+            padding: 18px;
+            border-radius: 22px;
           }
 
           .mn-copy-cell,
@@ -1770,23 +1774,257 @@ export default function MareeNoirePageClient({ page }) {
           .mn-cliff-card,
           .mn-final-image-card,
           .mn-gallery-card {
-            border-radius: 24px;
+            border-radius: 22px;
           }
 
           .mn-media-image {
-            border-radius: 23px;
+            border-radius: 21px;
           }
 
           .mn-title {
-            font-size: 3.7rem;
+            font-size: 2.9rem;
+            line-height: 0.88;
+          }
+
+          .mn-session,
+          .mn-pill {
+            min-height: 36px;
+            padding: 0 12px;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+          }
+
+          .mn-brief-step {
+            grid-template-columns: 42px minmax(0, 1fr);
+            gap: 10px;
+            padding: 12px 14px;
+          }
+
+          .mn-brief-text {
+            font-size: 0.92rem;
+            line-height: 1.58;
+          }
+
+          .mn-brief-note {
+            font-size: 0.72rem;
           }
 
           .mn-pitch-card {
-            min-height: 640px;
+            min-height: 520px;
+            padding: 18px;
+            gap: 18px;
           }
 
           .mn-pitch-copy {
+            width: 100%;
+            padding: 18px;
+            border-radius: 20px;
+            gap: 14px;
+          }
+
+          .mn-pitch-copy .mn-body {
+            font-size: 0.96rem;
+            line-height: 1.68;
+          }
+
+          .mn-pitch-word {
+            justify-self: start;
+            text-align: left;
+            font-size: 0.96rem;
+          }
+
+          .mn-pitch-line {
+            margin: 0;
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.08;
+          }
+
+          .mn-player-button {
+            width: 72px;
+            height: 72px;
+          }
+
+          .mn-player-icon {
+            border-top-width: 11px;
+            border-bottom-width: 11px;
+            border-left-width: 18px;
+          }
+
+          .mn-teaser-card {
+            min-height: 240px;
+          }
+
+          .mn-section-band {
+            min-height: 240px;
+          }
+
+          .mn-section-band-copy {
             padding: 20px;
+          }
+
+          .mn-section-band-title {
+            font-size: clamp(1.44rem, 7.2vw, 2.04rem);
+            line-height: 0.92;
+          }
+
+          .mn-dive-grid {
+            padding: 10px 0 18px;
+          }
+
+          .mn-dive-grid > .mn-copy-cell:first-child,
+          .mn-dive-grid > .mn-copy-cell:last-child {
+            padding-left: 0;
+            padding-right: 0;
+            gap: 20px;
+          }
+
+          .mn-dive-grid > .mn-copy-cell:last-child {
+            border-left: 0;
+          }
+
+          .mn-dive-hook,
+          .mn-dive-accent {
+            font-size: 0.92rem;
+            line-height: 1.08;
+          }
+
+          .mn-dive-beats {
+            gap: 12px;
+          }
+
+          .mn-dive-beats p,
+          .mn-dive-grid > .mn-copy-cell:last-child .mn-body {
+            font-size: 0.94rem;
+            line-height: 1.72;
+          }
+
+          .mn-image-band {
+            min-height: 280px;
+          }
+
+          .mn-feature-grid {
+            gap: 18px;
+          }
+
+          .mn-body-shell .mn-feature-grid {
+            margin-top: 8px;
+          }
+
+          .mn-media-cell-character,
+          .mn-media-cell-story,
+          .mn-media-cell,
+          .mn-cover-card,
+          .mn-image-band,
+          .mn-tele-card,
+          .mn-cliff-card,
+          .mn-final-image-card {
+            min-height: 340px;
+          }
+
+          .mn-character-name,
+          .mn-profile-name,
+          .mn-story-split .mn-split-title,
+          .mn-watchers-card .mn-profile-name,
+          .mn-sea-card .mn-section-title,
+          .mn-arenas-title,
+          .mn-arenas-column-title,
+          .mn-editorial-title-watchers,
+          .mn-editorial-title-sea,
+          .mn-opener-card .mn-section-title {
+            width: 100% !important;
+            max-width: 100% !important;
+            white-space: normal !important;
+            text-wrap: balance;
+          }
+
+          .mn-opener-card .mn-section-title {
+            font-size: 1.04rem;
+          }
+
+          .mn-story-split .mn-split-title,
+          .mn-watchers-card .mn-profile-name,
+          .mn-sea-card .mn-section-title {
+            font-size: clamp(1.22rem, 6vw, 1.7rem);
+            line-height: 1;
+          }
+
+          .mn-arenas-title {
+            font-size: clamp(1.84rem, 8.2vw, 2.5rem);
+          }
+
+          .mn-arenas-column-title {
+            font-size: 0.98rem;
+            line-height: 1.18;
+          }
+
+          .mn-opener-card .mn-section-title .mn-title-line,
+          .mn-story-split .mn-split-title .mn-title-line,
+          .mn-editorial-title .mn-title-line {
+            white-space: normal;
+          }
+
+          .mn-section-line,
+          .mn-arenas-line,
+          .mn-opener-card .mn-section-kicker,
+          .mn-story-split .mn-section-kicker,
+          .mn-editorial-kicker {
+            font-size: 0.76rem;
+            letter-spacing: 0.12em;
+          }
+
+          .mn-feature-grid .mn-copy-stack .mn-body,
+          .mn-story-split .mn-copy-stack .mn-body,
+          .mn-watchers-card .mn-body,
+          .mn-sea-card .mn-body,
+          .mn-arenas-column .mn-body,
+          .mn-editorial-copy .mn-body,
+          .mn-opener-card .mn-body {
+            font-size: 0.94rem;
+            line-height: 1.72;
+          }
+
+          .mn-copy-stack,
+          .mn-story-split .mn-copy-stack,
+          .mn-watchers-card .mn-copy-stack,
+          .mn-sea-card .mn-copy-stack,
+          .mn-arenas-column .mn-copy-stack {
+            gap: 14px;
+          }
+
+          .mn-quote-card {
+            padding: 44px 0;
+          }
+
+          .mn-quote-text {
+            width: 100%;
+            padding: 28px 20px;
+          }
+
+          .mn-quote-card p {
+            font-size: 1rem;
+            line-height: 1.48;
+          }
+
+          .mn-watchers-editorial,
+          .mn-sea-editorial {
+            width: 100%;
+            padding-left: 8px;
+            padding-right: 8px;
+            margin-top: 28px;
+            margin-bottom: 24px;
+          }
+
+          .mn-watchers-editorial {
+            justify-items: start;
+            min-height: 0;
+          }
+
+          .mn-editorial-kicker {
+            margin-bottom: 18px;
+            padding-bottom: 18px;
           }
 
           .mn-gallery-grid,
@@ -1801,24 +2039,25 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-watchers-editorial,
           .mn-sea-editorial {
-            width: min(100%, 720px);
-            padding-left: 24px;
-            padding-right: 24px;
-            margin-top: 48px;
-            margin-bottom: 36px;
+            width: 100%;
+            padding-left: 8px;
+            padding-right: 8px;
+            margin-top: 28px;
+            margin-bottom: 24px;
           }
 
           .mn-editorial-title-watchers {
-            font-size: 16px;
+            font-size: 1.04rem;
           }
 
           .mn-editorial-title-sea {
-            font-size: 30px;
+            font-size: 1.56rem;
           }
 
-          .mn-quote-text {
-            width: min(100%, 720px);
-            padding: 44px 24px;
+          .mn-tele-card,
+          .mn-cliff-card,
+          .mn-final-image-card {
+            min-height: 300px;
           }
 
           .mn-story-split .mn-split-title {
@@ -1827,6 +2066,32 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-pitch-line {
             width: 100%;
+          }
+
+          .mn-opener-card {
+            width: 100%;
+            gap: 18px;
+            padding: 18px 0 10px;
+          }
+
+          .mn-final-action {
+            padding: 24px 18px;
+          }
+
+          .mn-action {
+            width: 100%;
+            min-height: 56px;
+            padding: 0 18px;
+            font-size: 0.92rem;
+            letter-spacing: 0.1em;
+          }
+
+          .mn-action-caption {
+            font-size: 0.84rem;
+          }
+
+          .mn-footer {
+            padding: 24px 16px;
           }
         }
       `}</style>
