@@ -812,7 +812,8 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-title {
-            font-size: clamp(2.1rem, 12.6vw, 3.4rem);
+            max-width: 92%;
+            font-size: clamp(1.8rem, 10.8vw, 2.9rem);
             line-height: 0.92;
           }
 
@@ -845,9 +846,8 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-mobile-card.is-compact {
-            flex: 0 0 34vw;
-            max-width: 136px;
-            min-width: 118px;
+            min-width: 0;
+            max-width: none;
           }
 
           .catalog-mobile-hero {
@@ -861,16 +861,10 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-mobile-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x proximity;
-          }
-
-          .catalog-mobile-row::-webkit-scrollbar {
-            display: none;
+            align-items: start;
           }
 
           .catalog-mobile-poster-link,
