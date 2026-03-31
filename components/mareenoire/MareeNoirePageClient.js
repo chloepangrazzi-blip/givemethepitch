@@ -1865,9 +1865,25 @@ export default function MareeNoirePageClient({ page }) {
             padding: 20px;
           }
 
+          .mn-body-shell .mn-section-band-copy {
+            padding: 20px;
+            align-content: start;
+          }
+
           .mn-section-band-title {
             font-size: clamp(1.44rem, 7.2vw, 2.04rem);
             line-height: 0.92;
+          }
+
+          .mn-body-shell .mn-section-band-title {
+            padding: 0;
+            font-size: clamp(1.44rem, 7.2vw, 2.04rem);
+            line-height: 0.92;
+          }
+
+          .mn-gallery-grid .mn-gallery-card::before,
+          .mn-gallery-grid .mn-gallery-card::after {
+            opacity: 1;
           }
 
           .mn-dive-grid {
