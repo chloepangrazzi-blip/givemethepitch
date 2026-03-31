@@ -158,7 +158,7 @@ export default function CataloguePageClient({ page }) {
   const [activeProject, setActiveProject] = useState(null);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
-  const mobileRows = chunkItems(shelfProjects, 4);
+  const mobileRows = chunkItems(shelfProjects, 3);
 
   useDesktopCursor({
     hoverSelector: "button, a, .catalog-modal-backdrop",
@@ -812,7 +812,7 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-title {
-            font-size: clamp(2.4rem, 14vw, 4rem);
+            font-size: clamp(2.1rem, 12.6vw, 3.4rem);
             line-height: 0.92;
           }
 
@@ -981,9 +981,13 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-mobile-meta .catalog-tag-action {
-            flex: 1 1 auto;
-            min-width: 132px;
+            flex: 0 1 auto;
+            min-width: 112px;
             width: auto;
+            min-height: 30px;
+            padding: 0 10px;
+            font-size: 0.64rem;
+            letter-spacing: 0.1em;
           }
 
           .catalog-modal-backdrop {
