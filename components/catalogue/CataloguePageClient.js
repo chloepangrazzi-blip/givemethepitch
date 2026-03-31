@@ -88,9 +88,55 @@ function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }
   );
 }
 
+function MobileProjectCard({ project, onReadMore }) {
+  const tagsClassName = `catalog-tags${project.stackTags ? " is-stacked" : ""}`;
+  const canExpand = project.expandable !== false;
+
+  return (
+    <article className={`catalog-mobile-card${project.featured ? " is-featured" : ""}`} data-project-id={project.id}>
+      <button
+        aria-label={`Ouvrir la fiche ${project.title}`}
+        className="catalog-mobile-poster-button"
+        onClick={() => onReadMore?.(project)}
+        type="button"
+      >
+        <span className="catalog-mobile-poster-frame">
+          <img alt={project.title} className="catalog-mobile-poster" src={project.posterSrc} />
+        </span>
+        <span className="catalog-mobile-status">
+          {project.status}
+        </span>
+      </button>
+
+      <div className="catalog-mobile-meta">
+        <div className={tagsClassName}>
+          <span>{project.genre}</span>
+          <span>{project.format}</span>
+        </div>
+
+        <div className="catalog-actions">
+          {canExpand ? (
+            <button className="catalog-more" onClick={() => onReadMore?.(project)} type="button">
+              Lire la suite
+            </button>
+          ) : null}
+
+          {project.href ? (
+            <Link className="catalog-action" href={project.href}>
+              Voir le projet
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
+  const featuredProject = page.projects.find((project) => project.featured) || null;
+  const shelfProjects = page.projects.filter((project) => !project.featured);
 
   useDesktopCursor({
     hoverSelector: "button, a, .catalog-modal-backdrop",
@@ -320,6 +366,10 @@ export default function CataloguePageClient({ page }) {
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 26px;
           align-items: start;
+        }
+
+        .catalog-mobile-layout {
+          display: none;
         }
 
         .catalog-card {
@@ -742,11 +792,136 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-grid {
-            grid-template-columns: 1fr;
+            display: none;
           }
 
-          .catalog-card {
+          .catalog-mobile-layout {
+            display: grid;
+            gap: 20px;
+          }
+
+          .catalog-mobile-card {
+            display: grid;
+            gap: 10px;
+            min-width: min(74vw, 280px);
+          }
+
+          .catalog-mobile-card.is-featured {
+            min-width: 100%;
+          }
+
+          .catalog-mobile-hero {
+            display: grid;
+            gap: 12px;
+          }
+
+          .catalog-mobile-shelf {
+            display: grid;
+          }
+
+          .catalog-mobile-row {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(220px, 74vw);
+            gap: 14px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .catalog-mobile-row::-webkit-scrollbar {
+            display: none;
+          }
+
+          .catalog-mobile-card {
+            scroll-snap-align: start;
+          }
+
+          .catalog-mobile-poster-button {
+            display: block;
+            width: 100%;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            text-align: left;
+          }
+
+          .catalog-mobile-poster-frame {
+            position: relative;
+            display: block;
+            padding: 8px;
+            border-radius: 22px;
+            background: #050505;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+          }
+
+          .catalog-mobile-card.is-featured .catalog-mobile-poster-frame {
+            padding: 10px;
+            border-radius: 24px;
+            border-color: rgba(191, 248, 220, 0.2);
+          }
+
+          .catalog-mobile-poster {
+            display: block;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            border-radius: 16px;
+          }
+
+          .catalog-mobile-card.is-featured .catalog-mobile-poster {
+            aspect-ratio: 2 / 3;
+          }
+
+          .catalog-mobile-status {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            min-height: 30px;
+            margin-top: 8px;
+            padding: 0 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(191, 248, 220, 0.18);
+            background: rgba(191, 248, 220, 0.08);
+            color: var(--catalog-mint);
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+          }
+
+          .catalog-mobile-meta {
+            display: grid;
+            gap: 10px;
+          }
+
+          .catalog-mobile-meta .catalog-tags,
+          .catalog-mobile-meta .catalog-tags span {
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+          }
+
+          .catalog-mobile-meta .catalog-tags {
             min-height: 0;
+          }
+
+          .catalog-mobile-meta .catalog-tags span {
+            min-height: 30px;
+            padding: 0 10px;
+          }
+
+          .catalog-mobile-meta .catalog-actions {
+            gap: 8px;
+          }
+
+          .catalog-mobile-meta .catalog-more,
+          .catalog-mobile-meta .catalog-action {
+            min-height: 38px;
+            padding: 0 14px;
+            font-size: 0.76rem;
+            letter-spacing: 0.09em;
+            width: fit-content;
           }
 
           .catalog-modal-backdrop {
@@ -790,6 +965,24 @@ export default function CataloguePageClient({ page }) {
               <span className="catalog-header-badge">{page.headerBadge}</span>
             ) : null}
           </header>
+
+          <section className="catalog-mobile-layout">
+            {featuredProject ? (
+              <section className="catalog-mobile-hero">
+                <MobileProjectCard onReadMore={setActiveProject} project={featuredProject} />
+              </section>
+            ) : null}
+
+            {shelfProjects.length ? (
+              <section className="catalog-mobile-shelf">
+                <div className="catalog-mobile-row">
+                  {shelfProjects.map((project) => (
+                    <MobileProjectCard key={project.id} onReadMore={setActiveProject} project={project} />
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </section>
 
           <section className="catalog-grid">
             {page.projects.map((project) => (
