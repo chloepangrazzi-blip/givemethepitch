@@ -88,9 +88,27 @@ function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }
   );
 }
 
+function MobileShelfTile({ project, onOpen }) {
+  return (
+    <button
+      aria-label={`Ouvrir la fiche ${project.title}`}
+      className="catalog-mobile-tile"
+      onClick={() => onOpen?.(project)}
+      type="button"
+    >
+      <span className="catalog-mobile-tile-frame">
+        <img alt={project.title} className="catalog-mobile-tile-poster" src={project.posterSrc} />
+      </span>
+      <span className="catalog-mobile-tile-status">{project.status}</span>
+    </button>
+  );
+}
+
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
+  const featuredProject = page.projects.find((project) => project.featured) || null;
+  const shelfProjects = page.projects.filter((project) => !project.featured);
 
   useDesktopCursor({
     hoverSelector: "button, a, .catalog-modal-backdrop",
@@ -320,6 +338,10 @@ export default function CataloguePageClient({ page }) {
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 26px;
           align-items: start;
+        }
+
+        .catalog-mobile-layout {
+          display: none;
         }
 
         .catalog-card {
@@ -689,6 +711,13 @@ export default function CataloguePageClient({ page }) {
           white-space: pre-wrap;
         }
 
+        .catalog-modal-actions {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          margin-top: 22px;
+        }
+
         @media (min-width: 1280px) {
           .catalog-grid {
             grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -769,121 +798,140 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-grid {
-            grid-template-columns: 1fr;
-            gap: 18px;
+            display: none;
           }
 
-          .catalog-card {
-            min-height: 0;
-            padding: 12px;
+          .catalog-mobile-layout {
+            display: grid;
+            gap: 22px;
+          }
+
+          .catalog-mobile-hero {
+            display: grid;
+            gap: 14px;
+          }
+
+          .catalog-mobile-hero-poster {
+            display: block;
+            padding: 10px;
             border-radius: 24px;
+            background: #050505;
+            border: 1px solid rgba(191, 248, 220, 0.14);
+            overflow: hidden;
+          }
+
+          .catalog-mobile-hero-poster img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 18px;
+            object-fit: contain;
+            background: #050505;
+          }
+
+          .catalog-mobile-hero-meta {
+            display: grid;
+            gap: 10px;
+          }
+
+          .catalog-mobile-hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+          }
+
+          .catalog-mobile-hero-tags span {
+            display: inline-flex;
+            align-items: center;
+            min-height: 32px;
+            padding: 0 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--catalog-muted);
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+          }
+
+          .catalog-mobile-hero-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+          }
+
+          .catalog-mobile-shelf {
+            display: grid;
             gap: 12px;
           }
 
-          .catalog-card.is-featured .catalog-poster-link,
-          .catalog-card.is-featured .catalog-poster-static {
-            padding: 8px;
-            border-radius: 18px;
+          .catalog-mobile-shelf-title {
+            margin: 0;
+            color: var(--catalog-mint);
+            font-size: 0.76rem;
+            font-weight: 300;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
           }
 
-          .catalog-card.is-featured .catalog-poster {
+          .catalog-mobile-row {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 34vw;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .catalog-mobile-row::-webkit-scrollbar {
+            display: none;
+          }
+
+          .catalog-mobile-tile {
+            display: grid;
+            gap: 8px;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            text-align: left;
+            scroll-snap-align: start;
+          }
+
+          .catalog-mobile-tile-frame {
+            display: block;
+            padding: 8px;
+            border-radius: 20px;
+            background: #050505;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+          }
+
+          .catalog-mobile-tile-poster {
+            display: block;
+            width: 100%;
             height: auto;
-            aspect-ratio: auto;
-            object-fit: contain;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
             border-radius: 14px;
           }
 
-          .catalog-card.is-featured .catalog-status {
-            left: 12px;
-            top: 12px;
+          .catalog-mobile-tile-status {
+            color: var(--catalog-muted);
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            white-space: nowrap;
           }
 
-          .catalog-card.is-featured .catalog-meta {
-            gap: 12px;
-            padding: 0 2px 2px;
-          }
-
-          .catalog-card:not(.is-featured) {
-            grid-template-columns: 108px minmax(0, 1fr);
-            align-items: start;
-          }
-
-          .catalog-card:not(.is-featured) .catalog-poster-wrap {
-            grid-row: 1 / span 2;
-          }
-
-          .catalog-card:not(.is-featured) .catalog-poster-link,
-          .catalog-card:not(.is-featured) .catalog-poster-static {
-            height: 100%;
-            padding: 0;
-            border-radius: 18px;
-          }
-
-          .catalog-card:not(.is-featured) .catalog-poster {
-            height: auto;
-            aspect-ratio: auto;
-            object-fit: contain;
-            border-radius: 18px;
-          }
-
-          .catalog-card:not(.is-featured) .catalog-meta {
-            gap: 10px;
-            padding: 0;
-          }
-
-          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-meta-top {
-            grid-template-rows: none;
-            gap: 10px;
-          }
-
-          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-tags,
-          .catalog-card.is-tall-preview .catalog-tags {
-            min-height: 0;
-          }
-
-          .catalog-status-inline,
-          .catalog-tags,
-          .catalog-tags span {
-            font-size: 0.68rem;
-            letter-spacing: 0.1em;
-          }
-
-          .catalog-tags span {
-            min-height: 30px;
-            padding: 0 10px;
-          }
-
-          .catalog-tag-action,
           .catalog-more,
           .catalog-action {
             min-height: 38px;
             padding: 0 14px;
             font-size: 0.76rem;
             letter-spacing: 0.09em;
-          }
-
-          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
-          .catalog-card.is-tall-preview .catalog-pitch {
-            height: auto !important;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 5;
-            font-size: 0.94rem;
-            line-height: 1.58;
-          }
-
-          .catalog-card.is-tall-preview .catalog-actions {
-            min-height: 0;
-          }
-
-          .catalog-actions {
-            gap: 8px;
-          }
-
-          .catalog-more,
-          .catalog-action {
-            width: fit-content;
           }
 
           .catalog-modal-backdrop {
@@ -928,6 +976,44 @@ export default function CataloguePageClient({ page }) {
             ) : null}
           </header>
 
+          <section className="catalog-mobile-layout">
+            {featuredProject ? (
+              <article className="catalog-mobile-hero">
+                <Link className="catalog-mobile-hero-poster" href={featuredProject.href || "#"}>
+                  <img alt={featuredProject.title} src={featuredProject.posterSrc} />
+                </Link>
+                <div className="catalog-mobile-hero-meta">
+                  <div className="catalog-mobile-hero-tags">
+                    <span>{featuredProject.status}</span>
+                    <span>{featuredProject.genre}</span>
+                    <span>{featuredProject.format}</span>
+                  </div>
+                  <div className="catalog-mobile-hero-actions">
+                    {featuredProject.href ? (
+                      <Link className="catalog-action" href={featuredProject.href}>
+                        Voir le projet
+                      </Link>
+                    ) : null}
+                    <button className="catalog-more" onClick={() => setActiveProject(featuredProject)} type="button">
+                      Synopsis
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ) : null}
+
+            {shelfProjects.length ? (
+              <section className="catalog-mobile-shelf">
+                <h2 className="catalog-mobile-shelf-title">A decouvrir</h2>
+                <div className="catalog-mobile-row">
+                  {shelfProjects.map((project) => (
+                    <MobileShelfTile key={project.id} onOpen={setActiveProject} project={project} />
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </section>
+
           <section className="catalog-grid">
             {page.projects.map((project) => (
               <ProjectCard
@@ -970,6 +1056,13 @@ export default function CataloguePageClient({ page }) {
             </div>
 
             <p className="catalog-modal-copy">{activeProject.shortPitch}</p>
+            {activeProject.href ? (
+              <div className="catalog-modal-actions">
+                <Link className="catalog-action" href={activeProject.href} onClick={() => setActiveProject(null)}>
+                  Voir le projet
+                </Link>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}

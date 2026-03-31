@@ -1747,7 +1747,7 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-body-shell-inner {
-            gap: 18px;
+            gap: 24px;
           }
 
           .mn-intro-card,
@@ -1798,7 +1798,7 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-title {
-            font-family: var(--mn-display);
+            font-family: var(--mn-horizon);
             font-size: clamp(2.8rem, 15vw, 3.4rem);
             line-height: 0.96;
             letter-spacing: 0.01em;
@@ -1818,7 +1818,7 @@ export default function MareeNoirePageClient({ page }) {
           .mn-profile-name,
           .mn-character-name,
           .mn-split-title {
-            font-family: var(--mn-display);
+            font-family: var(--mn-horizon);
             font-size: clamp(2rem, 10vw, 2.8rem);
             line-height: 0.98;
             letter-spacing: 0.01em;
@@ -1831,7 +1831,7 @@ export default function MareeNoirePageClient({ page }) {
           .mn-dive-grid,
           .mn-feature-grid,
           .mn-arena-grid {
-            gap: 14px;
+            gap: 18px;
           }
 
           .mn-intro-card,
@@ -1842,10 +1842,10 @@ export default function MareeNoirePageClient({ page }) {
           .mn-feature-hook,
           .mn-feature-hook-iroise,
           .mn-feature-hook-character {
-            font-family: var(--mn-sans);
-            font-size: 0.76rem;
-            line-height: 1.5;
-            letter-spacing: 0.08em;
+            font-family: var(--mn-horizon);
+            font-size: 0.74rem;
+            line-height: 1.3;
+            letter-spacing: 0.01em;
             text-wrap: pretty;
           }
 
@@ -1880,7 +1880,7 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-pitch-word {
-            font-family: var(--mn-display);
+            font-family: var(--mn-horizon);
             font-size: clamp(3.2rem, 17vw, 5rem);
             line-height: 0.92;
             letter-spacing: 0.01em;
@@ -1905,31 +1905,8 @@ export default function MareeNoirePageClient({ page }) {
             line-height: 1.6;
           }
 
-          .mn-body-shell .mn-copy-cell,
-          .mn-body-shell .mn-opener-card,
-          .mn-body-shell .mn-watchers-card,
-          .mn-body-shell .mn-sea-card,
-          .mn-body-shell .mn-arena-text,
-          .mn-body-shell .mn-arenas-column {
-            padding: 18px;
-            border: 1px solid rgba(200, 245, 232, 0.12);
-            border-radius: 20px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0.015) 100%);
-          }
-
-          .mn-body-shell .mn-media-cell,
-          .mn-body-shell .mn-image-band,
-          .mn-body-shell .mn-section-band,
-          .mn-body-shell .mn-tele-card,
-          .mn-body-shell .mn-cliff-card,
-          .mn-body-shell .mn-final-image-card,
-          .mn-body-shell .mn-gallery-card {
-            border-radius: 20px;
-          }
-
           .mn-opener-card {
             width: 100%;
-            padding: 18px;
             gap: 16px;
           }
 
@@ -1970,7 +1947,7 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-section-band-title {
-            font-family: var(--mn-display);
+            font-family: var(--mn-horizon);
             font-size: clamp(2rem, 10vw, 2.8rem);
             line-height: 0.98;
             letter-spacing: 0.01em;
@@ -2010,7 +1987,7 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-quote-card p,
           .mn-finale-quote p {
-            font-family: var(--mn-display);
+            font-family: var(--mn-horizon);
             line-height: 1.24;
             letter-spacing: 0.02em;
           }
@@ -2025,7 +2002,7 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-arenas-title {
-            font-family: var(--mn-display);
+            font-family: var(--mn-horizon);
             font-size: clamp(2.2rem, 12vw, 3rem);
             line-height: 0.96;
             letter-spacing: 0.01em;
