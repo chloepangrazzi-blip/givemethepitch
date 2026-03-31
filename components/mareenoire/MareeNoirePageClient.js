@@ -1731,20 +1731,20 @@ export default function MareeNoirePageClient({ page }) {
 
         @media (max-width: 720px) {
           .mn-page {
-            padding: 18px 14px 72px;
+            padding: 14px 12px 56px;
           }
 
           .mn-shell {
-            gap: 18px;
+            gap: 14px;
           }
 
           .mn-body-shell {
-            padding: 18px;
-            border-radius: 26px;
+            padding: 14px;
+            border-radius: 22px;
           }
 
           .mn-body-shell-inner {
-            gap: 18px;
+            gap: 14px;
           }
 
           .mn-intro-card,
@@ -1755,8 +1755,8 @@ export default function MareeNoirePageClient({ page }) {
           .mn-sea-card,
           .mn-arena-text,
           .mn-final-action {
-            padding: 20px;
-            border-radius: 24px;
+            padding: 18px;
+            border-radius: 20px;
           }
 
           .mn-copy-cell,
@@ -1770,23 +1770,110 @@ export default function MareeNoirePageClient({ page }) {
           .mn-cliff-card,
           .mn-final-image-card,
           .mn-gallery-card {
-            border-radius: 24px;
+            border-radius: 20px;
           }
 
           .mn-media-image {
-            border-radius: 23px;
+            border-radius: 19px;
+          }
+
+          .mn-session,
+          .mn-pill {
+            min-height: 36px;
+            padding: 0 12px;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+          }
+
+          .mn-meta-row,
+          .mn-meta-grid {
+            gap: 8px;
           }
 
           .mn-title {
-            font-size: 3.7rem;
+            font-size: clamp(2.8rem, 15vw, 3.4rem);
+          }
+
+          .mn-body {
+            font-size: 0.98rem;
+            line-height: 1.68;
+          }
+
+          .mn-section-kicker {
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+          }
+
+          .mn-section-title,
+          .mn-profile-name,
+          .mn-character-name,
+          .mn-split-title {
+            font-size: clamp(2rem, 10vw, 2.8rem);
+          }
+
+          .mn-intro-grid,
+          .mn-dive-grid,
+          .mn-feature-grid,
+          .mn-arena-grid {
+            gap: 14px;
+          }
+
+          .mn-intro-card,
+          .mn-brief-card {
+            gap: 14px;
+          }
+
+          .mn-brief-step {
+            gap: 10px;
+            padding: 12px 0;
+          }
+
+          .mn-brief-index {
+            font-size: 0.9rem;
+          }
+
+          .mn-brief-text,
+          .mn-brief-note {
+            font-size: 0.92rem;
+            line-height: 1.55;
+          }
+
+          .mn-media-cell,
+          .mn-cover-card,
+          .mn-image-band,
+          .mn-tele-card,
+          .mn-cliff-card,
+          .mn-final-image-card,
+          .mn-media-cell-character,
+          .mn-media-cell-story {
+            min-height: 320px;
           }
 
           .mn-pitch-card {
-            min-height: 640px;
+            min-height: 480px;
+          }
+
+          .mn-player-button {
+            min-width: 128px;
+            min-height: 128px;
+          }
+
+          .mn-player-icon {
+            width: 34px;
+            height: 34px;
           }
 
           .mn-pitch-copy {
-            padding: 20px;
+            padding: 18px;
+          }
+
+          .mn-pitch-word {
+            font-size: clamp(3.2rem, 17vw, 5rem);
+          }
+
+          .mn-pitch-copy .mn-body {
+            font-size: 0.96rem;
+            line-height: 1.6;
           }
 
           .mn-gallery-grid,
@@ -1802,23 +1889,23 @@ export default function MareeNoirePageClient({ page }) {
           .mn-watchers-editorial,
           .mn-sea-editorial {
             width: min(100%, 720px);
-            padding-left: 24px;
-            padding-right: 24px;
-            margin-top: 48px;
-            margin-bottom: 36px;
+            padding-left: 18px;
+            padding-right: 18px;
+            margin-top: 28px;
+            margin-bottom: 20px;
           }
 
           .mn-editorial-title-watchers {
-            font-size: 16px;
+            font-size: 14px;
           }
 
           .mn-editorial-title-sea {
-            font-size: 30px;
+            font-size: 22px;
           }
 
           .mn-quote-text {
             width: min(100%, 720px);
-            padding: 44px 24px;
+            padding: 30px 18px;
           }
 
           .mn-story-split .mn-split-title {
@@ -1827,6 +1914,8 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-pitch-line {
             width: 100%;
+            font-size: 0.78rem;
+            letter-spacing: 0.16em;
           }
         }
       `}</style>

@@ -729,24 +729,159 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-page {
-            padding: 22px 16px 48px;
+            padding: 18px 14px 42px;
+          }
+
+          .catalog-shell {
+            gap: 24px;
           }
 
           .catalog-header {
             align-items: start;
             flex-direction: column;
+            gap: 14px;
+            padding-top: 0;
+          }
+
+          .catalog-heading {
+            gap: 14px;
+          }
+
+          .catalog-title {
+            font-size: clamp(2.5rem, 15vw, 3.6rem);
+          }
+
+          .catalog-eyebrow {
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
           }
 
           .catalog-header-link {
             width: 100%;
+            min-height: 42px;
+          }
+
+          .catalog-header-badge {
+            min-height: 40px;
+            padding: 0 14px;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
           }
 
           .catalog-grid {
             grid-template-columns: 1fr;
+            gap: 18px;
           }
 
           .catalog-card {
             min-height: 0;
+            padding: 12px;
+            border-radius: 24px;
+            gap: 12px;
+          }
+
+          .catalog-card.is-featured .catalog-poster-link,
+          .catalog-card.is-featured .catalog-poster-static {
+            padding: 8px;
+            border-radius: 18px;
+          }
+
+          .catalog-card.is-featured .catalog-poster {
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: 14px;
+          }
+
+          .catalog-card.is-featured .catalog-status {
+            left: 12px;
+            top: 12px;
+          }
+
+          .catalog-card.is-featured .catalog-meta {
+            gap: 12px;
+            padding: 0 2px 2px;
+          }
+
+          .catalog-card:not(.is-featured) {
+            grid-template-columns: 108px minmax(0, 1fr);
+            align-items: start;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster-wrap {
+            grid-row: 1 / span 2;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster-link,
+          .catalog-card:not(.is-featured) .catalog-poster-static {
+            height: 100%;
+            padding: 0;
+            border-radius: 18px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster {
+            height: 100%;
+            aspect-ratio: 3 / 4;
+            border-radius: 18px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-meta {
+            gap: 10px;
+            padding: 0;
+          }
+
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-meta-top {
+            grid-template-rows: none;
+            gap: 10px;
+          }
+
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-tags,
+          .catalog-card.is-tall-preview .catalog-tags {
+            min-height: 0;
+          }
+
+          .catalog-status-inline,
+          .catalog-tags,
+          .catalog-tags span {
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+          }
+
+          .catalog-tags span {
+            min-height: 30px;
+            padding: 0 10px;
+          }
+
+          .catalog-tag-action,
+          .catalog-more,
+          .catalog-action {
+            min-height: 38px;
+            padding: 0 14px;
+            font-size: 0.76rem;
+            letter-spacing: 0.09em;
+          }
+
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
+          .catalog-card.is-tall-preview .catalog-pitch {
+            height: auto !important;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5;
+            font-size: 0.94rem;
+            line-height: 1.58;
+          }
+
+          .catalog-card.is-tall-preview .catalog-actions {
+            min-height: 0;
+          }
+
+          .catalog-actions {
+            gap: 8px;
+          }
+
+          .catalog-more,
+          .catalog-action {
+            width: fit-content;
           }
 
           .catalog-modal-backdrop {
