@@ -787,8 +787,9 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card.is-featured .catalog-poster {
-            aspect-ratio: 4 / 5;
-            object-fit: cover;
+            height: auto;
+            aspect-ratio: auto;
+            object-fit: contain;
             border-radius: 14px;
           }
 
@@ -819,8 +820,9 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) .catalog-poster {
-            height: 100%;
-            aspect-ratio: 3 / 4;
+            height: auto;
+            aspect-ratio: auto;
+            object-fit: contain;
             border-radius: 18px;
           }
 

@@ -1739,12 +1739,15 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-body-shell {
-            padding: 14px;
-            border-radius: 22px;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
           }
 
           .mn-body-shell-inner {
-            gap: 14px;
+            gap: 18px;
           }
 
           .mn-intro-card,
@@ -1777,6 +1780,10 @@ export default function MareeNoirePageClient({ page }) {
             border-radius: 19px;
           }
 
+          .mn-intro-card {
+            gap: 12px;
+          }
+
           .mn-session,
           .mn-pill {
             min-height: 36px;
@@ -1791,7 +1798,10 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-title {
+            font-family: var(--mn-display);
             font-size: clamp(2.8rem, 15vw, 3.4rem);
+            line-height: 0.96;
+            letter-spacing: 0.01em;
           }
 
           .mn-body {
@@ -1808,7 +1818,13 @@ export default function MareeNoirePageClient({ page }) {
           .mn-profile-name,
           .mn-character-name,
           .mn-split-title {
+            font-family: var(--mn-display);
             font-size: clamp(2rem, 10vw, 2.8rem);
+            line-height: 0.98;
+            letter-spacing: 0.01em;
+            width: 100%;
+            max-width: 100%;
+            text-wrap: balance;
           }
 
           .mn-intro-grid,
@@ -1821,6 +1837,16 @@ export default function MareeNoirePageClient({ page }) {
           .mn-intro-card,
           .mn-brief-card {
             gap: 14px;
+          }
+
+          .mn-feature-hook,
+          .mn-feature-hook-iroise,
+          .mn-feature-hook-character {
+            font-family: var(--mn-sans);
+            font-size: 0.76rem;
+            line-height: 1.5;
+            letter-spacing: 0.08em;
+            text-wrap: pretty;
           }
 
           .mn-brief-step {
@@ -1853,6 +1879,13 @@ export default function MareeNoirePageClient({ page }) {
             min-height: 480px;
           }
 
+          .mn-pitch-word {
+            font-family: var(--mn-display);
+            font-size: clamp(3.2rem, 17vw, 5rem);
+            line-height: 0.92;
+            letter-spacing: 0.01em;
+          }
+
           .mn-player-button {
             min-width: 128px;
             min-height: 128px;
@@ -1867,13 +1900,80 @@ export default function MareeNoirePageClient({ page }) {
             padding: 18px;
           }
 
-          .mn-pitch-word {
-            font-size: clamp(3.2rem, 17vw, 5rem);
-          }
-
           .mn-pitch-copy .mn-body {
             font-size: 0.96rem;
             line-height: 1.6;
+          }
+
+          .mn-body-shell .mn-copy-cell,
+          .mn-body-shell .mn-opener-card,
+          .mn-body-shell .mn-watchers-card,
+          .mn-body-shell .mn-sea-card,
+          .mn-body-shell .mn-arena-text,
+          .mn-body-shell .mn-arenas-column {
+            padding: 18px;
+            border: 1px solid rgba(200, 245, 232, 0.12);
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0.015) 100%);
+          }
+
+          .mn-body-shell .mn-media-cell,
+          .mn-body-shell .mn-image-band,
+          .mn-body-shell .mn-section-band,
+          .mn-body-shell .mn-tele-card,
+          .mn-body-shell .mn-cliff-card,
+          .mn-body-shell .mn-final-image-card,
+          .mn-body-shell .mn-gallery-card {
+            border-radius: 20px;
+          }
+
+          .mn-opener-card {
+            width: 100%;
+            padding: 18px;
+            gap: 16px;
+          }
+
+          .mn-opener-card .mn-section-kicker {
+            padding-bottom: 16px;
+          }
+
+          .mn-opener-card .mn-section-kicker::after {
+            width: 28px;
+          }
+
+          .mn-opener-card .mn-section-title,
+          .mn-story-split .mn-split-title,
+          .mn-watchers-card .mn-profile-name,
+          .mn-sea-card .mn-section-title {
+            width: 100%;
+            max-width: 100%;
+          }
+
+          .mn-opener-card .mn-section-title .mn-title-line,
+          .mn-story-split .mn-split-title .mn-title-line,
+          .mn-editorial-title .mn-title-line {
+            white-space: normal;
+          }
+
+          .mn-story-split .mn-section-kicker {
+            margin-bottom: 22px;
+          }
+
+          .mn-story-split .mn-section-kicker::after {
+            top: calc(100% + 12px);
+          }
+
+          .mn-section-line,
+          .mn-arenas-line {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+          }
+
+          .mn-section-band-title {
+            font-family: var(--mn-display);
+            font-size: clamp(2rem, 10vw, 2.8rem);
+            line-height: 0.98;
+            letter-spacing: 0.01em;
           }
 
           .mn-gallery-grid,
@@ -1906,6 +2006,44 @@ export default function MareeNoirePageClient({ page }) {
           .mn-quote-text {
             width: min(100%, 720px);
             padding: 30px 18px;
+          }
+
+          .mn-quote-card p,
+          .mn-finale-quote p {
+            font-family: var(--mn-display);
+            line-height: 1.24;
+            letter-spacing: 0.02em;
+          }
+
+          .mn-arenas-shell {
+            gap: 22px;
+            padding: 20px 0 12px;
+          }
+
+          .mn-arenas-header {
+            padding-bottom: 14px;
+          }
+
+          .mn-arenas-title {
+            font-family: var(--mn-display);
+            font-size: clamp(2.2rem, 12vw, 3rem);
+            line-height: 0.96;
+            letter-spacing: 0.01em;
+          }
+
+          .mn-arenas-grid {
+            grid-template-columns: 1fr;
+            gap: 18px;
+          }
+
+          .mn-arenas-column {
+            gap: 16px;
+          }
+
+          .mn-arenas-column-title {
+            white-space: normal;
+            font-size: 1rem;
+            line-height: 1.15;
           }
 
           .mn-story-split .mn-split-title {
