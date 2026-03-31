@@ -815,11 +815,22 @@ export default function CataloguePageClient({ page }) {
             max-width: 92%;
             font-size: clamp(1.8rem, 10.8vw, 2.9rem);
             line-height: 0.92;
+            margin: 0 auto;
+            text-align: center;
           }
 
           .catalog-header {
             align-items: start;
             flex-direction: column;
+          }
+
+          .catalog-heading {
+            justify-items: center;
+            width: 100%;
+          }
+
+          .catalog-eyebrow {
+            text-align: center;
           }
 
           .catalog-header-link {
