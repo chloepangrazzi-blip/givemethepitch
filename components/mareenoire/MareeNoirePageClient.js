@@ -2049,6 +2049,19 @@ export default function MareeNoirePageClient({ page }) {
             grid-template-columns: 1fr;
           }
 
+          .mn-arenas-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+
+          .mn-arenas-column {
+            gap: 16px;
+          }
+
+          .mn-arenas-column-title {
+            white-space: normal;
+          }
+
           .mn-gallery-card,
           .mn-watchers-grid .mn-gallery-card {
             min-height: 260px;
@@ -2075,6 +2088,25 @@ export default function MareeNoirePageClient({ page }) {
           .mn-cliff-card,
           .mn-final-image-card {
             min-height: 300px;
+          }
+
+          .mn-finale-image {
+            min-height: 320px;
+          }
+
+          .mn-finale-quote {
+            display: grid;
+            place-items: center;
+            padding: 20px 16px;
+          }
+
+          .mn-finale-copy {
+            max-width: min(520px, 86vw);
+          }
+
+          .mn-finale-quote p {
+            font-size: clamp(0.7rem, 2.7vw, 0.95rem);
+            line-height: 1.06;
           }
 
           .mn-story-split .mn-split-title {
