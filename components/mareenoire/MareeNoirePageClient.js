@@ -1140,7 +1140,11 @@ export default function MareeNoirePageClient({ page }) {
         }
 
         .mn-gallery-card:hover::before,
-        .mn-gallery-card:hover::after {
+        .mn-gallery-card:hover::after,
+        .mn-gallery-card:focus::before,
+        .mn-gallery-card:focus::after,
+        .mn-gallery-card:focus-visible::before,
+        .mn-gallery-card:focus-visible::after {
           opacity: 1;
         }
 
@@ -1866,8 +1870,8 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-body-shell .mn-section-band-copy {
-            padding: 20px;
-            align-content: start;
+            padding: 0;
+            align-content: center;
           }
 
           .mn-section-band-title {
@@ -1876,14 +1880,9 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-body-shell .mn-section-band-title {
-            padding: 0;
+            padding: 20px;
             font-size: clamp(1.44rem, 7.2vw, 2.04rem);
             line-height: 0.92;
-          }
-
-          .mn-gallery-grid .mn-gallery-card::before,
-          .mn-gallery-grid .mn-gallery-card::after {
-            opacity: 1;
           }
 
           .mn-dive-grid {
@@ -2251,7 +2250,7 @@ export default function MareeNoirePageClient({ page }) {
 
               <section className="mn-gallery-grid">
                 {page.arenas.gallery.slice(0, 4).map((image) => (
-                  <article className="mn-gallery-card" data-label={image.label} key={image.label}>
+                  <article className="mn-gallery-card" data-label={image.label} key={image.label} tabIndex={0}>
                     {image.src ? <img alt={image.label} src={image.src} /> : null}
                   </article>
                 ))}
