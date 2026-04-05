@@ -1731,9 +1731,11 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-finale-quote {
-            position: static;
+            position: absolute;
+            inset: 0;
             width: 100%;
-            margin: 22px;
+            margin: 0;
+            padding: 24px;
           }
         }
 
