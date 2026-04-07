@@ -649,11 +649,12 @@ export default function MareeNoirePageClient({ page }) {
           margin: 0;
           color: var(--mn-mint);
           font-family: "Poppins", var(--mn-sans);
-          font-size: clamp(0.82rem, 0.96vw, 0.98rem);
+          font-size: clamp(1.18rem, 1.65vw, 1.72rem);
           font-weight: 300;
           line-height: 1.8;
           letter-spacing: 0.18em;
           text-transform: uppercase;
+          text-align: center;
         }
 
         .mn-word-copy {
@@ -678,6 +679,14 @@ export default function MareeNoirePageClient({ page }) {
           font-weight: 300;
           line-height: 1.7;
           letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .mn-word-emphasis {
+          color: var(--mn-mint);
+          font-family: "Poppins", var(--mn-sans);
+          font-weight: 300;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
         }
 
@@ -2155,9 +2164,9 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-word-title {
-            font-size: 0.72rem;
-            letter-spacing: 0.14em;
-            line-height: 1.7;
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+            line-height: 1.6;
           }
 
           .mn-word-copy .mn-body {
@@ -2464,12 +2473,12 @@ export default function MareeNoirePageClient({ page }) {
                 déflagration intime et collective.
               </p>
               <p className="mn-body">
-                Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme&nbsp;:
-              </p>
-              <p className="mn-word-references">Broadchurch / The Leftovers / Les Revenants</p>
-              <p className="mn-body">
-                Pour leur sens du trouble, l’épaisseur de leurs personnages et leur capacité à faire du mystère un
-                moteur de récit sans jamais rompre le lien avec l’émotion.
+                Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme{" "}
+                <span className="mn-word-emphasis">Les Revenants</span>,{" "}
+                <span className="mn-word-emphasis">Broadchurch</span> et{" "}
+                <span className="mn-word-emphasis">The Leftovers</span> : pour leur sens du trouble,
+                l’épaisseur de leurs personnages et leur capacité à faire du mystère un moteur de récit sans jamais
+                rompre le lien avec l’émotion.
               </p>
             </div>
           </section>
