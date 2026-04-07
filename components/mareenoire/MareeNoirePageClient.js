@@ -645,20 +645,11 @@ export default function MareeNoirePageClient({ page }) {
           gap: 18px;
         }
 
-        .mn-word-kicker {
-          margin: 0;
-          color: rgba(200, 245, 232, 0.82);
-          font-size: 0.78rem;
-          font-weight: 300;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-        }
-
         .mn-word-title {
           margin: 0;
-          color: #ffffff;
+          color: rgba(200, 245, 232, 0.82);
           font-family: var(--mn-horizon);
-          font-size: clamp(1.6rem, 2.4vw, 2.6rem);
+          font-size: clamp(1.9rem, 2.9vw, 3.2rem);
           line-height: 1.02;
           letter-spacing: 0.02em;
           text-transform: uppercase;
@@ -677,6 +668,17 @@ export default function MareeNoirePageClient({ page }) {
           color: rgba(255, 255, 255, 0.9);
           font-size: clamp(0.95rem, 1.18vw, 1.05rem);
           line-height: 1.85;
+        }
+
+        .mn-word-references {
+          margin: 0;
+          color: var(--mn-mint);
+          font-family: "Poppins", var(--mn-sans);
+          font-size: clamp(0.8rem, 1.02vw, 0.95rem);
+          font-weight: 300;
+          line-height: 1.7;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
         }
 
         .mn-pitch-background {
@@ -2153,12 +2155,17 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-word-title {
-            font-size: 1.18rem;
+            font-size: 1.32rem;
           }
 
           .mn-word-copy .mn-body {
             font-size: 0.94rem;
             line-height: 1.78;
+          }
+
+          .mn-word-references {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
           }
 
           .mn-finale-copy {
@@ -2444,7 +2451,6 @@ export default function MareeNoirePageClient({ page }) {
               ) : null}
 
               <section className="mn-word-card">
-                <p className="mn-word-kicker">Le mot de Give Me The Pitch</p>
                 <h3 className="mn-word-title">Le mot de Give Me The Pitch</h3>
                 <div className="mn-word-copy">
                   <p className="mn-body">
@@ -2454,9 +2460,12 @@ export default function MareeNoirePageClient({ page }) {
                     il agit comme une déflagration intime et collective.
                   </p>
                   <p className="mn-body">
-                    Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme Les Revenants,
-                    Broadchurch et The Leftovers&nbsp;: pour leur sens du trouble, l’épaisseur de leurs personnages et leur
-                    capacité à faire du mystère un moteur de récit sans jamais rompre le lien avec l’émotion.
+                    Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme&nbsp;:
+                  </p>
+                  <p className="mn-word-references">Broadchurch / The Leftovers / Les Revenants</p>
+                  <p className="mn-body">
+                    Pour leur sens du trouble, l’épaisseur de leurs personnages et leur capacité à faire du mystère un
+                    moteur de récit sans jamais rompre le lien avec l’émotion.
                   </p>
                 </div>
               </section>
