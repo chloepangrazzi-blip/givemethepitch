@@ -4,6 +4,7 @@ import { getAppOrigin } from "../../../../../lib/app-origin";
 import {
   buildPanelLaunchUrl,
   createPanelLaunchInvitation,
+  getPublicPanelProcheInvitees,
   markPanelLaunchSent,
 } from "../../../../../lib/panel-launch";
 
@@ -33,6 +34,14 @@ function normalizeInviteePayload(payload) {
   return [];
 }
 
+async function resolveInvitees(payload) {
+  if (payload?.source === "panel_proche" || payload?.fromPublicSignup === true) {
+    return getPublicPanelProcheInvitees();
+  }
+
+  return normalizeInviteePayload(payload);
+}
+
 export async function POST(request) {
   try {
     if (!isAuthorized(request)) {
@@ -43,7 +52,7 @@ export async function POST(request) {
     }
 
     const payload = await request.json();
-    const invitees = normalizeInviteePayload(payload);
+    const invitees = await resolveInvitees(payload);
 
     if (!invitees.length) {
       return NextResponse.json(
