@@ -5,6 +5,8 @@ export const metadata = {
   title: "Mail Preview",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function MailPreviewPage({ searchParams }) {
   const variant = searchParams?.variant === "launch" ? "launch" : "access";
   const html =
