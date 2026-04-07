@@ -652,7 +652,7 @@ export default function MareeNoirePageClient({ page }) {
           font-size: clamp(1.18rem, 1.65vw, 1.72rem);
           font-weight: 300;
           line-height: 1.8;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
           text-align: center;
         }
@@ -2165,7 +2165,7 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-word-title {
             font-size: 0.95rem;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             line-height: 1.6;
           }
 
