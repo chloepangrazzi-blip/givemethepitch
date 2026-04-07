@@ -634,7 +634,7 @@ export default function MareeNoirePageClient({ page }) {
         }
 
         .mn-word-card {
-          width: min(980px, 100%);
+          width: min(980px, calc(100% - 56px));
           margin: 0 auto;
           padding: 34px 30px 30px;
           border: 1px solid rgba(200, 245, 232, 0.16);
@@ -2149,7 +2149,7 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-word-card {
-            width: 100%;
+            width: min(980px, calc(100% - 24px));
             padding: 22px 18px 20px;
             gap: 14px;
           }
@@ -2449,26 +2449,26 @@ export default function MareeNoirePageClient({ page }) {
                   <img alt="Noé" src={page.longArc.finalImage} />
                 </section>
               ) : null}
+            </div>
+          </section>
 
-              <section className="mn-word-card">
-                <h3 className="mn-word-title">Le mot de Give Me The Pitch</h3>
-                <div className="mn-word-copy">
-                  <p className="mn-body">
-                    Avec Marée noire, notre intention était de développer un projet capable d’articuler
-                    exigence narrative, puissance émotionnelle et véritable singularité d’univers. Le retour de
-                    Noé, huit ans après sa disparition, ne constitue pas seulement un point de départ dramatique&nbsp;:
-                    il agit comme une déflagration intime et collective.
-                  </p>
-                  <p className="mn-body">
-                    Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme&nbsp;:
-                  </p>
-                  <p className="mn-word-references">Broadchurch / The Leftovers / Les Revenants</p>
-                  <p className="mn-body">
-                    Pour leur sens du trouble, l’épaisseur de leurs personnages et leur capacité à faire du mystère un
-                    moteur de récit sans jamais rompre le lien avec l’émotion.
-                  </p>
-                </div>
-              </section>
+          <section className="mn-word-card">
+            <h3 className="mn-word-title">Le mot de Give Me The Pitch</h3>
+            <div className="mn-word-copy">
+              <p className="mn-body">
+                Avec Marée noire, notre intention était de développer un projet capable d’articuler exigence
+                narrative, puissance émotionnelle et véritable singularité d’univers. Le retour de Noé, huit ans
+                après sa disparition, ne constitue pas seulement un point de départ dramatique&nbsp;: il agit comme une
+                déflagration intime et collective.
+              </p>
+              <p className="mn-body">
+                Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme&nbsp;:
+              </p>
+              <p className="mn-word-references">Broadchurch / The Leftovers / Les Revenants</p>
+              <p className="mn-body">
+                Pour leur sens du trouble, l’épaisseur de leurs personnages et leur capacité à faire du mystère un
+                moteur de récit sans jamais rompre le lien avec l’émotion.
+              </p>
             </div>
           </section>
 
