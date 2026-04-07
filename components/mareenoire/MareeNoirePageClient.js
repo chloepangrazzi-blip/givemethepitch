@@ -634,12 +634,12 @@ export default function MareeNoirePageClient({ page }) {
         }
 
         .mn-word-card {
-          width: min(980px, calc(100% - 56px));
+          width: 100%;
           margin: 0 auto;
-          padding: 34px 30px 30px;
-          border: 1px solid rgba(200, 245, 232, 0.16);
-          border-radius: 30px;
-          background: rgba(255, 255, 255, 0.02);
+          padding: 28px;
+          border: 1px solid var(--mn-line-strong);
+          border-radius: 32px;
+          background: var(--mn-card);
           box-shadow: 0 20px 56px rgba(0, 0, 0, 0.28);
           display: grid;
           gap: 18px;
@@ -647,13 +647,13 @@ export default function MareeNoirePageClient({ page }) {
 
         .mn-word-title {
           margin: 0;
-          color: rgba(200, 245, 232, 0.82);
-          font-family: var(--mn-horizon);
-          font-size: clamp(1.9rem, 2.9vw, 3.2rem);
-          line-height: 1.02;
-          letter-spacing: 0.02em;
+          color: var(--mn-mint);
+          font-family: "Poppins", var(--mn-sans);
+          font-size: clamp(0.82rem, 0.96vw, 0.98rem);
+          font-weight: 300;
+          line-height: 1.8;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          text-wrap: balance;
         }
 
         .mn-word-copy {
@@ -2149,13 +2149,15 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-word-card {
-            width: min(980px, calc(100% - 24px));
+            width: 100%;
             padding: 22px 18px 20px;
             gap: 14px;
           }
 
           .mn-word-title {
-            font-size: 1.32rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            line-height: 1.7;
           }
 
           .mn-word-copy .mn-body {
