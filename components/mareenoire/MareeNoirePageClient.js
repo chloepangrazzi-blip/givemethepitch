@@ -633,6 +633,52 @@ export default function MareeNoirePageClient({ page }) {
           grid-template-rows: auto 1fr auto;
         }
 
+        .mn-word-card {
+          width: min(980px, 100%);
+          margin: 0 auto;
+          padding: 34px 30px 30px;
+          border: 1px solid rgba(200, 245, 232, 0.16);
+          border-radius: 30px;
+          background: rgba(255, 255, 255, 0.02);
+          box-shadow: 0 20px 56px rgba(0, 0, 0, 0.28);
+          display: grid;
+          gap: 18px;
+        }
+
+        .mn-word-kicker {
+          margin: 0;
+          color: rgba(200, 245, 232, 0.82);
+          font-size: 0.78rem;
+          font-weight: 300;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .mn-word-title {
+          margin: 0;
+          color: #ffffff;
+          font-family: var(--mn-horizon);
+          font-size: clamp(1.6rem, 2.4vw, 2.6rem);
+          line-height: 1.02;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
+          text-wrap: balance;
+        }
+
+        .mn-word-copy {
+          display: grid;
+          gap: 14px;
+          width: 100%;
+        }
+
+        .mn-word-copy .mn-body {
+          max-width: 100%;
+          margin: 0;
+          color: rgba(255, 255, 255, 0.9);
+          font-size: clamp(0.95rem, 1.18vw, 1.05rem);
+          line-height: 1.85;
+        }
+
         .mn-pitch-background {
           position: absolute;
           inset: 0;
@@ -2100,6 +2146,21 @@ export default function MareeNoirePageClient({ page }) {
             padding: 20px 16px;
           }
 
+          .mn-word-card {
+            width: 100%;
+            padding: 22px 18px 20px;
+            gap: 14px;
+          }
+
+          .mn-word-title {
+            font-size: 1.18rem;
+          }
+
+          .mn-word-copy .mn-body {
+            font-size: 0.94rem;
+            line-height: 1.78;
+          }
+
           .mn-finale-copy {
             max-width: min(520px, 86vw);
           }
@@ -2381,6 +2442,24 @@ export default function MareeNoirePageClient({ page }) {
                   <img alt="Noé" src={page.longArc.finalImage} />
                 </section>
               ) : null}
+
+              <section className="mn-word-card">
+                <p className="mn-word-kicker">Le mot de Give Me The Pitch</p>
+                <h3 className="mn-word-title">Le mot de Give Me The Pitch</h3>
+                <div className="mn-word-copy">
+                  <p className="mn-body">
+                    Avec Marée noire, notre intention était de développer un projet capable d’articuler
+                    exigence narrative, puissance émotionnelle et véritable singularité d’univers. Le retour de
+                    Noé, huit ans après sa disparition, ne constitue pas seulement un point de départ dramatique&nbsp;:
+                    il agit comme une déflagration intime et collective.
+                  </p>
+                  <p className="mn-body">
+                    Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme Les Revenants,
+                    Broadchurch et The Leftovers&nbsp;: pour leur sens du trouble, l’épaisseur de leurs personnages et leur
+                    capacité à faire du mystère un moteur de récit sans jamais rompre le lien avec l’émotion.
+                  </p>
+                </div>
+              </section>
             </div>
           </section>
 
