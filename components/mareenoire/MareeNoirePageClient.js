@@ -657,6 +657,14 @@ export default function MareeNoirePageClient({ page }) {
           text-align: center;
         }
 
+        .mn-word-inline {
+          color: var(--mn-mint);
+          font-family: "Poppins", var(--mn-sans);
+          font-weight: 300;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+
         .mn-word-copy {
           display: grid;
           gap: 14px;
@@ -2169,6 +2177,10 @@ export default function MareeNoirePageClient({ page }) {
             line-height: 1.6;
           }
 
+          .mn-word-inline {
+            letter-spacing: 0.1em;
+          }
+
           .mn-word-copy .mn-body {
             font-size: 0.94rem;
             line-height: 1.78;
@@ -2467,13 +2479,15 @@ export default function MareeNoirePageClient({ page }) {
             <h3 className="mn-word-title">Le mot de Give Me The Pitch</h3>
             <div className="mn-word-copy">
               <p className="mn-body">
-                Avec Marée noire, notre intention était de développer un projet capable d’articuler exigence
-                narrative, puissance émotionnelle et véritable singularité d’univers. Le retour de Noé, huit ans
+                Avec <span className="mn-word-inline">Marée noire</span>, notre intention était de développer un projet capable d’articuler exigence
+                narrative, puissance émotionnelle et véritable singularité d’univers.
+                <br />
+                Le retour de Noé, huit ans
                 après sa disparition, ne constitue pas seulement un point de départ dramatique&nbsp;: il agit comme une
                 déflagration intime et collective.
               </p>
               <p className="mn-body">
-                Dans cette perspective, Marée noire dialogue naturellement avec des œuvres comme{" "}
+                Dans cette perspective, <span className="mn-word-inline">Marée noire</span> dialogue naturellement avec des œuvres comme{" "}
                 <span className="mn-word-emphasis">Les Revenants</span>,{" "}
                 <span className="mn-word-emphasis">Broadchurch</span> et{" "}
                 <span className="mn-word-emphasis">The Leftovers</span> : pour leur sens du trouble,
