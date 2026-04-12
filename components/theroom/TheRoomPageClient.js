@@ -1698,6 +1698,66 @@ export default function TheRoomPageClient(page) {
           }
         }
 
+        @media (max-width: 480px) {
+          .room-page-form {
+            background: var(--room-bg);
+          }
+
+          .room-form-header {
+            padding: 56px clamp(16px, 5vw, 24px) 20px;
+          }
+
+          .room-form-body {
+            padding: 24px clamp(16px, 5vw, 24px) 52px;
+          }
+
+          .room-form-field-label,
+          .room-form-q-label,
+          .room-form-q-sub,
+          .room-form-consent-text {
+            font-size: clamp(15px, 4vw, 17px);
+            line-height: 1.55;
+          }
+
+          .room-form-q-sub {
+            margin: 18px 0 10px;
+          }
+
+          .room-form-card {
+            padding: 20px 16px;
+          }
+
+          .room-form-card-divider {
+            margin: 22px 0;
+          }
+
+          input.room-form-input {
+            min-height: 52px;
+            padding: 0 16px;
+            font-size: 15px;
+          }
+
+          .room-form-textarea {
+            min-height: 92px;
+            padding: 14px 16px;
+          }
+
+          .room-form-consent-wrap {
+            margin-top: 32px;
+            padding: 20px 16px;
+            gap: 14px;
+          }
+
+          .room-form-submit-wrap {
+            margin-top: 36px;
+          }
+
+          .room-cta.room-form-submit {
+            padding: 18px 22px;
+            font-size: clamp(18px, 5vw, 22px);
+          }
+        }
+
         @media (max-width: 380px) {
           .room-form-chip-label {
             padding: 7px 12px;
