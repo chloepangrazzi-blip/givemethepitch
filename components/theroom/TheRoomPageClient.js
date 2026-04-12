@@ -1670,6 +1670,34 @@ export default function TheRoomPageClient(page) {
           }
         }
 
+        @media (max-width: 768px) {
+          .room-shell {
+            padding-left: clamp(16px, 5vw, 28px);
+            padding-right: clamp(16px, 5vw, 28px);
+          }
+
+          .room-page .room-body,
+          .room-page .room-about-copy .room-body,
+          .room-page .room-about-step-text,
+          .room-page .room-about-pillar-text,
+          .room-page .room-about-accent,
+          .room-page .room-about-closing-accent {
+            font-size: clamp(16px, 3.8vw, 18px);
+            line-height: 1.55;
+          }
+
+          .room-page .room-about-quote-text {
+            font-size: clamp(16px, 4.2vw, 20px);
+            line-height: 1.5;
+          }
+
+          .room-page h1,
+          .room-page .room-title {
+            font-size: clamp(44px, 10vw, 84px);
+            line-height: 0.95;
+          }
+        }
+
         @media (max-width: 380px) {
           .room-form-chip-label {
             padding: 7px 12px;
