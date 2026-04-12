@@ -1776,6 +1776,45 @@ export default function TheRoomPageClient(page) {
             font-size: 10px;
           }
         }
+
+        @media (max-width: 360px) {
+          .room-page:not(.room-page-about):not(.room-page-form) {
+            padding: 12px 12px 16px;
+          }
+
+          .room-landing-shell {
+            height: calc(100svh - 28px);
+            min-height: calc(100svh - 28px);
+            grid-template-rows: clamp(38px, 11vw, 48px) minmax(0, 1fr) clamp(38px, 11vw, 48px);
+          }
+
+          .room-landing-main {
+            padding: clamp(14px, 3.5vw, 20px);
+          }
+
+          .room-landing-content {
+            gap: 12px;
+          }
+
+          .room-landing-title {
+            white-space: nowrap;
+            font-size: clamp(44px, 13vw, 60px);
+            line-height: 0.9;
+          }
+
+          .room-landing-tagline {
+            margin: -2px 0 2px;
+            font-size: clamp(11px, 3.2vw, 13px);
+            letter-spacing: 0.22em;
+          }
+
+          .room-landing-cta {
+            min-width: min(260px, 86vw);
+            min-height: 58px;
+            padding: 14px 18px;
+            font-size: clamp(16px, 5vw, 18px);
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
