@@ -1892,7 +1892,6 @@ export default function TheRoomPageClient(page) {
         @media (max-width: 768px) and (orientation: portrait) {
           .room-page-landing {
             min-height: 100svh;
-            height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
