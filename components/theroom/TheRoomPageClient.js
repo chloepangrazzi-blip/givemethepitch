@@ -179,6 +179,30 @@ export default function TheRoomPageClient(page) {
     }).catch(() => {});
   }, [launchCode, view]);
 
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return undefined;
+    }
+
+    const isLanding = view === "landing";
+    const root = document.documentElement;
+    const body = document.body;
+
+    if (!isLanding) {
+      root.classList.remove("room-page-landing-lock");
+      body.classList.remove("room-page-landing-lock");
+      return undefined;
+    }
+
+    root.classList.add("room-page-landing-lock");
+    body.classList.add("room-page-landing-lock");
+
+    return () => {
+      root.classList.remove("room-page-landing-lock");
+      body.classList.remove("room-page-landing-lock");
+    };
+  }, [view]);
+
   const visibleQuestions = useMemo(
     () =>
       page.form.sections.flatMap((section) =>
@@ -398,6 +422,12 @@ export default function TheRoomPageClient(page) {
           color: var(--room-text);
           font-family: var(--room-sans);
           cursor: none;
+        }
+
+        html.room-page-landing-lock,
+        body.room-page-landing-lock {
+          height: 100svh;
+          overflow: hidden;
         }
 
         * {
@@ -1858,11 +1888,24 @@ export default function TheRoomPageClient(page) {
             text-align: center;
           }
         }
+
+        @media (max-width: 768px) and (orientation: portrait) {
+          .room-page-landing {
+            height: 100svh;
+            overflow: hidden;
+          }
+
+          .room-page-landing .room-landing-shell {
+            height: 100svh;
+            max-height: 100svh;
+            grid-template-rows: clamp(18px, 6vw, 30px) minmax(0, 1fr) clamp(18px, 6vw, 30px);
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
 
-      <main className={`room-page${isAboutView ? " room-page-about" : ""}${isFormView ? " room-page-form" : ""}`}>
+      <main className={`room-page${isAboutView ? " room-page-about" : ""}${isFormView ? " room-page-form" : ""}${view === "landing" ? " room-page-landing" : ""}`}>
         <div className={`room-shell${isAboutView ? " room-shell-about" : ""}${isFormView ? " room-shell-form" : ""}`}>
           <section
             className={`room-stage${view === "landing" ? " room-stage-landing" : ""}${isAboutView ? " room-stage-about" : ""}${isFormView ? " room-stage-form" : ""}`}
