@@ -474,7 +474,7 @@ export default function TheRoomPageClient(page) {
 
         .room-page-form {
           padding: 0;
-          background: var(--room-mint);
+          background: var(--room-bg);
         }
 
         .room-shell-form {
@@ -1755,6 +1755,18 @@ export default function TheRoomPageClient(page) {
           .room-cta.room-form-submit {
             padding: 18px 22px;
             font-size: clamp(18px, 5vw, 22px);
+          }
+
+          .room-footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 12px;
+            white-space: nowrap;
+          }
+
+          .room-footer-link {
+            white-space: nowrap;
           }
         }
 
