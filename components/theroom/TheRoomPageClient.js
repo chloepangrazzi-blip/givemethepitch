@@ -1819,12 +1819,13 @@ export default function TheRoomPageClient(page) {
 
           .room-landing-content {
             gap: 10px;
+            padding: 0 6px;
           }
 
           .room-landing-content .room-landing-title {
             max-width: 100%;
             white-space: nowrap;
-            font-size: clamp(42px, 13vw, 58px);
+            font-size: clamp(40px, 12vw, 54px);
             line-height: 0.9;
             letter-spacing: 0;
           }
@@ -1836,7 +1837,7 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-landing-content .room-landing-cta {
-            width: min(260px, 86vw);
+            width: min(240px, 82vw);
             min-width: 0;
             min-height: 54px;
             padding: 14px 18px;
