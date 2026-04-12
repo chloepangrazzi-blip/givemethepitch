@@ -1820,23 +1820,28 @@ export default function TheRoomPageClient(page) {
           .room-landing-content {
             gap: 10px;
             padding: 0 6px;
+            justify-items: center;
+            text-align: center;
           }
 
           .room-landing-content .room-landing-title {
             max-width: 100%;
             white-space: nowrap;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
             font-size: clamp(40px, 12vw, 54px);
             line-height: 0.9;
             letter-spacing: 0;
           }
 
-          .room-landing-content .room-landing-tagline {
+          .room-landing-content p.room-landing-tagline {
             margin: 6px 0 2px;
             font-size: clamp(10px, 3.2vw, 13px);
             letter-spacing: 0.22em;
           }
 
-          .room-landing-content .room-landing-cta {
+          .room-landing-content button.room-landing-cta {
             width: min(240px, 82vw);
             min-width: 0;
             min-height: 54px;
