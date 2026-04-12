@@ -1896,9 +1896,29 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-page-landing .room-landing-shell {
-            height: 100svh;
             max-height: 100svh;
-            grid-template-rows: clamp(18px, 6vw, 30px) minmax(0, 1fr) clamp(18px, 6vw, 30px);
+            height: auto;
+            overflow: hidden;
+            grid-template-rows: 62px minmax(0, 1fr) 62px;
+          }
+
+          .room-page-landing .room-landing-main {
+            padding-top: clamp(6px, 2vw, 12px);
+            padding-bottom: clamp(6px, 2vw, 12px);
+          }
+
+          .room-page-landing .room-landing-content {
+            gap: clamp(6px, 1.6vw, 10px);
+            justify-items: center;
+            text-align: center;
+          }
+
+          .room-page-landing .room-landing-content p.room-landing-tagline {
+            margin-top: 2px;
+          }
+
+          .room-page-landing .room-landing-content button.room-landing-cta {
+            margin-top: 6px;
           }
         }
       `}</style>
