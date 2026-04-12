@@ -1820,6 +1820,7 @@ export default function TheRoomPageClient(page) {
           .room-landing-content {
             gap: 10px;
             padding: 0 6px;
+            display: grid;
             justify-items: center;
             text-align: center;
           }
@@ -1847,6 +1848,14 @@ export default function TheRoomPageClient(page) {
             min-height: 54px;
             padding: 14px 18px;
             font-size: clamp(15px, 4.5vw, 17px);
+          }
+
+          .room-landing-content h1.room-landing-title,
+          .room-landing-content p.room-landing-tagline,
+          .room-landing-content button.room-landing-cta {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
           }
         }
       `}</style>
