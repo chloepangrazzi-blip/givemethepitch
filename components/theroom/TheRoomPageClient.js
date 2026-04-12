@@ -1782,23 +1782,46 @@ export default function TheRoomPageClient(page) {
             padding: 10px 10px 12px;
           }
 
+          .room-stage-landing {
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+          }
+
           .room-landing-shell {
             height: calc(100svh - 22px);
             max-height: 96svh;
+            border: 1px solid var(--room-line-mint);
             border-radius: 34px;
             overflow: hidden;
             grid-template-rows: clamp(32px, 10vw, 44px) minmax(0, 1fr) clamp(32px, 10vw, 44px);
           }
 
           .room-landing-main {
+            border: none;
+            outline: none;
+            box-shadow: none;
             padding: clamp(10px, 3vw, 16px);
+          }
+
+          .room-landing-main::before,
+          .room-landing-main::after,
+          .room-landing-shell::before,
+          .room-landing-shell::after {
+            content: none !important;
+            display: none !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
           }
 
           .room-landing-content {
             gap: 10px;
           }
 
-          .room-landing-title {
+          .room-landing-content .room-landing-title {
             max-width: 100%;
             white-space: nowrap;
             font-size: clamp(42px, 13vw, 58px);
@@ -1806,13 +1829,13 @@ export default function TheRoomPageClient(page) {
             letter-spacing: 0;
           }
 
-          .room-landing-tagline {
+          .room-landing-content .room-landing-tagline {
             margin: 6px 0 2px;
-            font-size: clamp(10px, 3vw, 13px);
+            font-size: clamp(10px, 3.2vw, 13px);
             letter-spacing: 0.22em;
           }
 
-          .room-landing-cta {
+          .room-landing-content .room-landing-cta {
             width: min(260px, 86vw);
             min-width: 0;
             min-height: 54px;
