@@ -1784,13 +1784,10 @@ export default function TheRoomPageClient(page) {
 
           .room-landing-shell {
             height: calc(100svh - 22px);
-            min-height: calc(100svh - 22px);
-            overflow: visible;
+            max-height: 96svh;
+            border-radius: 34px;
+            overflow: hidden;
             grid-template-rows: clamp(32px, 10vw, 44px) minmax(0, 1fr) clamp(32px, 10vw, 44px);
-          }
-
-          .room-stage-landing {
-            overflow: visible;
           }
 
           .room-landing-main {
@@ -1802,24 +1799,24 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-landing-title {
-            white-space: nowrap;
             max-width: 100%;
-            font-size: clamp(34px, 11vw, 48px);
+            white-space: nowrap;
+            font-size: clamp(42px, 13vw, 58px);
             line-height: 0.9;
             letter-spacing: 0;
           }
 
           .room-landing-tagline {
-            margin: 0 0 2px;
+            margin: 6px 0 2px;
             font-size: clamp(10px, 3vw, 13px);
-            letter-spacing: 0.2em;
+            letter-spacing: 0.22em;
           }
 
           .room-landing-cta {
-            width: min(240px, 84vw);
+            width: min(260px, 86vw);
             min-width: 0;
             min-height: 54px;
-            padding: 12px 18px;
+            padding: 14px 18px;
             font-size: clamp(15px, 4.5vw, 17px);
           }
         }
