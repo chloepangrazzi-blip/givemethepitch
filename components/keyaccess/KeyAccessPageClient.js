@@ -343,6 +343,23 @@ export default function KeyAccessPageClient({
             display: none;
           }
         }
+
+        @media (max-width: 320px) {
+          .ka-page {
+            min-height: 100svh;
+            padding: 12px 10px;
+            display: flex;
+            align-items: center;
+          }
+
+          .ka-shell {
+            width: 100%;
+          }
+
+          .ka-stage {
+            min-height: calc(100svh - 24px);
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
