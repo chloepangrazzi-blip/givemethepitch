@@ -531,10 +531,14 @@ export default function NdaPageClient({
         }
 
         @media (max-width: 320px) {
+          .nda-body {
+            padding-bottom: 40px;
+          }
+
           .signature-block {
-            padding: 26px 18px 54px;
+            padding: 26px 18px 40px;
             margin-top: 48px;
-            margin-bottom: 72px;
+            margin-bottom: 42px;
           }
 
           .consent-wrap {
@@ -555,7 +559,7 @@ export default function NdaPageClient({
           }
 
           .sig-submit {
-            margin-top: -2px;
+            margin-top: -4px;
           }
 
           .btn-pill {
@@ -566,7 +570,7 @@ export default function NdaPageClient({
           }
 
           .error-hint {
-            margin-top: 12px;
+            margin-top: 10px;
           }
         }
       `}</style>
