@@ -59,7 +59,16 @@ function ProjectCard({
       : undefined;
   const posterStyle =
     project.id === "maree-noire" && isExactTablet768
-      ? { borderRadius: "24px", clipPath: "inset(0 round 24px)" }
+      ? {
+          display: "block",
+          width: "100%",
+          height: "100%",
+          aspectRatio: "auto",
+          objectFit: "cover",
+          objectPosition: "center center",
+          borderRadius: "24px",
+          clipPath: "inset(0 round 24px)",
+        }
       : undefined;
   const posterFrameStyle =
     project.id === "maree-noire" && isExactTablet768
