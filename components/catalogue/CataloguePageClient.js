@@ -40,6 +40,7 @@ function ProjectCard({
   showTabletReadMore = false,
   tabletSharedHeight = null,
   isExactTablet768 = false,
+  isExactTablet1024 = false,
 }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -68,6 +69,19 @@ function ProjectCard({
           objectPosition: "center center",
           borderRadius: "24px",
           clipPath: "inset(0 round 24px)",
+      }
+      : undefined;
+  const posterStyle1024 =
+    project.id === "maree-noire" && isExactTablet1024
+      ? {
+          display: "block",
+          width: "100%",
+          height: "100%",
+          aspectRatio: "auto",
+          objectFit: "cover",
+          objectPosition: "center center",
+          borderRadius: "24px",
+          clipPath: "inset(0 round 24px)",
         }
       : undefined;
   const posterFrameStyle =
@@ -80,8 +94,26 @@ function ProjectCard({
           padding: "6px",
         }
       : undefined;
+  const posterFrameStyle1024 =
+    project.id === "maree-noire" && isExactTablet1024
+      ? {
+          borderRadius: "24px",
+          overflow: "hidden",
+          display: "block",
+          background: "#050505",
+          padding: 0,
+        }
+      : undefined;
   const posterWrapStyle =
     project.id === "maree-noire" && isExactTablet768
+      ? {
+          borderRadius: "24px",
+          overflow: "hidden",
+          background: "#050505",
+        }
+      : undefined;
+  const posterWrapStyle1024 =
+    project.id === "maree-noire" && isExactTablet1024
       ? {
           borderRadius: "24px",
           overflow: "hidden",
@@ -91,19 +123,34 @@ function ProjectCard({
 
   return (
     <article className={cardClassName} data-project-id={project.id} style={articleStyle}>
-      <div className="catalog-poster-wrap" style={posterWrapStyle}>
+      <div className="catalog-poster-wrap" style={posterWrapStyle || posterWrapStyle1024}>
         {project.href ? (
           <Link
             aria-label={`Voir le projet ${project.title}`}
             className="catalog-poster-link"
             href={project.href}
-            style={posterFrameStyle}
+            style={posterFrameStyle || posterFrameStyle1024}
           >
-            <img alt={project.title} className="catalog-poster" src={project.posterSrc} style={posterStyle} />
+            <img
+              alt={project.title}
+              className="catalog-poster"
+              src={project.posterSrc}
+              style={posterStyle || posterStyle1024}
+            />
           </Link>
         ) : (
-          <div aria-label={project.title} className="catalog-poster-static" role="img" style={posterFrameStyle}>
-            <img alt={project.title} className="catalog-poster" src={project.posterSrc} style={posterStyle} />
+          <div
+            aria-label={project.title}
+            className="catalog-poster-static"
+            role="img"
+            style={posterFrameStyle || posterFrameStyle1024}
+          >
+            <img
+              alt={project.title}
+              className="catalog-poster"
+              src={project.posterSrc}
+              style={posterStyle || posterStyle1024}
+            />
           </div>
         )}
 
@@ -206,6 +253,7 @@ export default function CataloguePageClient({ page }) {
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isExactTablet768, setIsExactTablet768] = useState(false);
+  const [isExactTablet1024, setIsExactTablet1024] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
   const mobileRows = chunkItems(shelfProjects, 3);
@@ -327,6 +375,23 @@ export default function CataloguePageClient({ page }) {
 
     return () => {
       window.removeEventListener("resize", syncTablet768);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const syncTablet1024 = () => {
+      setIsExactTablet1024(window.innerWidth === 1024);
+    };
+
+    syncTablet1024();
+    window.addEventListener("resize", syncTablet1024);
+
+    return () => {
+      window.removeEventListener("resize", syncTablet1024);
     };
   }, []);
 
@@ -1353,6 +1418,7 @@ export default function CataloguePageClient({ page }) {
                 showTabletReadMore={isExactTablet768 && project.id === "consentement-mutuel"}
                 tabletSharedHeight={tabletSharedHeight}
                 isExactTablet768={isExactTablet768}
+                isExactTablet1024={isExactTablet1024}
                 project={project}
                 onReadMore={setActiveProject}
               />
