@@ -77,7 +77,7 @@ function ProjectCard({
           overflow: "hidden",
           display: "block",
           background: "#050505",
-          padding: 0,
+          padding: "6px",
         }
       : undefined;
   const posterWrapStyle =
