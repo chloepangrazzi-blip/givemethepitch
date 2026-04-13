@@ -1348,9 +1348,9 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
-            width: 100%;
-            height: auto;
-            max-height: 100%;
+            width: auto;
+            height: 100%;
+            max-width: 100%;
             aspect-ratio: auto;
             object-fit: contain;
             border-radius: 18px !important;
