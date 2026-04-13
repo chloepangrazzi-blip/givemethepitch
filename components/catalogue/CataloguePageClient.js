@@ -1197,6 +1197,10 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (width: 768px) {
+          .catalog-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
           .catalog-header {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
@@ -1230,36 +1234,8 @@ export default function CataloguePageClient({ page }) {
             border-radius: 18px;
           }
 
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-meta {
-            gap: 14px;
-          }
-
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-pitch {
-            height: calc(1.68em * 8);
-            overflow: hidden;
-          }
-
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-actions {
-            min-height: 42px;
-          }
-
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-link,
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-static {
-            height: calc(var(--featured-card-height, 760px) - 126px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 10px;
-            border-radius: 24px;
-          }
-
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
-            width: 100%;
-            height: 100%;
-            aspect-ratio: auto;
-            object-fit: cover;
-            object-position: center center;
-            border-radius: 18px;
+          .catalog-card.is-featured[data-project-id="maree-noire"] {
+            grid-column: 1 / -1;
           }
 
           .catalog-card.is-featured,
