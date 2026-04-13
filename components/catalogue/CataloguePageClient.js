@@ -1041,6 +1041,33 @@ export default function CataloguePageClient({ page }) {
           }
         }
 
+        @media (max-width: 375px) {
+          .catalog-mobile-meta.is-featured {
+            gap: 8px;
+          }
+
+          .catalog-mobile-meta .catalog-tags.is-featured-line {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            overflow-x: visible;
+            padding-bottom: 0;
+            gap: 6px;
+          }
+
+          .catalog-mobile-meta .catalog-tags.is-featured-line span {
+            flex: 0 1 auto;
+          }
+
+          .catalog-mobile-meta .catalog-tag-action {
+            flex: 0 0 auto;
+            width: auto;
+            min-width: 0;
+            max-width: 100%;
+            padding: 0 10px;
+          }
+        }
+
         @media (max-width: 500px) {
           .catalog-mobile-poster-button {
             touch-action: manipulation;
