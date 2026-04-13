@@ -559,7 +559,7 @@ export default function NdaPageClient({
           }
 
           .sig-submit {
-            margin-top: -4px;
+            margin-top: 8px;
           }
 
           .btn-pill {
@@ -570,7 +570,7 @@ export default function NdaPageClient({
           }
 
           .error-hint {
-            margin-top: 10px;
+            margin-top: 8px;
           }
         }
       `}</style>
