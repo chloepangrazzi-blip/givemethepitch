@@ -1186,6 +1186,19 @@ export default function CataloguePageClient({ page }) {
             border-radius: 18px;
           }
 
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-meta {
+            gap: 14px;
+          }
+
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-pitch {
+            height: calc(1.68em * 8);
+            overflow: hidden;
+          }
+
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-actions {
+            min-height: 42px;
+          }
+
           .catalog-card.is-featured,
           .catalog-card.is-tall-preview {
             height: var(--catalog-tablet-opium-height, var(--featured-card-height, auto));
