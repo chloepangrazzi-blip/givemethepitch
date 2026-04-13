@@ -147,6 +147,9 @@ function MobileProjectCard({ project, onReadMore }) {
       >
         <span className="catalog-mobile-poster-frame">
           <img alt={project.title} className="catalog-mobile-poster" src={project.posterSrc} />
+          <span aria-hidden="true" className="catalog-mobile-poster-badge">
+            LIRE LE PITCH
+          </span>
         </span>
       </button>
     </article>
@@ -916,10 +919,14 @@ export default function CataloguePageClient({ page }) {
             border-radius: 14px;
           }
 
-          .catalog-mobile-poster.is-featured {
-            aspect-ratio: 2 / 3;
-            border-radius: 18px;
-          }
+        .catalog-mobile-poster.is-featured {
+          aspect-ratio: 2 / 3;
+          border-radius: 18px;
+        }
+
+        .catalog-mobile-poster-badge {
+          display: none;
+        }
 
           .catalog-mobile-card.is-compact .catalog-mobile-poster {
             aspect-ratio: 9 / 16;
@@ -1038,6 +1045,29 @@ export default function CataloguePageClient({ page }) {
             min-width: 0;
             max-width: 100%;
             padding: 0 10px;
+          }
+        }
+
+        @media (max-width: 500px) {
+          .catalog-mobile-poster-badge {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            padding: 0 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(191, 248, 220, 0.22);
+            background: rgba(0, 0, 0, 0.72);
+            color: var(--catalog-mint);
+            font-size: 0.58rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            pointer-events: none;
           }
         }
       `}</style>
