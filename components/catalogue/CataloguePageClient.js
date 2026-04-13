@@ -1238,6 +1238,16 @@ export default function CataloguePageClient({ page }) {
             grid-column: 1 / -1;
           }
 
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-link,
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-static {
+            border-radius: 24px;
+            overflow: hidden;
+          }
+
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
+            border-radius: 18px;
+          }
+
           .catalog-card.is-featured,
           .catalog-card.is-tall-preview {
             height: var(--catalog-tablet-opium-height, var(--featured-card-height, auto));
