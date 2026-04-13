@@ -155,6 +155,7 @@ function MobileProjectCard({ project, onReadMore }) {
 
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
+  const [tabletOpiumHeight, setTabletOpiumHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isExactTablet768, setIsExactTablet768] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
@@ -204,6 +205,38 @@ export default function CataloguePageClient({ page }) {
       return undefined;
     }
 
+    const syncTabletOpiumHeight = () => {
+      const opiumCard = document.querySelector('[data-project-id="opium"]');
+      if (!opiumCard) {
+        return;
+      }
+
+      const nextHeight = Math.round(opiumCard.getBoundingClientRect().height);
+      setTabletOpiumHeight((currentHeight) => (currentHeight === nextHeight ? currentHeight : nextHeight));
+    };
+
+    syncTabletOpiumHeight();
+
+    const opiumCard = document.querySelector('[data-project-id="opium"]');
+    const observer = opiumCard && "ResizeObserver" in window ? new ResizeObserver(syncTabletOpiumHeight) : null;
+
+    if (opiumCard && observer) {
+      observer.observe(opiumCard);
+    }
+
+    window.addEventListener("resize", syncTabletOpiumHeight);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", syncTabletOpiumHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
     const syncTablet768 = () => {
       setIsExactTablet768(window.innerWidth === 768);
     };
@@ -236,6 +269,14 @@ export default function CataloguePageClient({ page }) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [activeProject]);
+
+  const pageStyle = {};
+  if (featuredHeight) {
+    pageStyle["--featured-card-height"] = `${featuredHeight}px`;
+  }
+  if (tabletOpiumHeight) {
+    pageStyle["--catalog-tablet-opium-height"] = `${tabletOpiumHeight}px`;
+  }
 
   return (
     <>
@@ -1141,7 +1182,7 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card.is-featured[data-project-id="maree-noire"] {
-            height: calc(var(--featured-card-height, 760px) + 128px);
+            height: var(--catalog-tablet-opium-height, var(--featured-card-height, auto));
           }
 
           .catalog-card.is-tall-preview {
@@ -1164,10 +1205,7 @@ export default function CataloguePageClient({ page }) {
 
       <div className="cursor" id="cursor" />
 
-      <main
-        className="catalog-page"
-        style={featuredHeight ? { "--featured-card-height": `${featuredHeight}px` } : undefined}
-      >
+      <main className="catalog-page" style={Object.keys(pageStyle).length ? pageStyle : undefined}>
         <div className="catalog-shell">
           <header className="catalog-header">
             <div className="catalog-heading">
