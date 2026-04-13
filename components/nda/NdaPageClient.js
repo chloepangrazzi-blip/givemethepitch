@@ -18,22 +18,6 @@ function mapErrorMessage(errorCode) {
   }
 }
 
-function GmtpMark() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <rect x="1" y="1" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="12" y="1" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="23" y="1" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="1" y="12" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="12" y="12" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="23" y="12" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="1" y="23" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="12" y="23" width="8" height="8" rx="2.4" fill="#080808" />
-      <rect x="23" y="23" width="8" height="8" rx="2.4" fill="#080808" />
-    </svg>
-  );
-}
-
 function HtmlText({ className, html, tag: Tag = "p" }) {
   return <Tag className={className} dangerouslySetInnerHTML={{ __html: html }} />;
 }
@@ -176,7 +160,7 @@ export default function NdaPageClient({
         .nda-page {
           min-height: 100vh;
           background: var(--nda-black);
-          padding-top: 52px;
+          padding-top: 0;
         }
 
         .nda-header {
@@ -544,12 +528,6 @@ export default function NdaPageClient({
 
       <div className="nda-root">
         <div className="cursor" id="cursor" />
-
-        <nav className="nda-nav">
-          <div className="nda-logo">
-            <GmtpMark />
-          </div>
-        </nav>
 
         <main className="nda-page">
           <header className="nda-header">
