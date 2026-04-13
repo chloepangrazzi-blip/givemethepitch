@@ -1953,6 +1953,68 @@ export default function TheRoomPageClient(page) {
             margin-top: 2px !important;
           }
         }
+
+        @media (max-width: 500px) {
+          .room-page-form .room-form-input::placeholder {
+            font-size: 12px;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.3);
+          }
+
+          .room-page-form .room-form-q-sub {
+            font-size: 11px;
+            line-height: 1.45;
+            margin: 18px 0 10px;
+          }
+
+          .room-page-form .room-form-chip-group {
+            gap: 8px;
+          }
+
+          .room-page-form .room-form-chip {
+            flex: 1 1 auto;
+            display: flex;
+          }
+
+          .room-page-form .room-form-chip-label {
+            display: flex;
+            width: 100%;
+            min-height: 42px;
+            padding: 10px 14px;
+            font-size: 11px;
+            line-height: 1.35;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+          }
+
+          .room-page-form .room-form-chip-label-radio {
+            min-height: 42px;
+          }
+
+          .room-page-form .room-form-consent-wrap {
+            margin-top: 32px;
+            padding: 20px 16px;
+            gap: 14px;
+            align-items: flex-start;
+          }
+
+          .room-page-form .room-form-consent-box {
+            width: 20px;
+            height: 20px;
+            margin-top: 1px;
+          }
+
+          .room-page-form .room-form-consent-text {
+            font-size: 12px;
+            line-height: 1.65;
+            max-width: 62ch;
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
