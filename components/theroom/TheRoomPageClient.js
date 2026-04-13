@@ -1955,6 +1955,28 @@ export default function TheRoomPageClient(page) {
         }
 
         @media (max-width: 500px) {
+          .room-page-about .room-stage-about {
+            padding-left: clamp(24px, 6vw, 32px);
+            padding-right: clamp(24px, 6vw, 32px);
+          }
+
+          .room-page-about .room-about-hero-inner {
+            padding-left: clamp(24px, 6vw, 32px);
+            padding-right: clamp(24px, 6vw, 32px);
+          }
+
+          .room-page-about .room-about-column,
+          .room-page-about .room-about-section-inner,
+          .room-page-about .room-about-closing-inner {
+            padding-left: clamp(24px, 6vw, 32px);
+            padding-right: clamp(24px, 6vw, 32px);
+          }
+
+          .room-page-about .room-about-pivot {
+            padding-left: clamp(24px, 6vw, 32px);
+            padding-right: clamp(24px, 6vw, 32px);
+          }
+
           .room-page-form .room-form-input::placeholder {
             font-size: 12px;
             line-height: 1.35;
