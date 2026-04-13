@@ -1330,29 +1330,25 @@ export default function CataloguePageClient({ page }) {
             height: var(--catalog-tablet-opium-height, auto);
             min-height: var(--catalog-tablet-opium-height, 760px);
             max-height: var(--catalog-tablet-opium-height, 760px);
-            grid-template-rows: minmax(0, 1fr) auto;
-          }
-
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-wrap {
-            min-height: 0;
           }
 
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-link,
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-static {
-            height: 100%;
-            display: grid;
-            place-items: center;
+            height: calc(var(--catalog-tablet-opium-height, 760px) - 158px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 8px 10px;
             border-radius: 22px;
             overflow: hidden;
           }
 
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
-            width: auto;
+            width: 100%;
             height: 100%;
-            max-width: 100%;
             aspect-ratio: auto;
-            object-fit: contain;
+            object-fit: cover;
+            object-position: center center;
             border-radius: 18px !important;
             clip-path: inset(0 round 18px);
           }
