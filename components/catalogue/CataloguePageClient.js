@@ -38,6 +38,8 @@ function ProjectCard({
   featuredStatusPlacement = "bottom",
   onReadMore,
   showTabletReadMore = false,
+  tabletSharedHeight = null,
+  isExactTablet768 = false,
 }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -51,9 +53,13 @@ function ProjectCard({
   );
   const displayedPitch = canExpand ? collapsedPitch : project.shortPitch;
   const statusClassName = `catalog-status${featuredStatusPlacement === "top" ? " is-top" : ""}`;
+  const articleStyle =
+    tabletSharedHeight && isExactTablet768 && (project.id === "maree-noire" || project.id === "opium")
+      ? { height: `${tabletSharedHeight}px`, minHeight: `${tabletSharedHeight}px`, maxHeight: `${tabletSharedHeight}px` }
+      : undefined;
 
   return (
-    <article className={cardClassName} data-project-id={project.id}>
+    <article className={cardClassName} data-project-id={project.id} style={articleStyle}>
       <div className="catalog-poster-wrap">
         {project.href ? (
           <Link aria-label={`Voir le projet ${project.title}`} className="catalog-poster-link" href={project.href}>
@@ -161,6 +167,7 @@ function MobileProjectCard({ project, onReadMore }) {
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
   const [tabletOpiumHeight, setTabletOpiumHeight] = useState(null);
+  const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isExactTablet768, setIsExactTablet768] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
@@ -242,6 +249,39 @@ export default function CataloguePageClient({ page }) {
       return undefined;
     }
 
+    const syncTabletMareeNoireHeight = () => {
+      const mareeNoireCard = document.querySelector('[data-project-id="maree-noire"]');
+      if (!mareeNoireCard) {
+        return;
+      }
+
+      const nextHeight = Math.round(mareeNoireCard.getBoundingClientRect().height);
+      setTabletMareeNoireHeight((currentHeight) => (currentHeight === nextHeight ? currentHeight : nextHeight));
+    };
+
+    syncTabletMareeNoireHeight();
+
+    const mareeNoireCard = document.querySelector('[data-project-id="maree-noire"]');
+    const observer =
+      mareeNoireCard && "ResizeObserver" in window ? new ResizeObserver(syncTabletMareeNoireHeight) : null;
+
+    if (mareeNoireCard && observer) {
+      observer.observe(mareeNoireCard);
+    }
+
+    window.addEventListener("resize", syncTabletMareeNoireHeight);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", syncTabletMareeNoireHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
     const syncTablet768 = () => {
       setIsExactTablet768(window.innerWidth === 768);
     };
@@ -282,6 +322,10 @@ export default function CataloguePageClient({ page }) {
   if (tabletOpiumHeight) {
     pageStyle["--catalog-tablet-opium-height"] = `${tabletOpiumHeight}px`;
   }
+  const tabletSharedHeight =
+    isExactTablet768 && tabletOpiumHeight && tabletMareeNoireHeight
+      ? Math.max(tabletOpiumHeight, tabletMareeNoireHeight)
+      : null;
 
   return (
     <>
@@ -1199,6 +1243,25 @@ export default function CataloguePageClient({ page }) {
             min-height: 42px;
           }
 
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-link,
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-static {
+            height: calc(var(--featured-card-height, 760px) - 126px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 10px;
+            border-radius: 24px;
+          }
+
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: cover;
+            object-position: center center;
+            border-radius: 18px;
+          }
+
           .catalog-card.is-featured,
           .catalog-card.is-tall-preview {
             height: var(--catalog-tablet-opium-height, var(--featured-card-height, auto));
@@ -1264,6 +1327,8 @@ export default function CataloguePageClient({ page }) {
                 key={project.id}
                 featuredStatusPlacement={page.featuredStatusPlacement}
                 showTabletReadMore={isExactTablet768 && project.id === "consentement-mutuel"}
+                tabletSharedHeight={tabletSharedHeight}
+                isExactTablet768={isExactTablet768}
                 project={project}
                 onReadMore={setActiveProject}
               />
