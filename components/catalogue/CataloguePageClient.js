@@ -1146,7 +1146,7 @@ export default function CataloguePageClient({ page }) {
             width: 100%;
             height: 100%;
             aspect-ratio: auto;
-            object-fit: contain;
+            object-fit: cover;
             object-position: center center;
           }
 
@@ -1168,7 +1168,7 @@ export default function CataloguePageClient({ page }) {
             width: 100%;
             height: 100%;
             aspect-ratio: auto;
-            object-fit: contain;
+            object-fit: cover;
             object-position: center center;
             border-radius: 18px;
           }
