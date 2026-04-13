@@ -33,7 +33,7 @@ function chunkItems(items, size) {
   return chunks;
 }
 
-function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }) {
+function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore, showTabletReadMore = false }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
   }`;
@@ -81,7 +81,7 @@ function ProjectCard({ project, featuredStatusPlacement = "bottom", onReadMore }
         <p className={pitchClassName}>{displayedPitch}</p>
 
         <div className="catalog-actions">
-          {canExpand ? (
+          {canExpand || showTabletReadMore ? (
             <button className="catalog-more" onClick={() => onReadMore?.(project)} type="button">
               Lire la suite
             </button>
@@ -156,6 +156,7 @@ function MobileProjectCard({ project, onReadMore }) {
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
+  const [isExactTablet768, setIsExactTablet768] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
   const mobileRows = chunkItems(shelfProjects, 3);
@@ -195,6 +196,23 @@ export default function CataloguePageClient({ page }) {
     return () => {
       observer?.disconnect();
       window.removeEventListener("resize", syncFeaturedHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const syncTablet768 = () => {
+      setIsExactTablet768(window.innerWidth === 768);
+    };
+
+    syncTablet768();
+    window.addEventListener("resize", syncTablet768);
+
+    return () => {
+      window.removeEventListener("resize", syncTablet768);
     };
   }, []);
 
@@ -1087,6 +1105,49 @@ export default function CataloguePageClient({ page }) {
             outline: none;
           }
         }
+
+        @media (width: 768px) {
+          .catalog-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: end;
+            gap: 20px;
+          }
+
+          .catalog-heading {
+            grid-column: 2;
+            justify-items: center;
+            width: auto;
+          }
+
+          .catalog-title {
+            margin: 0 auto;
+            text-align: center;
+          }
+
+          .catalog-header-link,
+          .catalog-header-badge {
+            grid-column: 3;
+            justify-self: end;
+          }
+
+          .catalog-card.is-featured .catalog-poster-link,
+          .catalog-card.is-featured .catalog-poster-static {
+            border-radius: 24px;
+          }
+
+          .catalog-card.is-featured .catalog-poster {
+            border-radius: 18px;
+          }
+
+          .catalog-card.is-tall-preview {
+            height: var(--featured-card-height, auto);
+          }
+
+          .catalog-card.is-tall-preview .catalog-actions {
+            min-height: 42px;
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
@@ -1136,6 +1197,7 @@ export default function CataloguePageClient({ page }) {
               <ProjectCard
                 key={project.id}
                 featuredStatusPlacement={page.featuredStatusPlacement}
+                showTabletReadMore={isExactTablet768 && project.id === "consentement-mutuel"}
                 project={project}
                 onReadMore={setActiveProject}
               />
