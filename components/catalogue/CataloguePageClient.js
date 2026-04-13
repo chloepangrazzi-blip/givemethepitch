@@ -38,8 +38,6 @@ function ProjectCard({
   featuredStatusPlacement = "bottom",
   onReadMore,
   showTabletReadMore = false,
-  tabletOpiumHeight = null,
-  isExactTablet768 = false,
 }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -53,17 +51,9 @@ function ProjectCard({
   );
   const displayedPitch = canExpand ? collapsedPitch : project.shortPitch;
   const statusClassName = `catalog-status${featuredStatusPlacement === "top" ? " is-top" : ""}`;
-  const articleStyle =
-    project.id === "maree-noire" && isExactTablet768 && tabletOpiumHeight
-      ? {
-          height: `${tabletOpiumHeight}px`,
-          minHeight: `${tabletOpiumHeight}px`,
-          maxHeight: `${tabletOpiumHeight}px`,
-        }
-      : undefined;
 
   return (
-    <article className={cardClassName} data-project-id={project.id} style={articleStyle}>
+    <article className={cardClassName} data-project-id={project.id}>
       <div className="catalog-poster-wrap">
         {project.href ? (
           <Link aria-label={`Voir le projet ${project.title}`} className="catalog-poster-link" href={project.href}>
@@ -285,7 +275,13 @@ export default function CataloguePageClient({ page }) {
     };
   }, [activeProject]);
 
-  const pageStyle = featuredHeight ? { "--featured-card-height": `${featuredHeight}px` } : undefined;
+  const pageStyle = {};
+  if (featuredHeight) {
+    pageStyle["--featured-card-height"] = `${featuredHeight}px`;
+  }
+  if (tabletOpiumHeight) {
+    pageStyle["--catalog-tablet-opium-height"] = `${tabletOpiumHeight}px`;
+  }
 
   return (
     <>
@@ -1190,8 +1186,10 @@ export default function CataloguePageClient({ page }) {
             border-radius: 18px;
           }
 
+          .catalog-card.is-featured,
           .catalog-card.is-tall-preview {
-            height: var(--featured-card-height, auto);
+            height: var(--catalog-tablet-opium-height, var(--featured-card-height, auto));
+            min-height: var(--catalog-tablet-opium-height, var(--featured-card-height, 760px));
           }
 
           .catalog-card.is-tall-preview .catalog-poster-link,
@@ -1210,7 +1208,7 @@ export default function CataloguePageClient({ page }) {
 
       <div className="cursor" id="cursor" />
 
-      <main className="catalog-page" style={pageStyle}>
+      <main className="catalog-page" style={Object.keys(pageStyle).length ? pageStyle : undefined}>
         <div className="catalog-shell">
           <header className="catalog-header">
             <div className="catalog-heading">
@@ -1253,8 +1251,6 @@ export default function CataloguePageClient({ page }) {
                 key={project.id}
                 featuredStatusPlacement={page.featuredStatusPlacement}
                 showTabletReadMore={isExactTablet768 && project.id === "consentement-mutuel"}
-                tabletOpiumHeight={tabletOpiumHeight}
-                isExactTablet768={isExactTablet768}
                 project={project}
                 onReadMore={setActiveProject}
               />
