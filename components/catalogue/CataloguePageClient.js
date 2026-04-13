@@ -71,10 +71,18 @@ function ProjectCard({
           padding: 0,
         }
       : undefined;
+  const posterWrapStyle =
+    project.id === "maree-noire" && isExactTablet768
+      ? {
+          borderRadius: "24px",
+          overflow: "hidden",
+          background: "#050505",
+        }
+      : undefined;
 
   return (
     <article className={cardClassName} data-project-id={project.id} style={articleStyle}>
-      <div className="catalog-poster-wrap">
+      <div className="catalog-poster-wrap" style={posterWrapStyle}>
         {project.href ? (
           <Link
             aria-label={`Voir le projet ${project.title}`}
