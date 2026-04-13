@@ -55,7 +55,11 @@ function ProjectCard({
   const statusClassName = `catalog-status${featuredStatusPlacement === "top" ? " is-top" : ""}`;
   const articleStyle =
     project.id === "maree-noire" && isExactTablet768 && tabletOpiumHeight
-      ? { height: `${tabletOpiumHeight}px` }
+      ? {
+          height: `${tabletOpiumHeight}px`,
+          minHeight: `${tabletOpiumHeight}px`,
+          maxHeight: `${tabletOpiumHeight}px`,
+        }
       : undefined;
 
   return (
