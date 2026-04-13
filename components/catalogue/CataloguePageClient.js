@@ -1133,15 +1133,43 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card.is-featured .catalog-poster-link,
           .catalog-card.is-featured .catalog-poster-static {
+            height: calc(var(--featured-card-height, 760px) - 158px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 10px;
             border-radius: 24px;
           }
 
           .catalog-card.is-featured .catalog-poster {
             border-radius: 18px;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: cover;
+            object-position: center center;
           }
 
           .catalog-card.is-tall-preview {
             height: var(--featured-card-height, auto);
+          }
+
+          .catalog-card.is-tall-preview .catalog-poster-link,
+          .catalog-card.is-tall-preview .catalog-poster-static {
+            height: calc(var(--featured-card-height, 760px) - 158px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 10px;
+          }
+
+          .catalog-card.is-tall-preview .catalog-poster {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: cover;
+            object-position: center center;
+            border-radius: 18px;
           }
 
           .catalog-card.is-tall-preview .catalog-actions {
