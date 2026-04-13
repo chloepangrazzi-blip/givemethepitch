@@ -1955,6 +1955,10 @@ export default function TheRoomPageClient(page) {
         }
 
         @media (max-width: 500px) {
+          .room-page-about {
+            padding-bottom: 72px;
+          }
+
           .room-page-about .room-stage-about {
             padding-left: clamp(24px, 6vw, 32px);
             padding-right: clamp(24px, 6vw, 32px);
