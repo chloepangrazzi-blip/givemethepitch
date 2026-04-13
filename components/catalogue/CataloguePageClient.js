@@ -1146,12 +1146,13 @@ export default function CataloguePageClient({ page }) {
             width: 100%;
             height: 100%;
             aspect-ratio: auto;
-            object-fit: cover;
+            object-fit: contain;
             object-position: center center;
           }
 
           .catalog-card.is-tall-preview {
             height: var(--featured-card-height, auto);
+            overflow: hidden;
           }
 
           .catalog-card.is-tall-preview .catalog-poster-link,
@@ -1167,7 +1168,7 @@ export default function CataloguePageClient({ page }) {
             width: 100%;
             height: 100%;
             aspect-ratio: auto;
-            object-fit: cover;
+            object-fit: contain;
             object-position: center center;
             border-radius: 18px;
           }
