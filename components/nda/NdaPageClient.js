@@ -103,7 +103,7 @@ export default function NdaPageClient({
         html,
         body {
           margin: 0;
-          background: var(--nda-mint);
+          background: var(--nda-black);
           font-family: var(--nda-sans);
           overflow-x: hidden;
           cursor: none;
@@ -118,6 +118,11 @@ export default function NdaPageClient({
         .nda-root,
         .nda-root * {
           cursor: none !important;
+        }
+
+        .nda-root {
+          min-height: 100vh;
+          background: var(--nda-black);
         }
 
         .cursor {
