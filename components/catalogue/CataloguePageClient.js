@@ -1140,6 +1140,11 @@ export default function CataloguePageClient({ page }) {
             border-radius: 18px;
           }
 
+          .catalog-card.is-featured[data-project-id="maree-noire"] {
+            height: auto;
+            min-height: 760px;
+          }
+
           .catalog-card.is-tall-preview {
             height: var(--featured-card-height, auto);
           }
