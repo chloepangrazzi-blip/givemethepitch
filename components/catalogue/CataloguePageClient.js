@@ -39,8 +39,9 @@ function ProjectCard({
   onReadMore,
   showTabletReadMore = false,
   tabletSharedHeight = null,
+  tabletWideRangeHeight = null,
   isExactTablet768 = false,
-  isExactTablet1024 = false,
+  isTabletWideRange = false,
 }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -57,22 +58,15 @@ function ProjectCard({
   const articleStyle =
     tabletSharedHeight && isExactTablet768 && (project.id === "maree-noire" || project.id === "opium")
       ? { height: `${tabletSharedHeight}px`, minHeight: `${tabletSharedHeight}px`, maxHeight: `${tabletSharedHeight}px` }
+      : tabletWideRangeHeight && isTabletWideRange && project.id === "maree-noire"
+        ? {
+            height: `${tabletWideRangeHeight}px`,
+            minHeight: `${tabletWideRangeHeight}px`,
+            maxHeight: `${tabletWideRangeHeight}px`,
+          }
       : undefined;
   const posterStyle =
     project.id === "maree-noire" && isExactTablet768
-      ? {
-          display: "block",
-          width: "100%",
-          height: "100%",
-          aspectRatio: "auto",
-          objectFit: "cover",
-          objectPosition: "center center",
-          borderRadius: "24px",
-          clipPath: "inset(0 round 24px)",
-      }
-      : undefined;
-  const posterStyle1024 =
-    project.id === "maree-noire" && isExactTablet1024
       ? {
           display: "block",
           width: "100%",
@@ -94,26 +88,8 @@ function ProjectCard({
           padding: "6px",
         }
       : undefined;
-  const posterFrameStyle1024 =
-    project.id === "maree-noire" && isExactTablet1024
-      ? {
-          borderRadius: "24px",
-          overflow: "hidden",
-          display: "block",
-          background: "#050505",
-          padding: 0,
-        }
-      : undefined;
   const posterWrapStyle =
     project.id === "maree-noire" && isExactTablet768
-      ? {
-          borderRadius: "24px",
-          overflow: "hidden",
-          background: "#050505",
-        }
-      : undefined;
-  const posterWrapStyle1024 =
-    project.id === "maree-noire" && isExactTablet1024
       ? {
           borderRadius: "24px",
           overflow: "hidden",
@@ -123,19 +99,19 @@ function ProjectCard({
 
   return (
     <article className={cardClassName} data-project-id={project.id} style={articleStyle}>
-      <div className="catalog-poster-wrap" style={posterWrapStyle || posterWrapStyle1024}>
+      <div className="catalog-poster-wrap" style={posterWrapStyle}>
         {project.href ? (
           <Link
             aria-label={`Voir le projet ${project.title}`}
             className="catalog-poster-link"
             href={project.href}
-            style={posterFrameStyle || posterFrameStyle1024}
+            style={posterFrameStyle}
           >
             <img
               alt={project.title}
               className="catalog-poster"
               src={project.posterSrc}
-              style={posterStyle || posterStyle1024}
+              style={posterStyle}
             />
           </Link>
         ) : (
@@ -143,13 +119,13 @@ function ProjectCard({
             aria-label={project.title}
             className="catalog-poster-static"
             role="img"
-            style={posterFrameStyle || posterFrameStyle1024}
+            style={posterFrameStyle}
           >
             <img
               alt={project.title}
               className="catalog-poster"
               src={project.posterSrc}
-              style={posterStyle || posterStyle1024}
+              style={posterStyle}
             />
           </div>
         )}
@@ -253,7 +229,7 @@ export default function CataloguePageClient({ page }) {
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isExactTablet768, setIsExactTablet768] = useState(false);
-  const [isExactTablet1024, setIsExactTablet1024] = useState(false);
+  const [isTabletWideRange, setIsTabletWideRange] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
   const mobileRows = chunkItems(shelfProjects, 3);
@@ -383,15 +359,16 @@ export default function CataloguePageClient({ page }) {
       return undefined;
     }
 
-    const syncTablet1024 = () => {
-      setIsExactTablet1024(window.innerWidth === 1024);
+    const syncTabletWideRange = () => {
+      const width = window.innerWidth;
+      setIsTabletWideRange(width >= 850 && width <= 1125);
     };
 
-    syncTablet1024();
-    window.addEventListener("resize", syncTablet1024);
+    syncTabletWideRange();
+    window.addEventListener("resize", syncTabletWideRange);
 
     return () => {
-      window.removeEventListener("resize", syncTablet1024);
+      window.removeEventListener("resize", syncTabletWideRange);
     };
   }, []);
 
@@ -1370,7 +1347,7 @@ export default function CataloguePageClient({ page }) {
           }
         }
 
-        @media (width: 1024px) {
+        @media (min-width: 850px) and (max-width: 1125px) {
           .catalog-grid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
           }
@@ -1427,8 +1404,9 @@ export default function CataloguePageClient({ page }) {
                 featuredStatusPlacement={page.featuredStatusPlacement}
                 showTabletReadMore={isExactTablet768 && project.id === "consentement-mutuel"}
                 tabletSharedHeight={tabletSharedHeight}
+                tabletWideRangeHeight={isTabletWideRange ? tabletOpiumHeight : null}
                 isExactTablet768={isExactTablet768}
-                isExactTablet1024={isExactTablet1024}
+                isTabletWideRange={isTabletWideRange}
                 project={project}
                 onReadMore={setActiveProject}
               />
