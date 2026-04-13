@@ -529,6 +529,46 @@ export default function NdaPageClient({
             text-align: center;
           }
         }
+
+        @media (max-width: 320px) {
+          .signature-block {
+            padding: 26px 18px 54px;
+            margin-top: 48px;
+            margin-bottom: 72px;
+          }
+
+          .consent-wrap {
+            gap: 14px;
+            padding: 18px 18px;
+            margin-bottom: 28px;
+          }
+
+          .consent-box {
+            width: 20px;
+            height: 20px;
+            margin-top: 1px;
+          }
+
+          .consent-text {
+            font-size: 12px;
+            line-height: 1.62;
+          }
+
+          .sig-submit {
+            margin-top: -2px;
+          }
+
+          .btn-pill {
+            padding: 14px 20px;
+            font-size: 14px;
+            line-height: 1.15;
+            letter-spacing: 0.03em;
+          }
+
+          .error-hint {
+            margin-top: 12px;
+          }
+        }
       `}</style>
 
       <div className="nda-root">
