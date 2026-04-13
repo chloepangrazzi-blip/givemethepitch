@@ -1245,7 +1245,9 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
-            border-radius: 18px;
+            display: block;
+            border-radius: 18px !important;
+            clip-path: inset(0 round 18px);
           }
 
           .catalog-card.is-featured,
