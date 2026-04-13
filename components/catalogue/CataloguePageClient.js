@@ -57,17 +57,21 @@ function ProjectCard({
     tabletSharedHeight && isExactTablet768 && (project.id === "maree-noire" || project.id === "opium")
       ? { height: `${tabletSharedHeight}px`, minHeight: `${tabletSharedHeight}px`, maxHeight: `${tabletSharedHeight}px` }
       : undefined;
+  const posterStyle =
+    project.id === "maree-noire" && isExactTablet768
+      ? { borderRadius: "24px", clipPath: "inset(0 round 24px)" }
+      : undefined;
 
   return (
     <article className={cardClassName} data-project-id={project.id} style={articleStyle}>
       <div className="catalog-poster-wrap">
         {project.href ? (
           <Link aria-label={`Voir le projet ${project.title}`} className="catalog-poster-link" href={project.href}>
-            <img alt={project.title} className="catalog-poster" src={project.posterSrc} />
+            <img alt={project.title} className="catalog-poster" src={project.posterSrc} style={posterStyle} />
           </Link>
         ) : (
           <div aria-label={project.title} className="catalog-poster-static" role="img">
-            <img alt={project.title} className="catalog-poster" src={project.posterSrc} />
+            <img alt={project.title} className="catalog-poster" src={project.posterSrc} style={posterStyle} />
           </div>
         )}
 
