@@ -1340,9 +1340,8 @@ export default function CataloguePageClient({ page }) {
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-link,
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-static {
             height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
             padding: 8px 10px;
             border-radius: 22px;
             overflow: hidden;
@@ -1350,10 +1349,12 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
             width: 100%;
-            height: 100%;
+            height: auto;
+            max-height: 100%;
             aspect-ratio: auto;
             object-fit: contain;
-            border-radius: 14px;
+            border-radius: 18px !important;
+            clip-path: inset(0 round 18px);
           }
         }
       `}</style>
