@@ -1369,6 +1369,16 @@ export default function CataloguePageClient({ page }) {
             min-height: 42px;
           }
         }
+
+        @media (width: 1024px) {
+          .catalog-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+
+          .catalog-card.is-featured[data-project-id="maree-noire"] {
+            grid-column: span 2;
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
