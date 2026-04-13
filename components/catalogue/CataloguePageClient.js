@@ -39,7 +39,9 @@ function ProjectCard({
   onReadMore,
   showTabletReadMore = false,
   tabletSharedHeight = null,
+  tabletWideRangeHeight = null,
   isExactTablet768 = false,
+  isTabletWideRange = false,
 }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -56,6 +58,12 @@ function ProjectCard({
   const articleStyle =
     tabletSharedHeight && isExactTablet768 && (project.id === "maree-noire" || project.id === "opium")
       ? { height: `${tabletSharedHeight}px`, minHeight: `${tabletSharedHeight}px`, maxHeight: `${tabletSharedHeight}px` }
+      : tabletWideRangeHeight && isTabletWideRange && project.id === "maree-noire"
+        ? {
+            height: `${tabletWideRangeHeight}px`,
+            minHeight: `${tabletWideRangeHeight}px`,
+            maxHeight: `${tabletWideRangeHeight}px`,
+          }
       : undefined;
   const posterStyle =
     project.id === "maree-noire" && isExactTablet768
@@ -221,6 +229,7 @@ export default function CataloguePageClient({ page }) {
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isExactTablet768, setIsExactTablet768] = useState(false);
+  const [isTabletWideRange, setIsTabletWideRange] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
   const mobileRows = chunkItems(shelfProjects, 3);
@@ -342,6 +351,24 @@ export default function CataloguePageClient({ page }) {
 
     return () => {
       window.removeEventListener("resize", syncTablet768);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const syncTabletWideRange = () => {
+      const width = window.innerWidth;
+      setIsTabletWideRange(width >= 850 && width <= 1125);
+    };
+
+    syncTabletWideRange();
+    window.addEventListener("resize", syncTabletWideRange);
+
+    return () => {
+      window.removeEventListener("resize", syncTabletWideRange);
     };
   }, []);
 
@@ -1327,20 +1354,6 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card.is-featured[data-project-id="maree-noire"] {
             grid-column: span 2;
-            height: var(--catalog-tablet-opium-height, auto);
-            min-height: var(--catalog-tablet-opium-height, 760px);
-            max-height: var(--catalog-tablet-opium-height, 760px);
-          }
-
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-link,
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-static {
-            padding: 8px 10px;
-            border-radius: 22px;
-            overflow: hidden;
-          }
-
-          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
-            border-radius: 14px;
           }
         }
       `}</style>
@@ -1391,7 +1404,9 @@ export default function CataloguePageClient({ page }) {
                 featuredStatusPlacement={page.featuredStatusPlacement}
                 showTabletReadMore={isExactTablet768 && project.id === "consentement-mutuel"}
                 tabletSharedHeight={tabletSharedHeight}
+                tabletWideRangeHeight={isTabletWideRange ? tabletOpiumHeight : null}
                 isExactTablet768={isExactTablet768}
+                isTabletWideRange={isTabletWideRange}
                 project={project}
                 onReadMore={setActiveProject}
               />
