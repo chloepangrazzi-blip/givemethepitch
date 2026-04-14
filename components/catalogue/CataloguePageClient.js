@@ -54,7 +54,7 @@ function ProjectCard({
   const displayedPitch = canExpand ? collapsedPitch : project.shortPitch;
   const statusClassName = `catalog-status${featuredStatusPlacement === "top" ? " is-top" : ""}`;
   const articleStyle =
-    tabletSharedHeight && isTabletCompactRange && (project.id === "maree-noire" || project.id === "opium")
+    tabletSharedHeight && isTabletCompactRange && project.id === "maree-noire"
       ? { height: `${tabletSharedHeight}px`, minHeight: `${tabletSharedHeight}px`, maxHeight: `${tabletSharedHeight}px` }
       : undefined;
   const posterStyle =
@@ -217,6 +217,7 @@ function MobileProjectCard({ project, onReadMore }) {
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
   const [tabletOpiumHeight, setTabletOpiumHeight] = useState(null);
+  const [tabletCompactCardsHeight, setTabletCompactCardsHeight] = useState(null);
   const [tabletWideOpiumHeight, setTabletWideOpiumHeight] = useState(null);
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
@@ -278,6 +279,42 @@ export default function CataloguePageClient({ page }) {
 
     return () => {
       window.removeEventListener("resize", syncTabletWideRange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const compactGridCards = Array.from(document.querySelectorAll(".catalog-grid .catalog-card:not(.is-featured)"));
+    if (!compactGridCards.length) {
+      return undefined;
+    }
+
+    const syncTabletCompactCardsHeight = () => {
+      if (window.innerWidth < 500 || window.innerWidth > 849) {
+        setTabletCompactCardsHeight((currentHeight) => (currentHeight === null ? currentHeight : null));
+        return;
+      }
+
+      const nextHeight = Math.max(
+        ...compactGridCards.map((card) => Number(card.getBoundingClientRect().height.toFixed(2))),
+      );
+      setTabletCompactCardsHeight((currentHeight) => (currentHeight === nextHeight ? currentHeight : nextHeight));
+    };
+
+    syncTabletCompactCardsHeight();
+
+    const observer =
+      "ResizeObserver" in window ? new ResizeObserver(syncTabletCompactCardsHeight) : null;
+
+    compactGridCards.forEach((card) => observer?.observe(card));
+    window.addEventListener("resize", syncTabletCompactCardsHeight);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", syncTabletCompactCardsHeight);
     };
   }, []);
 
@@ -424,6 +461,9 @@ export default function CataloguePageClient({ page }) {
   }
   if (tabletOpiumHeight) {
     pageStyle["--catalog-tablet-opium-height"] = `${tabletOpiumHeight}px`;
+  }
+  if (tabletCompactCardsHeight) {
+    pageStyle["--catalog-compact-card-height"] = `${tabletCompactCardsHeight}px`;
   }
   if (tabletWideOpiumHeight) {
     pageStyle["--catalog-wide-opium-height"] = `${tabletWideOpiumHeight}px`;
@@ -1362,21 +1402,31 @@ export default function CataloguePageClient({ page }) {
             clip-path: inset(0 round 18px);
           }
 
-          .catalog-card.is-featured,
-          .catalog-card.is-tall-preview {
+          .catalog-card.is-featured {
             height: var(--catalog-tablet-opium-height, var(--featured-card-height, auto));
             min-height: var(--catalog-tablet-opium-height, var(--featured-card-height, 760px));
           }
 
-          .catalog-card.is-tall-preview .catalog-poster-link,
-          .catalog-card.is-tall-preview .catalog-poster-static {
+          .catalog-card:not(.is-featured) {
+            height: var(--catalog-compact-card-height, var(--catalog-tablet-opium-height, 760px));
+            min-height: var(--catalog-compact-card-height, var(--catalog-tablet-opium-height, 760px));
+            max-height: var(--catalog-compact-card-height, var(--catalog-tablet-opium-height, 760px));
+            grid-template-rows: auto 1fr;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-meta {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100%;
           }
 
           .catalog-card.is-tall-preview .catalog-poster {
             border-radius: 18px;
           }
 
-          .catalog-card.is-tall-preview .catalog-actions {
+          .catalog-card:not(.is-featured) .catalog-actions {
+            margin-top: auto;
             min-height: 42px;
           }
         }
