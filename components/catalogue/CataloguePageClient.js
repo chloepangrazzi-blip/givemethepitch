@@ -1348,7 +1348,7 @@ export default function CataloguePageClient({ page }) {
             height: 100%;
             aspect-ratio: auto;
             object-fit: cover;
-            object-position: center center;
+            object-position: center top;
             border-radius: 18px !important;
             clip-path: inset(0 round 18px);
           }
