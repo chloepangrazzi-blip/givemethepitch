@@ -217,7 +217,6 @@ function MobileProjectCard({ project, onReadMore }) {
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
   const [tabletOpiumHeight, setTabletOpiumHeight] = useState(null);
-  const [tabletCompactCardsHeight, setTabletCompactCardsHeight] = useState(null);
   const [tabletWideOpiumHeight, setTabletWideOpiumHeight] = useState(null);
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
@@ -279,42 +278,6 @@ export default function CataloguePageClient({ page }) {
 
     return () => {
       window.removeEventListener("resize", syncTabletWideRange);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return undefined;
-    }
-
-    const compactGridCards = Array.from(document.querySelectorAll(".catalog-grid .catalog-card:not(.is-featured)"));
-    if (!compactGridCards.length) {
-      return undefined;
-    }
-
-    const syncTabletCompactCardsHeight = () => {
-      if (window.innerWidth < 500 || window.innerWidth > 849) {
-        setTabletCompactCardsHeight((currentHeight) => (currentHeight === null ? currentHeight : null));
-        return;
-      }
-
-      const nextHeight = Math.max(
-        ...compactGridCards.map((card) => Number(card.getBoundingClientRect().height.toFixed(2))),
-      );
-      setTabletCompactCardsHeight((currentHeight) => (currentHeight === nextHeight ? currentHeight : nextHeight));
-    };
-
-    syncTabletCompactCardsHeight();
-
-    const observer =
-      "ResizeObserver" in window ? new ResizeObserver(syncTabletCompactCardsHeight) : null;
-
-    compactGridCards.forEach((card) => observer?.observe(card));
-    window.addEventListener("resize", syncTabletCompactCardsHeight);
-
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener("resize", syncTabletCompactCardsHeight);
     };
   }, []);
 
@@ -461,9 +424,6 @@ export default function CataloguePageClient({ page }) {
   }
   if (tabletOpiumHeight) {
     pageStyle["--catalog-tablet-opium-height"] = `${tabletOpiumHeight}px`;
-  }
-  if (tabletCompactCardsHeight) {
-    pageStyle["--catalog-compact-card-height"] = `${tabletCompactCardsHeight}px`;
   }
   if (tabletWideOpiumHeight) {
     pageStyle["--catalog-wide-opium-height"] = `${tabletWideOpiumHeight}px`;
@@ -1408,10 +1368,26 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) {
-            height: var(--catalog-compact-card-height, var(--catalog-tablet-opium-height, 760px));
-            min-height: var(--catalog-compact-card-height, var(--catalog-tablet-opium-height, 760px));
-            max-height: var(--catalog-compact-card-height, var(--catalog-tablet-opium-height, 760px));
+            height: 760px;
+            min-height: 760px;
+            max-height: 760px;
             grid-template-rows: auto 1fr;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster-link,
+          .catalog-card:not(.is-featured) .catalog-poster-static {
+            height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: cover;
+            border-radius: 14px;
           }
 
           .catalog-card:not(.is-featured) .catalog-meta {
@@ -1419,10 +1395,27 @@ export default function CataloguePageClient({ page }) {
             flex-direction: column;
             min-height: 0;
             height: 100%;
+            gap: 12px;
           }
 
           .catalog-card.is-tall-preview .catalog-poster {
             border-radius: 18px;
+          }
+
+          .catalog-card.is-tall-preview .catalog-pitch {
+            display: -webkit-box;
+            height: auto;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 7;
+          }
+
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch {
+            display: -webkit-box;
+            height: auto;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 6;
           }
 
           .catalog-card:not(.is-featured) .catalog-actions {
