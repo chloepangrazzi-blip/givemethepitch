@@ -65,7 +65,6 @@ function ProjectCard({
           height: "100%",
           aspectRatio: "auto",
           objectFit: "cover",
-          objectPosition: "center center",
           borderRadius: "24px",
           clipPath: "inset(0 round 24px)",
         }
@@ -1358,6 +1357,7 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
             display: block;
+            object-position: center center;
             border-radius: 18px !important;
             clip-path: inset(0 round 18px);
           }
@@ -1378,6 +1378,12 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card.is-tall-preview .catalog-actions {
             min-height: 42px;
+          }
+        }
+
+        @media (min-width: 601px) and (max-width: 849px) {
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
+            object-position: center 56%;
           }
         }
 
