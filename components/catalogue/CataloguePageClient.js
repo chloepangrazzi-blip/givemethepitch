@@ -1381,13 +1381,14 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card:not(.is-featured) .catalog-poster-link,
           .catalog-card:not(.is-featured) .catalog-poster-static {
-            width: min(100%, calc((360px * 9 / 16) + 20px));
+            width: min(100%, calc((360px * 9 / 16) + 16px));
             height: 100%;
             min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
+            padding: 8px;
           }
 
           .catalog-card:not(.is-featured) .catalog-poster {
@@ -1426,6 +1427,30 @@ export default function CataloguePageClient({ page }) {
             margin-top: 0;
             min-height: 42px;
             align-self: end;
+          }
+        }
+
+        @media (min-width: 500px) and (max-width: 621px) {
+          .catalog-card:not(.is-featured) .catalog-poster-wrap {
+            margin-inline: -2px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster-link,
+          .catalog-card:not(.is-featured) .catalog-poster-static {
+            width: min(100%, calc((360px * 9 / 16) + 14px));
+            padding: 7px;
+          }
+        }
+
+        @media (min-width: 622px) and (max-width: 849px) {
+          .catalog-card:not(.is-featured) .catalog-poster-wrap {
+            margin-inline: -6px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster-link,
+          .catalog-card:not(.is-featured) .catalog-poster-static {
+            width: min(100%, calc((360px * 9 / 16) + 10px));
+            padding: 5px;
           }
         }
 
