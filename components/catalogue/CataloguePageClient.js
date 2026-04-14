@@ -1389,10 +1389,12 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) .catalog-poster {
-            width: 100%;
+            width: auto;
             height: 100%;
+            max-width: 100%;
             aspect-ratio: auto;
-            object-fit: cover;
+            object-fit: contain;
+            object-position: center center;
             border-radius: 14px;
           }
 
