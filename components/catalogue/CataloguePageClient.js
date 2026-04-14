@@ -1382,8 +1382,13 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 601px) and (max-width: 849px) {
+          .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-wrap {
+            width: min(100%, clamp(520px, 72vw, 620px));
+            margin: 0 auto;
+          }
+
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster {
-            object-position: center 56%;
+            object-position: center 52%;
           }
         }
 
