@@ -222,6 +222,7 @@ export default function CataloguePageClient({ page }) {
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isExactTablet768, setIsExactTablet768] = useState(false);
+  const [isTabletWideRange, setIsTabletWideRange] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
   const mobileRows = chunkItems(shelfProjects, 3);
@@ -261,6 +262,23 @@ export default function CataloguePageClient({ page }) {
     return () => {
       observer?.disconnect();
       window.removeEventListener("resize", syncFeaturedHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const syncTabletWideRange = () => {
+      setIsTabletWideRange(window.innerWidth >= 850 && window.innerWidth <= 1125);
+    };
+
+    syncTabletWideRange();
+    window.addEventListener("resize", syncTabletWideRange);
+
+    return () => {
+      window.removeEventListener("resize", syncTabletWideRange);
     };
   }, []);
 
@@ -1437,7 +1455,7 @@ export default function CataloguePageClient({ page }) {
               <ProjectCard
                 key={project.id}
                 featuredStatusPlacement={page.featuredStatusPlacement}
-                showTabletReadMore={isExactTablet768 && project.id === "consentement-mutuel"}
+                showTabletReadMore={(isExactTablet768 || isTabletWideRange) && project.id === "consentement-mutuel"}
                 tabletSharedHeight={tabletSharedHeight}
                 isExactTablet768={isExactTablet768}
                 project={project}
