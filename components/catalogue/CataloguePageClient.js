@@ -1371,12 +1371,18 @@ export default function CataloguePageClient({ page }) {
             height: 760px;
             min-height: 760px;
             max-height: 760px;
-            grid-template-rows: auto 1fr;
+            grid-template-rows: 360px minmax(0, 1fr);
+            gap: 12px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster-wrap {
+            min-height: 0;
           }
 
           .catalog-card:not(.is-featured) .catalog-poster-link,
           .catalog-card:not(.is-featured) .catalog-poster-static {
-            height: 360px;
+            height: 100%;
+            min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1391,8 +1397,9 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) .catalog-meta {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-rows: auto minmax(0, 1fr) auto;
+            align-content: stretch;
             min-height: 0;
             height: 100%;
             gap: 12px;
@@ -1402,25 +1409,19 @@ export default function CataloguePageClient({ page }) {
             border-radius: 18px;
           }
 
-          .catalog-card.is-tall-preview .catalog-pitch {
+          .catalog-card:not(.is-featured) .catalog-pitch {
             display: -webkit-box;
             height: auto;
             overflow: hidden;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 7;
-          }
-
-          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch {
-            display: -webkit-box;
-            height: auto;
-            overflow: hidden;
+            min-height: 0;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 6;
           }
 
           .catalog-card:not(.is-featured) .catalog-actions {
-            margin-top: auto;
+            margin-top: 0;
             min-height: 42px;
+            align-self: end;
           }
         }
 
