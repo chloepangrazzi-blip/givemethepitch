@@ -1381,17 +1381,19 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card:not(.is-featured) .catalog-poster-link,
           .catalog-card:not(.is-featured) .catalog-poster-static {
+            width: min(100%, calc((360px * 9 / 16) + 20px));
             height: 100%;
             min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto;
           }
 
           .catalog-card:not(.is-featured) .catalog-poster {
-            width: auto;
-            height: 100%;
-            max-width: 100%;
+            width: 100%;
+            height: auto;
+            max-height: 100%;
             aspect-ratio: auto;
             object-fit: contain;
             object-position: center center;
