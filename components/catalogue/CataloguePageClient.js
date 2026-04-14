@@ -218,6 +218,7 @@ function MobileProjectCard({ project, onReadMore }) {
 export default function CataloguePageClient({ page }) {
   const [featuredHeight, setFeaturedHeight] = useState(null);
   const [tabletOpiumHeight, setTabletOpiumHeight] = useState(null);
+  const [tabletWideOpiumHeight, setTabletWideOpiumHeight] = useState(null);
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isExactTablet768, setIsExactTablet768] = useState(false);
@@ -260,6 +261,40 @@ export default function CataloguePageClient({ page }) {
     return () => {
       observer?.disconnect();
       window.removeEventListener("resize", syncFeaturedHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const opiumGridCard = document.querySelector('.catalog-grid [data-project-id="opium"]');
+    if (!opiumGridCard) {
+      return undefined;
+    }
+
+    const syncTabletWideOpiumHeight = () => {
+      if (window.innerWidth < 850 || window.innerWidth > 1125) {
+        setTabletWideOpiumHeight((currentHeight) => (currentHeight === null ? currentHeight : null));
+        return;
+      }
+
+      const nextHeight = Number(opiumGridCard.getBoundingClientRect().height.toFixed(2));
+      setTabletWideOpiumHeight((currentHeight) => (currentHeight === nextHeight ? currentHeight : nextHeight));
+    };
+
+    syncTabletWideOpiumHeight();
+
+    const observer =
+      "ResizeObserver" in window ? new ResizeObserver(syncTabletWideOpiumHeight) : null;
+
+    observer?.observe(opiumGridCard);
+    window.addEventListener("resize", syncTabletWideOpiumHeight);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", syncTabletWideOpiumHeight);
     };
   }, []);
 
@@ -372,6 +407,9 @@ export default function CataloguePageClient({ page }) {
   }
   if (tabletOpiumHeight) {
     pageStyle["--catalog-tablet-opium-height"] = `${tabletOpiumHeight}px`;
+  }
+  if (tabletWideOpiumHeight) {
+    pageStyle["--catalog-wide-opium-height"] = `${tabletWideOpiumHeight}px`;
   }
   const tabletSharedHeight =
     isExactTablet768 && tabletOpiumHeight && tabletMareeNoireHeight
@@ -1327,14 +1365,14 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card.is-featured[data-project-id="maree-noire"] {
             grid-column: span 2;
-            height: var(--catalog-tablet-opium-height, auto);
-            min-height: var(--catalog-tablet-opium-height, 760px);
-            max-height: var(--catalog-tablet-opium-height, 760px);
+            height: var(--catalog-wide-opium-height, auto);
+            min-height: var(--catalog-wide-opium-height, 760px);
+            max-height: var(--catalog-wide-opium-height, 760px);
           }
 
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-link,
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-static {
-            height: calc(var(--catalog-tablet-opium-height, 760px) - 158px);
+            height: calc(var(--catalog-wide-opium-height, 760px) - 158px);
             display: flex;
             align-items: center;
             justify-content: center;
