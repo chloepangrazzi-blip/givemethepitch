@@ -1303,8 +1303,13 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 500px) and (max-width: 849px) {
+          .catalog-page {
+            padding: 36px 18px 72px;
+          }
+
           .catalog-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
           }
 
           .catalog-header {
@@ -1368,11 +1373,17 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) {
-            height: 760px;
-            min-height: 760px;
-            max-height: 760px;
-            grid-template-rows: 360px minmax(0, 1fr);
-            gap: 12px;
+            --compact-card-height: 760px;
+            --compact-poster-height: 360px;
+            --compact-card-padding: 10px;
+            --compact-card-gap: 10px;
+            --compact-frame-padding: 5px;
+            height: var(--compact-card-height);
+            min-height: var(--compact-card-height);
+            max-height: var(--compact-card-height);
+            padding: var(--compact-card-padding);
+            grid-template-rows: var(--compact-poster-height) minmax(0, 1fr);
+            gap: var(--compact-card-gap);
           }
 
           .catalog-card:not(.is-featured) .catalog-poster-wrap {
@@ -1381,14 +1392,14 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card:not(.is-featured) .catalog-poster-link,
           .catalog-card:not(.is-featured) .catalog-poster-static {
-            width: min(100%, calc((360px * 9 / 16) + 16px));
+            width: min(100%, calc((var(--compact-poster-height) * 9 / 16) + (var(--compact-frame-padding) * 2)));
             height: 100%;
             min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            padding: 8px;
+            padding: var(--compact-frame-padding);
           }
 
           .catalog-card:not(.is-featured) .catalog-poster {
@@ -1407,7 +1418,7 @@ export default function CataloguePageClient({ page }) {
             align-content: stretch;
             min-height: 0;
             height: 100%;
-            gap: 12px;
+            gap: 10px;
           }
 
           .catalog-card.is-tall-preview .catalog-poster {
@@ -1431,26 +1442,38 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 500px) and (max-width: 621px) {
-          .catalog-card:not(.is-featured) .catalog-poster-wrap {
-            margin-inline: -2px;
+          .catalog-page {
+            padding-inline: 16px;
           }
 
-          .catalog-card:not(.is-featured) .catalog-poster-link,
-          .catalog-card:not(.is-featured) .catalog-poster-static {
-            width: min(100%, calc((360px * 9 / 16) + 14px));
-            padding: 7px;
+          .catalog-grid {
+            gap: 18px;
+          }
+
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: 760px;
+            --compact-poster-height: 360px;
+            --compact-card-padding: 10px;
+            --compact-card-gap: 10px;
+            --compact-frame-padding: 5px;
           }
         }
 
         @media (min-width: 622px) and (max-width: 849px) {
-          .catalog-card:not(.is-featured) .catalog-poster-wrap {
-            margin-inline: -6px;
+          .catalog-page {
+            padding-inline: 18px;
           }
 
-          .catalog-card:not(.is-featured) .catalog-poster-link,
-          .catalog-card:not(.is-featured) .catalog-poster-static {
-            width: min(100%, calc((360px * 9 / 16) + 10px));
-            padding: 5px;
+          .catalog-grid {
+            gap: 20px;
+          }
+
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: 900px;
+            --compact-poster-height: 500px;
+            --compact-card-padding: 12px;
+            --compact-card-gap: 10px;
+            --compact-frame-padding: 5px;
           }
         }
 
