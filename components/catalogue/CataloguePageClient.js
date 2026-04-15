@@ -1485,6 +1485,23 @@ export default function CataloguePageClient({ page }) {
           }
         }
 
+        @media (min-width: 600px) and (max-width: 849px) {
+          .catalog-card:not(.is-featured) .catalog-poster-link,
+          .catalog-card:not(.is-featured) .catalog-poster-static {
+            width: min(
+              100%,
+              calc(((var(--compact-poster-height) - (var(--compact-frame-padding) * 2)) * 5 / 8) + (var(--compact-frame-padding) * 2))
+            );
+          }
+
+          .catalog-card:not(.is-featured) .catalog-poster {
+            width: 100%;
+            height: 100%;
+            max-height: none;
+            object-fit: contain;
+          }
+        }
+
         @media (min-width: 622px) and (max-width: 849px) {
           .catalog-page {
             padding-inline: 18px;
