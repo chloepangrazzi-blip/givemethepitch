@@ -1397,6 +1397,7 @@ export default function CataloguePageClient({ page }) {
             --compact-card-padding: 10px;
             --compact-card-gap: 10px;
             --compact-frame-inset: 8px;
+            --compact-pitch-lines: 5;
             height: var(--compact-card-height);
             min-height: var(--compact-card-height);
             max-height: var(--compact-card-height);
@@ -1442,17 +1443,30 @@ export default function CataloguePageClient({ page }) {
             gap: 10px;
           }
 
+          .catalog-card:not(.is-featured) .catalog-meta-top {
+            min-height: 0;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-status-inline {
+            min-height: 34px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-tags {
+            align-content: flex-start;
+          }
+
           .catalog-card.is-tall-preview .catalog-poster {
             border-radius: 18px;
           }
 
-          .catalog-card:not(.is-featured) .catalog-pitch {
+          .catalog-card:not(.is-featured) .catalog-pitch,
+          .catalog-card.is-tall-preview .catalog-pitch {
             display: -webkit-box;
             height: auto;
             overflow: hidden;
             min-height: 0;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 6;
+            -webkit-line-clamp: var(--compact-pitch-lines);
           }
 
           .catalog-card:not(.is-featured) .catalog-actions {
@@ -1476,6 +1490,7 @@ export default function CataloguePageClient({ page }) {
             --compact-card-height: clamp(760px, calc(var(--compact-poster-height) + 360px), 780px);
             --compact-card-padding: 10px;
             --compact-card-gap: 10px;
+            --compact-pitch-lines: 5;
           }
         }
 
@@ -1493,6 +1508,7 @@ export default function CataloguePageClient({ page }) {
             --compact-card-height: clamp(820px, calc(var(--compact-poster-height) + 380px), 940px);
             --compact-card-padding: 12px;
             --compact-card-gap: 10px;
+            --compact-pitch-lines: 5;
           }
         }
 
