@@ -1458,7 +1458,7 @@ export default function CataloguePageClient({ page }) {
             border-radius: 18px;
           }
 
-          .catalog-card:not(.is-featured) .catalog-pitch,
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             display: -webkit-box;
             height: auto;
@@ -1509,7 +1509,7 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 500px) and (max-width: 559px) {
-          .catalog-card:not(.is-featured) .catalog-pitch,
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 5);
             -webkit-line-clamp: 5;
@@ -1517,7 +1517,7 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 560px) and (max-width: 639px) {
-          .catalog-card:not(.is-featured) .catalog-pitch,
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 4);
             -webkit-line-clamp: 4;
@@ -1525,7 +1525,7 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 640px) and (max-width: 719px) {
-          .catalog-card:not(.is-featured) .catalog-pitch,
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 3);
             -webkit-line-clamp: 3;
@@ -1533,7 +1533,7 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 720px) and (max-width: 849px) {
-          .catalog-card:not(.is-featured) .catalog-pitch,
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 2);
             -webkit-line-clamp: 2;
