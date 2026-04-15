@@ -407,7 +407,7 @@ export default function CataloguePageClient({ page }) {
     }
 
     const syncTabletPosterVariantRange = () => {
-      setUseTabletPosterVariant(window.innerWidth >= 600 && window.innerWidth <= 849);
+      setUseTabletPosterVariant(window.innerWidth >= 500 && window.innerWidth <= 849);
     };
 
     syncTabletPosterVariantRange();
@@ -1394,11 +1394,9 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) {
-            --compact-card-height: 760px;
-            --compact-poster-height: 360px;
             --compact-card-padding: 10px;
             --compact-card-gap: 10px;
-            --compact-frame-padding: 5px;
+            --compact-frame-inset: 8px;
             height: var(--compact-card-height);
             min-height: var(--compact-card-height);
             max-height: var(--compact-card-height);
@@ -1409,28 +1407,30 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card:not(.is-featured) .catalog-poster-wrap {
             min-height: 0;
+            height: 100%;
+            position: relative;
           }
 
           .catalog-card:not(.is-featured) .catalog-poster-link,
           .catalog-card:not(.is-featured) .catalog-poster-static {
-            width: min(100%, calc((var(--compact-poster-height) * 9 / 16) + (var(--compact-frame-padding) * 2)));
-            height: 100%;
-            min-height: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            padding: var(--compact-frame-padding);
+            position: absolute;
+            inset: var(--compact-frame-inset);
+            display: block;
+            padding: 0;
+            border-radius: 22px;
+            overflow: hidden;
+            background: #050505;
           }
 
           .catalog-card:not(.is-featured) .catalog-poster {
             width: 100%;
-            height: auto;
-            max-height: 100%;
+            height: 100%;
+            max-height: none;
             aspect-ratio: auto;
-            object-fit: contain;
+            object-fit: cover;
             object-position: center center;
-            border-radius: 14px;
+            border-radius: 18px;
+            clip-path: inset(0 round 18px);
           }
 
           .catalog-card:not(.is-featured) .catalog-meta {
@@ -1472,33 +1472,10 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) {
-            --compact-card-height: 760px;
-            --compact-poster-height: 360px;
+            --compact-poster-height: calc(80vw - 81.6px);
+            --compact-card-height: clamp(760px, calc(var(--compact-poster-height) + 360px), 780px);
             --compact-card-padding: 10px;
             --compact-card-gap: 10px;
-            --compact-frame-padding: 5px;
-          }
-
-          .catalog-card:not(.is-featured) .catalog-poster-link,
-          .catalog-card:not(.is-featured) .catalog-poster-static {
-            padding: 2px 5px 8px;
-          }
-        }
-
-        @media (min-width: 600px) and (max-width: 849px) {
-          .catalog-card:not(.is-featured) .catalog-poster-link,
-          .catalog-card:not(.is-featured) .catalog-poster-static {
-            width: min(
-              100%,
-              calc(((var(--compact-poster-height) - (var(--compact-frame-padding) * 2)) * 5 / 8) + (var(--compact-frame-padding) * 2))
-            );
-          }
-
-          .catalog-card:not(.is-featured) .catalog-poster {
-            width: 100%;
-            height: 100%;
-            max-height: none;
-            object-fit: contain;
           }
         }
 
@@ -1512,11 +1489,10 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) {
-            --compact-card-height: 900px;
-            --compact-poster-height: 500px;
+            --compact-poster-height: calc(80vw - 92.8px);
+            --compact-card-height: clamp(820px, calc(var(--compact-poster-height) + 380px), 940px);
             --compact-card-padding: 12px;
             --compact-card-gap: 10px;
-            --compact-frame-padding: 5px;
           }
         }
 
