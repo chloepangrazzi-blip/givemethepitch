@@ -1512,6 +1512,30 @@ export default function CataloguePageClient({ page }) {
           }
         }
 
+        @media (min-width: 500px) and (max-width: 559px) {
+          .catalog-card:not(.is-featured) {
+            --compact-pitch-lines: 5;
+          }
+        }
+
+        @media (min-width: 560px) and (max-width: 639px) {
+          .catalog-card:not(.is-featured) {
+            --compact-pitch-lines: 4;
+          }
+        }
+
+        @media (min-width: 640px) and (max-width: 719px) {
+          .catalog-card:not(.is-featured) {
+            --compact-pitch-lines: 3;
+          }
+        }
+
+        @media (min-width: 720px) and (max-width: 849px) {
+          .catalog-card:not(.is-featured) {
+            --compact-pitch-lines: 2;
+          }
+        }
+
         @media (min-width: 601px) and (max-width: 849px) {
           .catalog-card.is-featured[data-project-id="maree-noire"] .catalog-poster-wrap {
             width: min(100%, clamp(520px, 72vw, 620px));
