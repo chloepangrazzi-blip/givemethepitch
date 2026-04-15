@@ -40,6 +40,7 @@ function ProjectCard({
   showTabletReadMore = false,
   tabletSharedHeight = null,
   isTabletCompactRange = false,
+  useTabletPosterVariant = false,
 }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -57,6 +58,8 @@ function ProjectCard({
     tabletSharedHeight && isTabletCompactRange && project.id === "maree-noire"
       ? { height: `${tabletSharedHeight}px`, minHeight: `${tabletSharedHeight}px`, maxHeight: `${tabletSharedHeight}px` }
       : undefined;
+  const resolvedPosterSrc =
+    useTabletPosterVariant && !project.featured && project.tabletPosterSrc ? project.tabletPosterSrc : project.posterSrc;
   const posterStyle =
     project.id === "maree-noire" && isTabletCompactRange
       ? {
@@ -101,7 +104,7 @@ function ProjectCard({
             <img
               alt={project.title}
               className="catalog-poster"
-              src={project.posterSrc}
+              src={resolvedPosterSrc}
               style={posterStyle}
             />
           </Link>
@@ -115,7 +118,7 @@ function ProjectCard({
             <img
               alt={project.title}
               className="catalog-poster"
-              src={project.posterSrc}
+              src={resolvedPosterSrc}
               style={posterStyle}
             />
           </div>
@@ -221,6 +224,7 @@ export default function CataloguePageClient({ page }) {
   const [tabletMareeNoireHeight, setTabletMareeNoireHeight] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
   const [isTabletCompactRange, setIsTabletCompactRange] = useState(false);
+  const [useTabletPosterVariant, setUseTabletPosterVariant] = useState(false);
   const [isTabletWideRange, setIsTabletWideRange] = useState(false);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
@@ -394,6 +398,23 @@ export default function CataloguePageClient({ page }) {
 
     return () => {
       window.removeEventListener("resize", syncTabletCompactRange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const syncTabletPosterVariantRange = () => {
+      setUseTabletPosterVariant(window.innerWidth >= 600 && window.innerWidth <= 849);
+    };
+
+    syncTabletPosterVariantRange();
+    window.addEventListener("resize", syncTabletPosterVariantRange);
+
+    return () => {
+      window.removeEventListener("resize", syncTabletPosterVariantRange);
     };
   }, []);
 
@@ -1575,6 +1596,7 @@ export default function CataloguePageClient({ page }) {
                 showTabletReadMore={(isTabletCompactRange || isTabletWideRange) && project.id === "consentement-mutuel"}
                 tabletSharedHeight={tabletSharedHeight}
                 isTabletCompactRange={isTabletCompactRange}
+                useTabletPosterVariant={useTabletPosterVariant}
                 project={project}
                 onReadMore={setActiveProject}
               />
