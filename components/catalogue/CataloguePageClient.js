@@ -1457,6 +1457,11 @@ export default function CataloguePageClient({ page }) {
             --compact-card-gap: 10px;
             --compact-frame-padding: 5px;
           }
+
+          .catalog-card:not(.is-featured) .catalog-poster-link,
+          .catalog-card:not(.is-featured) .catalog-poster-static {
+            padding: 2px 5px 8px;
+          }
         }
 
         @media (min-width: 622px) and (max-width: 849px) {
