@@ -2190,6 +2190,81 @@ export default function TheRoomPageClient(page) {
             font-size: 0.58rem;
           }
         }
+
+        @media (max-width: 900px) and (orientation: portrait) {
+          .room-page-landing {
+            --room-landing-viewport-pad-y: clamp(8px, 1.8vh, 16px);
+            --room-landing-viewport-pad-x: clamp(10px, 3.2vw, 20px);
+          }
+
+          .room-page-landing .room-landing-shell {
+            grid-template-rows: clamp(28px, 4.8vh, 44px) minmax(0, 1fr) clamp(28px, 4.8vh, 44px);
+          }
+
+          .room-page-landing .room-landing-main {
+            padding: clamp(6px, 1.25vh, 16px) clamp(10px, 2.6vw, 28px);
+          }
+
+          .room-page-landing .room-landing-content {
+            gap: clamp(6px, 1vh, 12px);
+          }
+
+          .room-page-landing .room-landing-title {
+            font-size: clamp(2.5rem, min(10.8vw, 8.9vh), 6.9rem);
+          }
+
+          .room-page-landing .room-landing-tagline {
+            font-size: clamp(0.54rem, min(1vw, 1.12vh), 0.72rem);
+            letter-spacing: clamp(0.12em, 0.24vw, 0.22em);
+          }
+
+          .room-page-landing .room-landing-actions {
+            gap: clamp(5px, 0.85vh, 8px);
+          }
+
+          .room-page-landing .room-landing-cta {
+            width: min(248px, 78vw);
+            min-height: clamp(50px, 6.4vh, 64px);
+            font-size: clamp(0.96rem, min(1.9vw, 1.95vh), 1.14rem);
+          }
+
+          .room-page-landing .room-landing-access-link {
+            font-size: clamp(0.58rem, min(0.92vw, 1.05vh), 0.74rem);
+          }
+        }
+
+        @media (max-width: 520px) and (orientation: portrait) {
+          .room-page-landing .room-landing-shell {
+            grid-template-rows: clamp(24px, 4.2vh, 36px) minmax(0, 1fr) clamp(24px, 4.2vh, 36px);
+          }
+
+          .room-page-landing .room-landing-main {
+            padding: clamp(4px, 1vh, 10px) clamp(8px, 2.8vw, 16px);
+          }
+
+          .room-page-landing .room-landing-content {
+            gap: 6px;
+          }
+
+          .room-page-landing .room-landing-title {
+            font-size: clamp(2.3rem, min(11vw, 7.8vh), 4.9rem);
+          }
+
+          .room-page-landing .room-landing-tagline {
+            font-size: clamp(0.5rem, min(0.9vw, 0.98vh), 0.64rem);
+          }
+
+          .room-page-landing .room-landing-cta {
+            width: min(236px, 80vw);
+            min-height: clamp(48px, 5.8vh, 56px);
+            padding: 0 clamp(16px, 4vw, 22px);
+            font-size: clamp(0.92rem, min(1.6vw, 1.75vh), 1rem);
+          }
+
+          .room-page-landing .room-landing-access-link {
+            font-size: clamp(0.56rem, min(0.85vw, 0.94vh), 0.68rem);
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
