@@ -2196,11 +2196,11 @@ export default function TheRoomPageClient(page) {
             --room-landing-viewport-pad-y: clamp(10px, 2.2vh, 24px);
             --room-landing-viewport-pad-x: clamp(12px, 3.8vw, 24px);
             --room-landing-stage-width: clamp(260px, 66vw, 360px);
-            --room-landing-rail-height: clamp(28px, 4.9vh, 40px);
-            --room-landing-center-gap: clamp(18px, 4.4vh, 34px);
-            --room-landing-center-pad-y: clamp(28px, 6.2vh, 46px);
+            --room-landing-shell-radius: clamp(34px, 8vw, 42px);
+            --room-landing-rail-height: clamp(34px, 5.4vh, 48px);
+            --room-landing-center-pad-y: clamp(30px, 6.4vh, 48px);
             --room-landing-center-pad-x: clamp(12px, 2.8vw, 20px);
-            --room-landing-title-size: clamp(2.65rem, 10.8vw, 4.75rem);
+            --room-landing-title-size: clamp(2.3rem, 9.6vw, 4.4rem);
             --room-landing-tagline-size: clamp(0.54rem, 0.92vw, 0.68rem);
             --room-landing-cta-width: min(252px, 74vw);
             --room-landing-cta-height: clamp(50px, 7vh, 60px);
@@ -2236,16 +2236,16 @@ export default function TheRoomPageClient(page) {
             max-height: calc(100svh - (var(--room-landing-viewport-pad-y) * 2)) !important;
             background: transparent !important;
             border: none !important;
-            border-radius: 0 !important;
-            overflow: visible !important;
+            border-radius: var(--room-landing-shell-radius) !important;
+            overflow: hidden !important;
             grid-template-rows: auto auto auto !important;
-            row-gap: var(--room-landing-center-gap);
+            row-gap: 0 !important;
           }
 
           .room-page-landing .room-landing-rail {
             width: 100%;
             height: var(--room-landing-rail-height);
-            border-radius: 999px;
+            background: var(--room-mint);
             justify-self: center;
           }
 
@@ -2254,7 +2254,7 @@ export default function TheRoomPageClient(page) {
             height: auto !important;
             display: grid !important;
             place-items: center !important;
-            background: transparent !important;
+            background: #000 !important;
             border-left: 1px solid var(--room-line-mint);
             border-right: 1px solid var(--room-line-mint);
             padding: var(--room-landing-center-pad-y) var(--room-landing-center-pad-x) !important;
@@ -2271,6 +2271,9 @@ export default function TheRoomPageClient(page) {
           .room-page-landing .room-landing-title {
             font-size: var(--room-landing-title-size) !important;
             line-height: 0.88;
+            white-space: nowrap;
+            max-width: 100%;
+            letter-spacing: 0;
           }
 
           .room-page-landing .room-landing-tagline {
@@ -2302,11 +2305,11 @@ export default function TheRoomPageClient(page) {
         @media (max-width: 520px) and (orientation: portrait) {
           .room-page-landing {
             --room-landing-stage-width: clamp(248px, 74vw, 300px);
-            --room-landing-rail-height: clamp(24px, 4.2vh, 34px);
-            --room-landing-center-gap: clamp(14px, 3.6vh, 24px);
-            --room-landing-center-pad-y: clamp(22px, 5.2vh, 34px);
+            --room-landing-shell-radius: clamp(30px, 8.6vw, 36px);
+            --room-landing-rail-height: clamp(28px, 4.6vh, 38px);
+            --room-landing-center-pad-y: clamp(24px, 5.5vh, 36px);
             --room-landing-center-pad-x: clamp(10px, 3vw, 16px);
-            --room-landing-title-size: clamp(2.4rem, 12vw, 3.95rem);
+            --room-landing-title-size: clamp(2.1rem, 10.4vw, 3.55rem);
             --room-landing-tagline-size: clamp(0.5rem, 0.86vw, 0.62rem);
             --room-landing-cta-width: min(236px, 80vw);
             --room-landing-cta-height: clamp(48px, 6vh, 54px);
@@ -2320,9 +2323,8 @@ export default function TheRoomPageClient(page) {
 
         @media (max-height: 760px) and (max-width: 900px) and (orientation: portrait) {
           .room-page-landing {
-            --room-landing-center-gap: clamp(14px, 3.1vh, 24px);
-            --room-landing-center-pad-y: clamp(20px, 4.4vh, 32px);
-            --room-landing-rail-height: clamp(24px, 4vh, 34px);
+            --room-landing-center-pad-y: clamp(20px, 4.4vh, 34px);
+            --room-landing-rail-height: clamp(24px, 4.2vh, 38px);
           }
         }
       `}</style>
