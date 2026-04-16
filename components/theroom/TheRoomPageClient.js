@@ -2193,80 +2193,136 @@ export default function TheRoomPageClient(page) {
 
         @media (max-width: 900px) and (orientation: portrait) {
           .room-page-landing {
-            --room-landing-viewport-pad-y: clamp(8px, 1.8vh, 16px);
-            --room-landing-viewport-pad-x: clamp(10px, 3.2vw, 20px);
+            --room-landing-viewport-pad-y: clamp(10px, 2.2vh, 24px);
+            --room-landing-viewport-pad-x: clamp(12px, 3.8vw, 24px);
+            --room-landing-stage-width: clamp(260px, 66vw, 360px);
+            --room-landing-rail-height: clamp(28px, 4.9vh, 40px);
+            --room-landing-center-gap: clamp(18px, 4.4vh, 34px);
+            --room-landing-center-pad-y: clamp(28px, 6.2vh, 46px);
+            --room-landing-center-pad-x: clamp(12px, 2.8vw, 20px);
+            --room-landing-title-size: clamp(2.65rem, 10.8vw, 4.75rem);
+            --room-landing-tagline-size: clamp(0.54rem, 0.92vw, 0.68rem);
+            --room-landing-cta-width: min(252px, 74vw);
+            --room-landing-cta-height: clamp(50px, 7vh, 60px);
+            --room-landing-access-size: clamp(0.58rem, 0.88vw, 0.72rem);
             overflow: hidden;
           }
 
+          .room-page-landing .room-shell {
+            width: 100%;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            display: flex;
+            justify-content: center;
+          }
+
+          .room-page-landing .room-stage-landing {
+            width: var(--room-landing-stage-width) !important;
+            min-height: 0 !important;
+            height: auto !important;
+            padding: 0 !important;
+            gap: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+          }
+
           .room-page-landing .room-landing-shell {
+            min-height: 0 !important;
+            width: 100%;
             height: auto !important;
             max-height: calc(100svh - (var(--room-landing-viewport-pad-y) * 2)) !important;
-            grid-template-rows: clamp(28px, 4.8vh, 44px) auto clamp(28px, 4.8vh, 44px);
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+            grid-template-rows: auto auto auto !important;
+            row-gap: var(--room-landing-center-gap);
+          }
+
+          .room-page-landing .room-landing-rail {
+            width: 100%;
+            height: var(--room-landing-rail-height);
+            border-radius: 999px;
+            justify-self: center;
           }
 
           .room-page-landing .room-landing-main {
+            min-height: 0 !important;
             height: auto !important;
-            padding: clamp(14px, 2.45vh, 26px) clamp(10px, 2.6vw, 28px);
+            display: grid !important;
+            place-items: center !important;
+            background: transparent !important;
+            border-left: 1px solid var(--room-line-mint);
+            border-right: 1px solid var(--room-line-mint);
+            padding: var(--room-landing-center-pad-y) var(--room-landing-center-pad-x) !important;
+            margin: 0 !important;
           }
 
           .room-page-landing .room-landing-content {
-            gap: clamp(6px, 1vh, 12px);
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: clamp(10px, 1.8vh, 16px) !important;
           }
 
           .room-page-landing .room-landing-title {
-            font-size: clamp(2.5rem, min(10.8vw, 8.9vh), 6.9rem);
+            font-size: var(--room-landing-title-size) !important;
+            line-height: 0.88;
           }
 
           .room-page-landing .room-landing-tagline {
-            font-size: clamp(0.54rem, min(1vw, 1.12vh), 0.72rem);
-            letter-spacing: clamp(0.12em, 0.24vw, 0.22em);
+            margin: -4px 0 0 !important;
+            font-size: var(--room-landing-tagline-size) !important;
+            letter-spacing: clamp(0.16em, 0.28vw, 0.24em);
           }
 
           .room-page-landing .room-landing-actions {
-            gap: clamp(5px, 0.85vh, 8px);
+            width: 100%;
+            gap: clamp(8px, 1.5vh, 12px) !important;
           }
 
           .room-page-landing .room-landing-cta {
-            width: min(248px, 78vw);
-            min-height: clamp(50px, 6.4vh, 64px);
-            font-size: clamp(0.96rem, min(1.9vw, 1.95vh), 1.14rem);
+            width: var(--room-landing-cta-width) !important;
+            min-height: var(--room-landing-cta-height) !important;
+            padding: 0 clamp(18px, 3.4vw, 24px);
+            font-size: clamp(0.98rem, 1.8vw, 1.12rem) !important;
+            margin-top: 0 !important;
           }
 
           .room-page-landing .room-landing-access-link {
-            font-size: clamp(0.58rem, min(0.92vw, 1.05vh), 0.74rem);
+            font-size: var(--room-landing-access-size) !important;
+            line-height: 1.2;
+            white-space: nowrap;
           }
         }
 
         @media (max-width: 520px) and (orientation: portrait) {
-          .room-page-landing .room-landing-shell {
-            grid-template-rows: clamp(24px, 4.2vh, 36px) auto clamp(24px, 4.2vh, 36px);
-          }
-
-          .room-page-landing .room-landing-main {
-            padding: clamp(10px, 1.9vh, 18px) clamp(8px, 2.8vw, 16px);
+          .room-page-landing {
+            --room-landing-stage-width: clamp(248px, 74vw, 300px);
+            --room-landing-rail-height: clamp(24px, 4.2vh, 34px);
+            --room-landing-center-gap: clamp(14px, 3.6vh, 24px);
+            --room-landing-center-pad-y: clamp(22px, 5.2vh, 34px);
+            --room-landing-center-pad-x: clamp(10px, 3vw, 16px);
+            --room-landing-title-size: clamp(2.4rem, 12vw, 3.95rem);
+            --room-landing-tagline-size: clamp(0.5rem, 0.86vw, 0.62rem);
+            --room-landing-cta-width: min(236px, 80vw);
+            --room-landing-cta-height: clamp(48px, 6vh, 54px);
+            --room-landing-access-size: clamp(0.54rem, 0.82vw, 0.64rem);
           }
 
           .room-page-landing .room-landing-content {
-            gap: 6px;
+            gap: 10px !important;
           }
+        }
 
-          .room-page-landing .room-landing-title {
-            font-size: clamp(2.3rem, min(11vw, 7.8vh), 4.9rem);
-          }
-
-          .room-page-landing .room-landing-tagline {
-            font-size: clamp(0.5rem, min(0.9vw, 0.98vh), 0.64rem);
-          }
-
-          .room-page-landing .room-landing-cta {
-            width: min(236px, 80vw);
-            min-height: clamp(48px, 5.8vh, 56px);
-            padding: 0 clamp(16px, 4vw, 22px);
-            font-size: clamp(0.92rem, min(1.6vw, 1.75vh), 1rem);
-          }
-
-          .room-page-landing .room-landing-access-link {
-            font-size: clamp(0.56rem, min(0.85vw, 0.94vh), 0.68rem);
+        @media (max-height: 760px) and (max-width: 900px) and (orientation: portrait) {
+          .room-page-landing {
+            --room-landing-center-gap: clamp(14px, 3.1vh, 24px);
+            --room-landing-center-pad-y: clamp(20px, 4.4vh, 32px);
+            --room-landing-rail-height: clamp(24px, 4vh, 34px);
           }
         }
       `}</style>
