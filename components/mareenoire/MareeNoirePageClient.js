@@ -2234,6 +2234,283 @@ export default function MareeNoirePageClient({ page }) {
             padding: 24px 16px;
           }
         }
+
+        @media (max-width: 390px) {
+          .mn-page {
+            padding: 14px 10px 56px;
+          }
+
+          .mn-shell {
+            gap: 14px;
+          }
+
+          .mn-body-shell {
+            padding: 14px;
+            border-radius: 22px;
+          }
+
+          .mn-body-shell-inner {
+            gap: 18px;
+          }
+
+          .mn-intro-card,
+          .mn-brief-card,
+          .mn-copy-cell,
+          .mn-opener-card,
+          .mn-watchers-card,
+          .mn-sea-card,
+          .mn-arena-text,
+          .mn-final-action {
+            padding: 16px;
+            border-radius: 20px;
+          }
+
+          .mn-copy-cell,
+          .mn-media-cell,
+          .mn-pitch-card,
+          .mn-cover-card,
+          .mn-teaser-card,
+          .mn-section-band,
+          .mn-image-band,
+          .mn-tele-card,
+          .mn-cliff-card,
+          .mn-final-image-card,
+          .mn-gallery-card {
+            border-radius: 20px;
+          }
+
+          .mn-media-image {
+            border-radius: 19px;
+          }
+
+          .mn-title {
+            font-size: clamp(2.34rem, 11vw, 2.72rem);
+          }
+
+          .mn-session,
+          .mn-pill {
+            min-height: 34px;
+            padding: 0 10px;
+            font-size: 0.66rem;
+            letter-spacing: 0.08em;
+          }
+
+          .mn-brief-step {
+            grid-template-columns: 38px minmax(0, 1fr);
+            gap: 9px;
+            padding: 10px 12px;
+          }
+
+          .mn-brief-index {
+            min-height: 30px;
+            font-size: 0.66rem;
+          }
+
+          .mn-brief-text {
+            font-size: 0.88rem;
+            line-height: 1.52;
+          }
+
+          .mn-brief-note {
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+          }
+
+          .mn-pitch-card {
+            min-height: 480px;
+            padding: 16px;
+            gap: 16px;
+          }
+
+          .mn-pitch-copy {
+            padding: 16px;
+            border-radius: 18px;
+            gap: 12px;
+          }
+
+          .mn-pitch-copy .mn-body {
+            font-size: 0.88rem;
+            line-height: 1.62;
+          }
+
+          .mn-pitch-word,
+          .mn-pitch-line {
+            font-size: 0.9rem;
+          }
+
+          .mn-section-band {
+            min-height: 220px;
+          }
+
+          .mn-section-band-copy,
+          .mn-body-shell .mn-section-band-copy {
+            padding: 18px;
+          }
+
+          .mn-section-band-title,
+          .mn-body-shell .mn-section-band-title {
+            font-size: clamp(1.24rem, 6.4vw, 1.7rem);
+          }
+
+          .mn-dive-grid {
+            padding: 8px 0 16px;
+          }
+
+          .mn-dive-hook,
+          .mn-dive-accent {
+            font-size: 0.86rem;
+            line-height: 1.06;
+          }
+
+          .mn-dive-beats p,
+          .mn-dive-grid > .mn-copy-cell:last-child .mn-body {
+            font-size: 0.88rem;
+            line-height: 1.64;
+          }
+
+          .mn-feature-grid {
+            gap: 16px;
+          }
+
+          .mn-body-shell .mn-feature-grid {
+            margin-top: 6px;
+          }
+
+          .mn-media-cell-character,
+          .mn-media-cell-story,
+          .mn-media-cell,
+          .mn-cover-card,
+          .mn-image-band,
+          .mn-tele-card,
+          .mn-cliff-card,
+          .mn-final-image-card {
+            min-height: 300px;
+          }
+
+          .mn-character-name,
+          .mn-profile-name,
+          .mn-story-split .mn-split-title,
+          .mn-watchers-card .mn-profile-name,
+          .mn-sea-card .mn-section-title,
+          .mn-arenas-title,
+          .mn-arenas-column-title,
+          .mn-editorial-title-watchers,
+          .mn-editorial-title-sea,
+          .mn-opener-card .mn-section-title {
+            font-size: clamp(1.06rem, 5.6vw, 1.42rem);
+            line-height: 1.02;
+          }
+
+          .mn-section-line,
+          .mn-arenas-line,
+          .mn-opener-card .mn-section-kicker,
+          .mn-story-split .mn-section-kicker,
+          .mn-editorial-kicker {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+          }
+
+          .mn-feature-grid .mn-copy-stack .mn-body,
+          .mn-story-split .mn-copy-stack .mn-body,
+          .mn-watchers-card .mn-body,
+          .mn-sea-card .mn-body,
+          .mn-arenas-column .mn-body,
+          .mn-editorial-copy .mn-body,
+          .mn-opener-card .mn-body,
+          .mn-word-copy .mn-body {
+            font-size: 0.88rem;
+            line-height: 1.68;
+          }
+
+          .mn-copy-stack,
+          .mn-story-split .mn-copy-stack,
+          .mn-watchers-card .mn-copy-stack,
+          .mn-sea-card .mn-copy-stack,
+          .mn-arenas-column .mn-copy-stack,
+          .mn-word-copy {
+            gap: 12px;
+          }
+
+          .mn-quote-card {
+            padding: 36px 0;
+          }
+
+          .mn-quote-text {
+            padding: 22px 16px;
+          }
+
+          .mn-quote-card p {
+            font-size: 0.92rem;
+            line-height: 1.42;
+          }
+
+          .mn-watchers-editorial,
+          .mn-sea-editorial {
+            margin-top: 24px;
+            margin-bottom: 20px;
+          }
+
+          .mn-editorial-title-watchers {
+            font-size: 0.96rem;
+          }
+
+          .mn-editorial-title-sea {
+            font-size: 1.34rem;
+          }
+
+          .mn-gallery-card,
+          .mn-watchers-grid .mn-gallery-card {
+            min-height: 220px;
+          }
+
+          .mn-tele-card,
+          .mn-cliff-card,
+          .mn-final-image-card {
+            min-height: 260px;
+          }
+
+          .mn-finale-image {
+            min-height: 280px;
+          }
+
+          .mn-finale-quote {
+            padding: 18px 14px;
+          }
+
+          .mn-word-card {
+            padding: 18px 16px;
+            gap: 12px;
+          }
+
+          .mn-word-title {
+            font-size: 0.88rem;
+            letter-spacing: 0.09em;
+            line-height: 1.5;
+          }
+
+          .mn-word-references {
+            font-size: 0.66rem;
+            letter-spacing: 0.12em;
+          }
+
+          .mn-opener-card {
+            gap: 16px;
+            padding: 16px 0 8px;
+          }
+
+          .mn-final-action {
+            padding: 20px 16px;
+          }
+
+          .mn-action {
+            min-height: 52px;
+            font-size: 0.86rem;
+          }
+
+          .mn-action-caption {
+            font-size: 0.78rem;
+          }
+        }
       `}</style>
       <div className="cursor" id="cursor" />
       <main className="mn-page">
