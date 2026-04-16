@@ -1155,6 +1155,16 @@ export default function CataloguePageClient({ page }) {
           }
         }
 
+        @media (min-width: 1485px) and (max-width: 2560px) {
+          .catalog-card.is-tall-preview .catalog-pitch {
+            display: -webkit-box;
+            height: calc(1.68em * 7);
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 7;
+          }
+        }
+
         @media (max-width: 499px) {
           html,
           body {
