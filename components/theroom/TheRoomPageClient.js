@@ -1512,6 +1512,21 @@ export default function TheRoomPageClient(page) {
           line-height: 1.7;
         }
 
+        .room-page-form .room-message {
+          margin-top: 18px;
+          text-align: center;
+          font-family: var(--room-sans);
+          font-size: clamp(11px, 1vw, 13px);
+          font-weight: 100;
+          letter-spacing: 0.14em;
+          line-height: 1.5;
+          text-transform: uppercase;
+          color: var(--room-mint);
+          max-width: min(560px, 100%);
+          margin-left: auto;
+          margin-right: auto;
+        }
+
         .room-message-success {
           color: var(--room-mint);
         }
