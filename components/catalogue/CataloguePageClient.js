@@ -1524,7 +1524,19 @@ export default function CataloguePageClient({ page }) {
           }
         }
 
-        @media (min-width: 500px) and (max-width: 559px) {
+        @media (min-width: 500px) and (max-width: 550px) {
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: clamp(708px, calc(var(--compact-poster-height) + 334px), 724px);
+          }
+
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
+          .catalog-card.is-tall-preview .catalog-pitch {
+            height: calc(1.68em * 5);
+            -webkit-line-clamp: 5;
+          }
+        }
+
+        @media (min-width: 551px) and (max-width: 559px) {
           .catalog-card:not(.is-featured) {
             --compact-card-height: clamp(720px, calc(var(--compact-poster-height) + 346px), 736px);
           }
