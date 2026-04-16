@@ -1441,7 +1441,7 @@ export default function CataloguePageClient({ page }) {
             min-height: 0;
             height: 100%;
             gap: var(--compact-section-gap);
-            padding: 0 0 var(--compact-section-gap);
+            padding: 0;
             box-sizing: border-box;
           }
 
