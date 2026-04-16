@@ -689,6 +689,10 @@ export default function CataloguePageClient({ page }) {
           display: none;
         }
 
+        .catalog-mobile-discover-note {
+          display: none;
+        }
+
         .catalog-card {
           display: grid;
           align-content: start;
@@ -1456,6 +1460,17 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (max-width: 500px) {
+          .catalog-mobile-discover-note {
+            display: block;
+            margin: 4px 0 0;
+            text-align: center;
+            color: rgba(246, 243, 238, 0.72);
+            font-size: 0.74rem;
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+          }
+
           .catalog-mobile-poster-button {
             touch-action: manipulation;
           }
@@ -1472,6 +1487,33 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-mobile-poster-button:focus-visible {
             outline: none;
+          }
+        }
+
+        @media (min-width: 376px) and (max-width: 414px) {
+          .catalog-mobile-meta.is-featured {
+            gap: 8px;
+          }
+
+          .catalog-mobile-meta .catalog-tags.is-featured-line {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            overflow-x: visible;
+            padding-bottom: 0;
+            gap: 6px;
+          }
+
+          .catalog-mobile-meta .catalog-tags.is-featured-line span {
+            flex: 0 1 auto;
+          }
+
+          .catalog-mobile-meta .catalog-tag-action {
+            flex: 0 0 auto;
+            width: auto;
+            min-width: 0;
+            max-width: 100%;
+            padding: 0 10px;
           }
         }
 
@@ -1856,6 +1898,8 @@ export default function CataloguePageClient({ page }) {
               <span className="catalog-header-badge">{page.headerBadge}</span>
             ) : null}
           </header>
+
+          <p className="catalog-mobile-discover-note">découvrir les pitchs des prochaines sessions</p>
 
           <section className="catalog-mobile-layout">
             {featuredProject ? (
