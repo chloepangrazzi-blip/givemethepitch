@@ -1629,6 +1629,23 @@ export default function CataloguePageClient({ page }) {
             min-height: 34px;
           }
 
+          .catalog-card[data-project-id="les-mauvais-jours"] {
+            height: var(--catalog-wide-opium-height, auto);
+            min-height: var(--catalog-wide-opium-height, 760px);
+            max-height: var(--catalog-wide-opium-height, 760px);
+          }
+
+          .catalog-card[data-project-id="les-mauvais-jours"] .catalog-meta {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100%;
+          }
+
+          .catalog-card[data-project-id="les-mauvais-jours"] .catalog-actions {
+            margin-top: auto;
+          }
+
           .catalog-card.is-featured[data-project-id="maree-noire"] {
             grid-column: span 2;
             height: var(--catalog-wide-opium-height, auto);
