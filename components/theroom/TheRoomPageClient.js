@@ -1212,6 +1212,10 @@ export default function TheRoomPageClient(page) {
           background: rgba(200, 245, 232, 0.04);
         }
 
+        .room-about-section-ai {
+          padding-bottom: 36px;
+        }
+
         .room-about-section-label {
           margin-bottom: 32px;
           padding-bottom: 14px;
@@ -1315,7 +1319,7 @@ export default function TheRoomPageClient(page) {
         }
 
         .room-about-closing {
-          padding: 64px 0 0;
+          padding: 44px 0 0;
           border-top: none;
         }
 
@@ -1637,6 +1641,10 @@ export default function TheRoomPageClient(page) {
             padding: 48px 0;
           }
 
+          .room-about-section-ai {
+            padding-bottom: 20px;
+          }
+
           .room-about-mint-card {
             padding: 24px 20px;
           }
@@ -1672,7 +1680,7 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-about-closing {
-            padding-top: 32px;
+            padding-top: 24px;
           }
 
           .room-about-closing-inner {
@@ -1998,6 +2006,12 @@ export default function TheRoomPageClient(page) {
           .room-page-about .room-about-kicker-line {
             display: block;
             margin-top: 4px;
+          }
+
+          .room-page-about .room-about-centered-copy .room-body {
+            max-width: none;
+            margin: 0 0 18px;
+            text-align: left;
           }
 
           .room-page-about {
@@ -2542,7 +2556,7 @@ export default function TheRoomPageClient(page) {
                   </section>
 
                   {[page.about.utility, page.about.data, page.about.ai].map((block, index) => (
-                    <section className={`room-about-section${index === 1 ? " room-about-section-alt" : ""}`} key={block.label}>
+                    <section className={`room-about-section${index === 1 ? " room-about-section-alt" : ""}${index === 2 ? " room-about-section-ai" : ""}`} key={block.label}>
                       <div className="room-about-section-inner">
                         <div className="room-about-section-label">
                           <p className="room-about-kicker">{block.label}</p>
