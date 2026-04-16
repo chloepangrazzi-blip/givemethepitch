@@ -1397,6 +1397,8 @@ export default function CataloguePageClient({ page }) {
             --compact-card-padding: 10px;
             --compact-card-gap: 10px;
             --compact-frame-inset: 8px;
+            --compact-stack-gap: 8px;
+            --compact-section-gap: 10px;
             height: var(--compact-card-height);
             min-height: var(--compact-card-height);
             max-height: var(--compact-card-height);
@@ -1434,16 +1436,18 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) .catalog-meta {
-            display: grid;
-            grid-template-rows: auto minmax(0, 1fr) auto;
-            align-content: stretch;
+            display: flex;
+            flex-direction: column;
             min-height: 0;
             height: 100%;
-            gap: 10px;
+            gap: var(--compact-section-gap);
+            padding: 0 0 var(--compact-section-gap);
+            box-sizing: border-box;
           }
 
-          .catalog-card:not(.is-featured) .catalog-meta-top {
-            min-height: 0;
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-meta-top {
+            grid-template-rows: none;
+            align-content: start;
           }
 
           .catalog-card:not(.is-featured) .catalog-status-inline {
@@ -1451,7 +1455,18 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) .catalog-tags {
-            align-content: flex-start;
+            display: grid;
+            justify-items: start;
+            align-content: start;
+            gap: var(--compact-stack-gap);
+          }
+
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-tags {
+            min-height: 0;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-tags span {
+            min-height: 34px;
           }
 
           .catalog-card.is-tall-preview .catalog-poster {
@@ -1461,16 +1476,17 @@ export default function CataloguePageClient({ page }) {
           .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             display: -webkit-box;
-            height: auto;
             overflow: hidden;
             min-height: 0;
             -webkit-box-orient: vertical;
+            flex: 0 0 auto;
           }
 
           .catalog-card:not(.is-featured) .catalog-actions {
             margin-top: 0;
             min-height: 42px;
-            align-self: end;
+            align-self: flex-start;
+            flex: 0 0 auto;
           }
         }
 
