@@ -1483,7 +1483,7 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) .catalog-actions {
-            margin-top: auto;
+            margin-top: 0;
             min-height: 42px;
             align-self: flex-start;
             flex: 0 0 auto;
@@ -1525,6 +1525,10 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 500px) and (max-width: 559px) {
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: clamp(720px, calc(var(--compact-poster-height) + 346px), 736px);
+          }
+
           .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 5);
@@ -1532,7 +1536,23 @@ export default function CataloguePageClient({ page }) {
           }
         }
 
-        @media (min-width: 560px) and (max-width: 639px) {
+        @media (min-width: 560px) and (max-width: 621px) {
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: clamp(730px, calc(var(--compact-poster-height) + 324px), 742px);
+          }
+
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
+          .catalog-card.is-tall-preview .catalog-pitch {
+            height: calc(1.68em * 4);
+            -webkit-line-clamp: 4;
+          }
+        }
+
+        @media (min-width: 622px) and (max-width: 639px) {
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: clamp(744px, calc(var(--compact-poster-height) + 324px), 752px);
+          }
+
           .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 4);
@@ -1541,6 +1561,10 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 640px) and (max-width: 719px) {
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: clamp(760px, calc(var(--compact-poster-height) + 298px), 805px);
+          }
+
           .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 3);
@@ -1549,6 +1573,10 @@ export default function CataloguePageClient({ page }) {
         }
 
         @media (min-width: 720px) and (max-width: 849px) {
+          .catalog-card:not(.is-featured) {
+            --compact-card-height: clamp(790px, calc(var(--compact-poster-height) + 272px), 858px);
+          }
+
           .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch,
           .catalog-card.is-tall-preview .catalog-pitch {
             height: calc(1.68em * 2);
