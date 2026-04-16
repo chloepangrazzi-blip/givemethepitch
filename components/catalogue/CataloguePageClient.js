@@ -1899,14 +1899,14 @@ export default function CataloguePageClient({ page }) {
             ) : null}
           </header>
 
-          <p className="catalog-mobile-discover-note">découvrir les pitchs des prochaines sessions</p>
-
           <section className="catalog-mobile-layout">
             {featuredProject ? (
               <section className="catalog-mobile-hero">
                 <MobileProjectCard onReadMore={setActiveProject} project={featuredProject} />
               </section>
             ) : null}
+
+            <p className="catalog-mobile-discover-note">découvrir les pitchs des prochaines sessions</p>
 
             {shelfProjects.length ? (
               <section className="catalog-mobile-list">
