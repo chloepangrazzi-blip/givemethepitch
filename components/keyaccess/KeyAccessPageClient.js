@@ -178,8 +178,10 @@ export default function KeyAccessPageClient({
           height: min(calc(100svh - (var(--ka-viewport-pad-y) * 2)), 980px);
           max-height: 100%;
           width: 100%;
+          border: 1px solid var(--ka-line-mint);
+          border-radius: 34px;
           overflow: hidden;
-          background: #000000;
+          background: var(--ka-card);
           display: grid;
           grid-template-rows: clamp(34px, 6.2vh, 62px) minmax(0, 1fr) clamp(34px, 6.2vh, 62px);
         }
@@ -193,16 +195,16 @@ export default function KeyAccessPageClient({
           min-height: 0;
           display: grid;
           place-items: center;
-          padding: clamp(12px, 3.2vh, 56px) clamp(14px, 3.4vw, 56px);
+          padding: clamp(22px, 4vh, 60px) clamp(16px, 3.2vw, 48px);
           background: #000000;
         }
 
         .ka-content {
-          width: min(1180px, 100%);
+          width: min(980px, 100%);
           display: grid;
           justify-items: center;
           align-content: center;
-          gap: clamp(8px, 2vh, 22px);
+          gap: clamp(10px, 2.2vh, 24px);
           text-align: center;
         }
 
@@ -218,7 +220,7 @@ export default function KeyAccessPageClient({
         }
 
         .ka-eyebrow {
-          margin: 0;
+          margin: -2px 0 2px;
           color: var(--ka-mint);
           font-family: var(--ka-sans);
           font-size: clamp(0.58rem, min(1.2vw, 1.55vmin), 0.76rem);
@@ -231,12 +233,12 @@ export default function KeyAccessPageClient({
           width: min(760px, 100%);
           display: grid;
           justify-items: center;
-          gap: clamp(8px, 1.6vh, 18px);
+          gap: clamp(10px, 1.8vh, 16px);
         }
 
         .ka-input-shell {
-          width: min(266px, 82vw);
-          min-height: clamp(54px, 7.4vmin, 80px);
+          width: min(244px, 78vw);
+          min-height: clamp(50px, 6.6vmin, 72px);
           border: 1.5px solid rgba(200, 245, 232, 0.62);
           border-radius: 999px;
           background: rgba(200, 245, 232, 0.08);
@@ -245,14 +247,14 @@ export default function KeyAccessPageClient({
 
         .ka-input {
           width: 100%;
-          min-height: clamp(54px, 7.4vmin, 80px);
-          padding: 0 22px;
+          min-height: clamp(50px, 6.6vmin, 72px);
+          padding: 0 20px;
           border: none;
           border-radius: 999px;
           background: transparent;
           color: var(--ka-mint);
           font-family: var(--ka-sans);
-          font-size: clamp(0.94rem, min(1.75vw, 1.9vmin), 1.12rem);
+          font-size: clamp(0.88rem, min(1.55vw, 1.7vmin), 1rem);
           font-weight: 300;
           letter-spacing: 0.12em;
           text-align: center;
@@ -272,16 +274,16 @@ export default function KeyAccessPageClient({
         }
 
         .ka-enter {
-          width: min(266px, 82vw);
+          width: min(244px, 78vw);
           min-width: 0;
-          min-height: clamp(54px, 7.4vmin, 80px);
-          padding: 0 clamp(18px, 2.8vw, 34px);
+          min-height: clamp(50px, 6.6vmin, 72px);
+          padding: 0 clamp(18px, 2.4vw, 28px);
           border: none;
           border-radius: 999px;
           background: var(--ka-mint);
           color: #000000;
           font-family: var(--ka-sans);
-          font-size: clamp(1rem, min(2.2vw, 2.35vmin), 1.38rem);
+          font-size: clamp(0.94rem, min(1.85vw, 2vmin), 1.18rem);
           font-weight: 300;
           letter-spacing: 0.08em;
           text-transform: uppercase;
