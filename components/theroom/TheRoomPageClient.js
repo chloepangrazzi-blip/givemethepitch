@@ -1228,6 +1228,10 @@ export default function TheRoomPageClient(page) {
           text-transform: uppercase;
         }
 
+        .room-about-kicker-line {
+          display: inline;
+        }
+
         .room-about-rule {
           display: none;
         }
@@ -1311,7 +1315,7 @@ export default function TheRoomPageClient(page) {
         }
 
         .room-about-closing {
-          padding: 100px 0 0;
+          padding: 64px 0 0;
           border-top: none;
         }
 
@@ -1325,11 +1329,11 @@ export default function TheRoomPageClient(page) {
           width: 36px;
           height: 1px;
           background: var(--room-mint);
-          margin-bottom: 52px;
+          margin-bottom: 34px;
         }
 
         .room-about-closing-label {
-          margin: 0 0 48px;
+          margin: 0 0 34px;
           color: var(--room-mint);
           font-family: var(--room-sans);
           font-size: 12px;
@@ -1668,7 +1672,7 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-about-closing {
-            padding-top: 48px;
+            padding-top: 32px;
           }
 
           .room-about-closing-inner {
@@ -1991,6 +1995,11 @@ export default function TheRoomPageClient(page) {
         }
 
         @media (max-width: 500px) {
+          .room-page-about .room-about-kicker-line {
+            display: block;
+            margin-top: 4px;
+          }
+
           .room-page-about {
             padding-bottom: 72px;
           }
@@ -2475,7 +2484,10 @@ export default function TheRoomPageClient(page) {
                   <section className="room-about-section">
                     <div className="room-about-section-inner">
                       <div className="room-about-section-label">
-                        <p className="room-about-kicker">{page.about.gmtp.label}</p>
+                        <p className="room-about-kicker">
+                          <span>Give Me The Pitch,</span>
+                          <span className="room-about-kicker-line">c&apos;est quoi ?</span>
+                        </p>
                         <div className="room-about-rule" />
                       </div>
                       <div className="room-about-copy room-about-centered-copy">
