@@ -2101,6 +2101,107 @@ export default function TheRoomPageClient(page) {
           }
         }
 
+        @media (max-width: 390px) {
+          .room-page-form .room-form-header {
+            padding-top: 52px;
+            padding-bottom: 18px;
+          }
+
+          .room-page-form .room-form-body {
+            padding-top: 22px;
+            padding-bottom: 48px;
+          }
+
+          .room-page-form .room-form-title {
+            font-size: clamp(42px, 11vw, 56px);
+          }
+
+          .room-page-form .room-form-section-title {
+            margin-top: 52px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            font-size: 9px;
+            letter-spacing: 0.28em;
+          }
+
+          .room-page-form .room-form-field-label,
+          .room-page-form .room-form-q-label {
+            font-size: 13px;
+            line-height: 1.45;
+          }
+
+          .room-page-form .room-form-q-sub {
+            font-size: 10.5px;
+            line-height: 1.45;
+            margin: 16px 0 8px;
+          }
+
+          .room-page-form .room-form-card {
+            padding: 18px 14px;
+          }
+
+          .room-page-form .room-form-card-divider {
+            margin: 20px 0;
+          }
+
+          .room-page-form input.room-form-input {
+            min-height: 48px;
+            padding: 0 14px;
+            font-size: 13px;
+          }
+
+          .room-page-form .room-form-input::placeholder {
+            font-size: 11px;
+          }
+
+          .room-page-form .room-form-textarea {
+            min-height: 88px;
+            padding: 13px 14px;
+          }
+
+          .room-page-form .room-form-chip-group {
+            gap: 7px;
+          }
+
+          .room-page-form .room-form-chip-label {
+            min-height: 40px;
+            padding: 9px 12px;
+            font-size: 10.5px;
+            line-height: 1.3;
+          }
+
+          .room-page-form .room-form-chip-label-radio {
+            min-height: 40px;
+          }
+
+          .room-page-form .room-form-consent-wrap {
+            margin-top: 28px;
+            padding: 18px 14px;
+            gap: 12px;
+          }
+
+          .room-page-form .room-form-consent-box {
+            width: 18px;
+            height: 18px;
+          }
+
+          .room-page-form .room-form-consent-text {
+            font-size: 11px;
+            line-height: 1.6;
+          }
+
+          .room-page-form .room-form-submit-wrap {
+            margin-top: 32px;
+          }
+
+          .room-page-form .room-cta.room-form-submit {
+            min-height: 54px;
+            padding: 16px 20px;
+            font-size: clamp(16px, 4.8vw, 18px);
+            letter-spacing: 0.03em;
+          }
+        }
+
         .room-page-landing {
           --room-landing-viewport-pad-y: clamp(10px, 2.4vh, 32px);
           --room-landing-viewport-pad-x: clamp(12px, 2.4vw, 24px);
