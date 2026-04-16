@@ -1612,6 +1612,23 @@ export default function CataloguePageClient({ page }) {
             grid-template-columns: repeat(3, minmax(0, 1fr));
           }
 
+          .catalog-card:not(.is-featured) .catalog-meta-top {
+            grid-template-rows: none;
+            align-content: start;
+            gap: 10px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-tags {
+            display: grid;
+            justify-items: start;
+            align-content: start;
+            gap: 8px;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-tags span {
+            min-height: 34px;
+          }
+
           .catalog-card.is-featured[data-project-id="maree-noire"] {
             grid-column: span 2;
             height: var(--catalog-wide-opium-height, auto);
