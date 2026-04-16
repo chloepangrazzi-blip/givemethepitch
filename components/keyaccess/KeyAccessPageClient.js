@@ -158,8 +158,14 @@ export default function KeyAccessPageClient({
         }
 
         .ka-page {
-          min-height: 100vh;
-          padding: 32px 20px 72px;
+          --ka-viewport-pad-y: clamp(10px, 2.4vh, 32px);
+          --ka-viewport-pad-x: clamp(12px, 2.4vw, 24px);
+          min-height: 100svh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: var(--ka-viewport-pad-y) var(--ka-viewport-pad-x);
+          overflow: hidden;
         }
 
         .ka-shell {
@@ -168,49 +174,56 @@ export default function KeyAccessPageClient({
         }
 
         .ka-stage {
-          min-height: calc(100vh - 64px);
-          border: 1px solid var(--ka-line-mint);
-          border-radius: 34px;
+          min-height: 0;
+          height: min(calc(100svh - (var(--ka-viewport-pad-y) * 2)), 980px);
+          max-height: 100%;
+          width: 100%;
           overflow: hidden;
-          background: var(--ka-card);
+          background: #000000;
           display: grid;
-          grid-template-rows: 62px 1fr 62px;
+          grid-template-rows: clamp(34px, 6.2vh, 62px) minmax(0, 1fr) clamp(34px, 6.2vh, 62px);
         }
 
         .ka-rail {
+          display: block;
           background: var(--ka-mint);
         }
 
         .ka-main {
+          min-height: 0;
           display: grid;
           place-items: center;
-          padding: clamp(28px, 6vw, 72px);
+          padding: clamp(12px, 3.2vh, 56px) clamp(14px, 3.4vw, 56px);
           background: #000000;
         }
 
         .ka-content {
-          width: min(1200px, 100%);
+          width: min(1180px, 100%);
           display: grid;
           justify-items: center;
-          gap: 22px;
+          align-content: center;
+          gap: clamp(8px, 2vh, 22px);
+          text-align: center;
         }
 
         .ka-title {
           margin: 0;
           color: #ffffff;
           font-family: var(--ka-display);
-          font-size: clamp(4.2rem, 13vw, 11rem);
+          font-size: clamp(2.8rem, min(12vw, 11.2vmin), 11rem);
           line-height: 0.88;
           letter-spacing: 0.01em;
           text-align: center;
+          white-space: nowrap;
         }
 
         .ka-eyebrow {
-          margin: -6px 0 8px;
+          margin: 0;
           color: var(--ka-mint);
-          font-size: 0.76rem;
+          font-family: var(--ka-sans);
+          font-size: clamp(0.58rem, min(1.2vw, 1.55vmin), 0.76rem);
           font-weight: 100;
-          letter-spacing: 0.26em;
+          letter-spacing: clamp(0.14em, 0.38vw, 0.26em);
           text-transform: uppercase;
         }
 
@@ -218,28 +231,28 @@ export default function KeyAccessPageClient({
           width: min(760px, 100%);
           display: grid;
           justify-items: center;
-          gap: 18px;
+          gap: clamp(8px, 1.6vh, 18px);
         }
 
         .ka-input-shell {
-          width: min(266px, 100%);
-          min-height: 80px;
+          width: min(266px, 82vw);
+          min-height: clamp(54px, 7.4vmin, 80px);
           border: 1.5px solid rgba(200, 245, 232, 0.62);
           border-radius: 999px;
-          background: rgba(200, 245, 232, 0.1);
+          background: rgba(200, 245, 232, 0.08);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
 
         .ka-input {
           width: 100%;
-          min-height: 80px;
+          min-height: clamp(54px, 7.4vmin, 80px);
           padding: 0 22px;
           border: none;
           border-radius: 999px;
           background: transparent;
           color: var(--ka-mint);
           font-family: var(--ka-sans);
-          font-size: 1.12rem;
+          font-size: clamp(0.94rem, min(1.75vw, 1.9vmin), 1.12rem);
           font-weight: 300;
           letter-spacing: 0.12em;
           text-align: center;
@@ -259,15 +272,16 @@ export default function KeyAccessPageClient({
         }
 
         .ka-enter {
-          min-width: 266px;
-          min-height: 80px;
-          padding: 0 34px;
+          width: min(266px, 82vw);
+          min-width: 0;
+          min-height: clamp(54px, 7.4vmin, 80px);
+          padding: 0 clamp(18px, 2.8vw, 34px);
           border: none;
           border-radius: 999px;
           background: var(--ka-mint);
           color: #000000;
           font-family: var(--ka-sans);
-          font-size: 1.38rem;
+          font-size: clamp(1rem, min(2.2vw, 2.35vmin), 1.38rem);
           font-weight: 300;
           letter-spacing: 0.08em;
           text-transform: uppercase;
@@ -285,13 +299,16 @@ export default function KeyAccessPageClient({
         }
 
         .ka-error {
-          min-height: 20px;
+          min-height: 18px;
           margin: 0;
           color: var(--ka-rose);
-          font-size: 0.78rem;
-          font-weight: 300;
-          letter-spacing: 0.08em;
+          font-family: var(--ka-sans);
+          font-size: clamp(0.56rem, min(0.92vw, 1.1vmin), 0.72rem);
+          font-weight: 100;
+          letter-spacing: 0.12em;
+          line-height: 1.25;
           text-transform: uppercase;
+          text-align: center;
           opacity: 0;
           transition: opacity 160ms ease;
         }
@@ -306,58 +323,187 @@ export default function KeyAccessPageClient({
           75% { transform: translateX(6px); }
         }
 
-        @media (max-width: 760px) {
+        @media (max-height: 620px) {
           .ka-page {
-            padding: 18px 14px 56px;
+            --ka-viewport-pad-y: clamp(8px, 2vh, 16px);
           }
 
           .ka-stage {
-            min-height: calc(100vh - 74px);
-            grid-template-rows: 52px 1fr 52px;
-            border-radius: 28px;
+            grid-template-rows: clamp(28px, 5.8vh, 44px) minmax(0, 1fr) clamp(28px, 5.8vh, 44px);
+          }
+
+          .ka-main {
+            padding: clamp(8px, 2vh, 18px) clamp(12px, 3vw, 28px);
           }
 
           .ka-title {
-            font-size: clamp(3.1rem, 18vw, 6.4rem);
+            font-size: clamp(2.4rem, min(10vw, 9.8vmin), 4.8rem);
           }
 
-          .ka-input {
-            width: 100%;
-            min-height: 68px;
-            padding: 0 18px;
-            font-size: 0.9rem;
-          }
-
-          .ka-input-shell {
-            min-width: 220px;
-            min-height: 68px;
+          .ka-input,
+          .ka-input-shell,
+          .ka-enter {
+            min-height: clamp(48px, 6.8vmin, 60px);
           }
 
           .ka-enter {
-            min-width: 220px;
-            min-height: 68px;
-            font-size: 1.14rem;
-          }
-
-          .cursor {
-            display: none;
+            font-size: clamp(0.92rem, min(2vw, 2.1vmin), 1.08rem);
           }
         }
 
-        @media (max-width: 320px) {
+        @media (max-height: 460px) and (orientation: landscape) {
+          .ka-stage {
+            grid-template-rows: 24px minmax(0, 1fr) 24px;
+          }
+
+          .ka-content {
+            gap: 6px;
+          }
+
+          .ka-title {
+            font-size: clamp(2rem, min(8vw, 8.8vmin), 3.8rem);
+          }
+
+          .ka-eyebrow {
+            font-size: clamp(0.5rem, min(0.9vw, 1.1vmin), 0.64rem);
+          }
+
+          .ka-form {
+            gap: 6px;
+          }
+
+          .ka-error {
+            font-size: 0.54rem;
+          }
+        }
+
+        @media (max-width: 900px) and (orientation: portrait) {
           .ka-page {
-            min-height: 100svh;
-            padding: 12px 10px;
-            display: flex;
-            align-items: center;
+            --ka-viewport-pad-y: clamp(10px, 2.2vh, 24px);
+            --ka-viewport-pad-x: clamp(12px, 3.8vw, 24px);
+            --ka-stage-width: clamp(272px, 76vw, 420px);
+            --ka-shell-radius: clamp(34px, 8vw, 42px);
+            --ka-rail-height: clamp(34px, 5.4vh, 48px);
+            --ka-center-pad-y: clamp(52px, 9.4vh, 82px);
+            --ka-center-pad-x: clamp(12px, 2.8vw, 20px);
+            --ka-title-size: clamp(2.1rem, 8.2vw, 3.8rem);
+            --ka-eyebrow-size: clamp(0.54rem, 0.92vw, 0.68rem);
+            --ka-control-width: min(252px, 74vw);
+            --ka-control-height: clamp(50px, 7vh, 60px);
+            --ka-error-size: clamp(0.54rem, 0.82vw, 0.64rem);
           }
 
           .ka-shell {
             width: 100%;
+            display: flex;
+            justify-content: center;
           }
 
           .ka-stage {
-            min-height: calc(100svh - 24px);
+            width: min(var(--ka-stage-width), calc(100vw - (var(--ka-viewport-pad-x) * 2)));
+            min-height: 0;
+            height: auto;
+            max-height: calc(100svh - (var(--ka-viewport-pad-y) * 2));
+            border: none;
+            border-radius: var(--ka-shell-radius);
+            background: transparent;
+            overflow: hidden;
+            grid-template-rows: auto auto auto;
+            row-gap: 0;
+          }
+
+          .ka-rail {
+            width: 100%;
+            height: var(--ka-rail-height);
+            justify-self: center;
+          }
+
+          .ka-main {
+            min-height: 0;
+            height: auto;
+            box-shadow:
+              inset 1px 0 0 var(--ka-line-mint),
+              inset -1px 0 0 var(--ka-line-mint);
+            padding: var(--ka-center-pad-y) var(--ka-center-pad-x);
+            margin: 0;
+          }
+
+          .ka-content {
+            width: 100%;
+            gap: clamp(10px, 1.8vh, 16px);
+          }
+
+          .ka-title {
+            width: 100%;
+            font-size: min(
+              var(--ka-title-size),
+              calc((var(--ka-stage-width) - (var(--ka-center-pad-x) * 2) - 24px) / 4.6)
+            );
+            line-height: 0.88;
+          }
+
+          .ka-eyebrow {
+            margin: -4px 0 0;
+            font-size: var(--ka-eyebrow-size);
+            letter-spacing: clamp(0.16em, 0.28vw, 0.24em);
+          }
+
+          .ka-form {
+            width: 100%;
+            gap: clamp(8px, 1.5vh, 12px);
+          }
+
+          .ka-input-shell,
+          .ka-enter {
+            width: var(--ka-control-width);
+            min-height: var(--ka-control-height);
+          }
+
+          .ka-input {
+            min-height: var(--ka-control-height);
+            padding: 0 clamp(16px, 3.4vw, 24px);
+            font-size: clamp(0.88rem, 1.6vw, 1rem);
+          }
+
+          .ka-enter {
+            font-size: clamp(0.98rem, 1.8vw, 1.12rem);
+          }
+
+          .ka-error {
+            font-size: var(--ka-error-size);
+            white-space: nowrap;
+          }
+        }
+
+        @media (max-width: 520px) and (orientation: portrait) {
+          .ka-page {
+            --ka-stage-width: clamp(264px, 82vw, 330px);
+            --ka-shell-radius: clamp(30px, 8.6vw, 36px);
+            --ka-rail-height: clamp(28px, 4.6vh, 38px);
+            --ka-center-pad-y: clamp(46px, 8.2vh, 64px);
+            --ka-center-pad-x: clamp(10px, 3vw, 16px);
+            --ka-title-size: clamp(1.9rem, 8.8vw, 3.2rem);
+            --ka-eyebrow-size: clamp(0.5rem, 0.86vw, 0.62rem);
+            --ka-control-width: min(236px, 80vw);
+            --ka-control-height: clamp(48px, 6vh, 54px);
+            --ka-error-size: clamp(0.5rem, 0.8vw, 0.6rem);
+          }
+
+          .ka-content {
+            gap: 10px;
+          }
+        }
+
+        @media (max-height: 760px) and (max-width: 900px) and (orientation: portrait) {
+          .ka-page {
+            --ka-center-pad-y: clamp(40px, 6.8vh, 56px);
+            --ka-rail-height: clamp(24px, 4.2vh, 38px);
+          }
+        }
+
+        @media (max-width: 760px) {
+          .cursor {
+            display: none;
           }
         }
       `}</style>
