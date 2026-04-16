@@ -41,6 +41,7 @@ function ProjectCard({
   tabletSharedHeight = null,
   isTabletCompactRange = false,
   useTabletPosterVariant = false,
+  wideTabletTextTier = null,
 }) {
   const cardClassName = `catalog-card tone-${project.tone}${project.featured ? " is-featured" : ""}${
     project.previewSize === "tall" ? " is-tall-preview" : ""
@@ -48,9 +49,17 @@ function ProjectCard({
   const canExpand = project.expandable !== false;
   const pitchClassName = canExpand ? "catalog-pitch" : "catalog-pitch is-expanded";
   const tagsClassName = `catalog-tags${project.stackTags ? " is-stacked" : ""}`;
+  const basePreviewChars = project.previewChars ?? (project.previewSize === "tall" ? 300 : 185);
+  const resolvedPreviewChars =
+    wideTabletTextTier && project.id === "les-mauvais-jours"
+      ? Math.max(
+          basePreviewChars,
+          wideTabletTextTier === "narrow" ? 245 : wideTabletTextTier === "mid" ? 290 : 330,
+        )
+      : basePreviewChars;
   const collapsedPitch = truncateByWords(
     project.shortPitch,
-    project.previewChars ?? (project.previewSize === "tall" ? 300 : 185),
+    resolvedPreviewChars,
   );
   const displayedPitch = canExpand ? collapsedPitch : project.shortPitch;
   const statusClassName = `catalog-status${featuredStatusPlacement === "top" ? " is-top" : ""}`;
@@ -226,6 +235,7 @@ export default function CataloguePageClient({ page }) {
   const [isTabletCompactRange, setIsTabletCompactRange] = useState(false);
   const [useTabletPosterVariant, setUseTabletPosterVariant] = useState(false);
   const [isTabletWideRange, setIsTabletWideRange] = useState(false);
+  const [wideTabletTextTier, setWideTabletTextTier] = useState(null);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
   const mobileRows = chunkItems(shelfProjects, 3);
@@ -282,6 +292,38 @@ export default function CataloguePageClient({ page }) {
 
     return () => {
       window.removeEventListener("resize", syncTabletWideRange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const syncWideTabletTextTier = () => {
+      if (window.innerWidth < 850 || window.innerWidth > 1125) {
+        setWideTabletTextTier(null);
+        return;
+      }
+
+      if (window.innerWidth <= 919) {
+        setWideTabletTextTier("narrow");
+        return;
+      }
+
+      if (window.innerWidth <= 1019) {
+        setWideTabletTextTier("mid");
+        return;
+      }
+
+      setWideTabletTextTier("wide");
+    };
+
+    syncWideTabletTextTier();
+    window.addEventListener("resize", syncWideTabletTextTier);
+
+    return () => {
+      window.removeEventListener("resize", syncWideTabletTextTier);
     };
   }, []);
 
@@ -1647,6 +1689,15 @@ export default function CataloguePageClient({ page }) {
             margin-top: auto;
           }
 
+          .catalog-card[data-project-id="les-mauvais-jours"]:not(.is-featured):not(.is-tall-preview) .catalog-pitch {
+            display: -webkit-box;
+            height: calc(1.68em * 8);
+            overflow: hidden;
+            min-height: 0;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 8;
+          }
+
           .catalog-card.is-featured[data-project-id="maree-noire"] {
             grid-column: span 2;
             height: var(--catalog-wide-opium-height, auto);
@@ -1725,6 +1776,7 @@ export default function CataloguePageClient({ page }) {
                 tabletSharedHeight={tabletSharedHeight}
                 isTabletCompactRange={isTabletCompactRange}
                 useTabletPosterVariant={useTabletPosterVariant}
+                wideTabletTextTier={wideTabletTextTier}
                 project={project}
                 onReadMore={setActiveProject}
               />
