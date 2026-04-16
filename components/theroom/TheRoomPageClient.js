@@ -2195,18 +2195,18 @@ export default function TheRoomPageClient(page) {
           .room-page-landing {
             --room-landing-viewport-pad-y: clamp(8px, 1.8vh, 16px);
             --room-landing-viewport-pad-x: clamp(10px, 3.2vw, 20px);
-            overflow: visible;
+            overflow: hidden;
           }
 
           .room-page-landing .room-landing-shell {
             height: auto !important;
-            max-height: none !important;
+            max-height: calc(100svh - (var(--room-landing-viewport-pad-y) * 2)) !important;
             grid-template-rows: clamp(28px, 4.8vh, 44px) auto clamp(28px, 4.8vh, 44px);
           }
 
           .room-page-landing .room-landing-main {
             height: auto !important;
-            padding: clamp(6px, 1.25vh, 16px) clamp(10px, 2.6vw, 28px);
+            padding: clamp(14px, 2.45vh, 26px) clamp(10px, 2.6vw, 28px);
           }
 
           .room-page-landing .room-landing-content {
@@ -2243,7 +2243,7 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-page-landing .room-landing-main {
-            padding: clamp(4px, 1vh, 10px) clamp(8px, 2.8vw, 16px);
+            padding: clamp(10px, 1.9vh, 18px) clamp(8px, 2.8vw, 16px);
           }
 
           .room-page-landing .room-landing-content {
