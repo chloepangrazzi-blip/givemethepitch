@@ -2195,13 +2195,17 @@ export default function TheRoomPageClient(page) {
           .room-page-landing {
             --room-landing-viewport-pad-y: clamp(8px, 1.8vh, 16px);
             --room-landing-viewport-pad-x: clamp(10px, 3.2vw, 20px);
+            overflow: visible;
           }
 
           .room-page-landing .room-landing-shell {
-            grid-template-rows: clamp(28px, 4.8vh, 44px) minmax(0, 1fr) clamp(28px, 4.8vh, 44px);
+            height: auto !important;
+            max-height: none !important;
+            grid-template-rows: clamp(28px, 4.8vh, 44px) auto clamp(28px, 4.8vh, 44px);
           }
 
           .room-page-landing .room-landing-main {
+            height: auto !important;
             padding: clamp(6px, 1.25vh, 16px) clamp(10px, 2.6vw, 28px);
           }
 
@@ -2235,7 +2239,7 @@ export default function TheRoomPageClient(page) {
 
         @media (max-width: 520px) and (orientation: portrait) {
           .room-page-landing .room-landing-shell {
-            grid-template-rows: clamp(24px, 4.2vh, 36px) minmax(0, 1fr) clamp(24px, 4.2vh, 36px);
+            grid-template-rows: clamp(24px, 4.2vh, 36px) auto clamp(24px, 4.2vh, 36px);
           }
 
           .room-page-landing .room-landing-main {
