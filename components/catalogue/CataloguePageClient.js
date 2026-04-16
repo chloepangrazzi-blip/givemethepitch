@@ -1083,8 +1083,10 @@ export default function CataloguePageClient({ page }) {
           .catalog-card:not(.is-featured) .catalog-meta {
             display: flex;
             flex-direction: column;
+            justify-content: space-evenly;
             min-height: 0;
             height: 100%;
+            gap: 0;
           }
 
           .catalog-card:not(.is-featured) .catalog-meta-top {
@@ -1108,13 +1110,28 @@ export default function CataloguePageClient({ page }) {
             max-width: 100%;
           }
 
-          .catalog-card:not(.is-featured) .catalog-pitch {
+          .catalog-card:not(.is-featured):not(.is-tall-preview) .catalog-pitch {
             flex: 0 0 auto;
+            height: auto;
+            max-height: calc(1.68em * 6);
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 6;
+          }
+
+          .catalog-card.is-tall-preview .catalog-pitch {
+            height: auto;
+            max-height: calc(1.68em * 8);
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 8;
           }
 
           .catalog-card:not(.is-featured) .catalog-actions {
             min-height: 42px;
-            margin-top: auto;
+            margin-top: 0;
             align-self: flex-start;
           }
 
@@ -1158,7 +1175,8 @@ export default function CataloguePageClient({ page }) {
         @media (min-width: 1485px) and (max-width: 2560px) {
           .catalog-card.is-tall-preview .catalog-pitch {
             display: -webkit-box;
-            height: calc(1.68em * 7);
+            height: auto;
+            max-height: calc(1.68em * 7);
             overflow: hidden;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 7;
