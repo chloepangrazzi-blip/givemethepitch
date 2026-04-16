@@ -1070,13 +1070,13 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card {
-            min-height: 800px;
+            min-height: 840px;
           }
 
           .catalog-card:not(.is-featured) {
-            height: 800px;
-            min-height: 800px;
-            max-height: 800px;
+            height: 840px;
+            min-height: 840px;
+            max-height: 840px;
             grid-template-rows: auto minmax(0, 1fr);
           }
 
@@ -1108,6 +1108,10 @@ export default function CataloguePageClient({ page }) {
             max-width: 100%;
           }
 
+          .catalog-card:not(.is-featured) .catalog-pitch {
+            flex: 0 0 auto;
+          }
+
           .catalog-card:not(.is-featured) .catalog-actions {
             min-height: 42px;
             margin-top: auto;
@@ -1116,15 +1120,15 @@ export default function CataloguePageClient({ page }) {
 
           .catalog-card.is-featured {
             grid-column: span 2;
-            height: var(--featured-card-height, 800px);
-            min-height: var(--featured-card-height, 800px);
-            max-height: var(--featured-card-height, 800px);
+            height: var(--featured-card-height, 840px);
+            min-height: var(--featured-card-height, 840px);
+            max-height: var(--featured-card-height, 840px);
             grid-template-rows: auto minmax(0, 1fr);
           }
 
           .catalog-card.is-featured .catalog-poster-link,
           .catalog-card.is-featured .catalog-poster-static {
-            height: calc(var(--featured-card-height, 800px) - 158px);
+            height: calc(var(--featured-card-height, 840px) - 158px);
             display: flex;
             align-items: center;
             justify-content: center;
