@@ -1462,13 +1462,22 @@ export default function CataloguePageClient({ page }) {
         @media (max-width: 500px) {
           .catalog-mobile-discover-note {
             display: block;
-            margin: 4px 0 0;
+            width: fit-content;
+            max-width: 100%;
+            margin: 12px auto;
+            padding: 0 12px;
+            min-height: 30px;
+            line-height: 30px;
             text-align: center;
-            color: rgba(246, 243, 238, 0.72);
-            font-size: 0.74rem;
+            white-space: nowrap;
+            border-radius: 999px;
+            border: 1px solid rgba(191, 248, 220, 0.28);
+            background: transparent;
+            color: var(--catalog-mint);
+            font-size: clamp(0.5rem, 2.1vw, 0.62rem);
             font-weight: 300;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-transform: none;
           }
 
           .catalog-mobile-poster-button {
