@@ -1179,17 +1179,28 @@ export default function TheRoomPageClient(page) {
 
         .room-about-pivot-title {
           margin: 12px auto 0;
-          font-family: var(--room-horizon);
-          font-size: clamp(30px, 5.2vw, 72px);
-          line-height: 0.96;
-          letter-spacing: 0.04em;
-          color: var(--room-text);
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 0.28em;
+          max-width: min(100%, 720px);
+          padding: 14px 26px;
+          border: 1.5px solid var(--room-rose);
+          border-radius: 999px;
+          background: #000000;
+          font-family: var(--room-sans);
+          font-size: clamp(13px, 1.4vw, 16px);
+          font-weight: 100;
+          line-height: 1.2;
+          letter-spacing: 0.16em;
+          color: var(--room-rose);
           text-align: center;
           text-transform: uppercase;
         }
 
         .room-about-pivot-title-line {
-          display: block;
+          display: inline;
         }
 
         .room-about-section {
@@ -1643,7 +1654,9 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-about-pivot-title {
-            font-size: clamp(18px, 6.4vw, 30px);
+            padding: 12px 18px;
+            font-size: clamp(11px, 3vw, 13px);
+            letter-spacing: 0.14em;
           }
 
           .room-about-step {
