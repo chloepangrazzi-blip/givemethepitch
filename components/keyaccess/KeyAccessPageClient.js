@@ -496,6 +496,26 @@ export default function KeyAccessPageClient({
           }
         }
 
+        @media (max-width: 390px) and (orientation: portrait) {
+          .ka-page {
+            --ka-control-width: min(214px, 72vw);
+            --ka-control-height: clamp(42px, 5.2vh, 48px);
+          }
+
+          .ka-form {
+            gap: 8px;
+          }
+
+          .ka-input {
+            font-size: clamp(0.8rem, 1.35vw, 0.9rem);
+            letter-spacing: 0.1em;
+          }
+
+          .ka-enter {
+            font-size: clamp(0.86rem, 1.5vw, 0.98rem);
+          }
+        }
+
         @media (max-height: 760px) and (max-width: 900px) and (orientation: portrait) {
           .ka-page {
             --ka-center-pad-y: clamp(40px, 6.8vh, 56px);
