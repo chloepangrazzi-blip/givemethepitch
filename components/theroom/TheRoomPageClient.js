@@ -891,6 +891,29 @@ export default function TheRoomPageClient(page) {
           box-shadow: 0 16px 30px rgba(191, 248, 220, 0.18);
         }
 
+        .room-landing-actions {
+          display: grid;
+          justify-items: center;
+          gap: 10px;
+        }
+
+        .room-landing-access-link {
+          color: var(--room-mint);
+          text-decoration: none;
+          font-family: var(--room-sans);
+          font-size: 0.78rem;
+          font-weight: 300;
+          letter-spacing: 0.04em;
+          line-height: 1.35;
+          opacity: 0.84;
+          transition: opacity 160ms ease, transform 160ms ease;
+        }
+
+        .room-landing-access-link:hover {
+          opacity: 1;
+          transform: translateY(-1px);
+        }
+
         @keyframes roomLandingFade {
           from {
             opacity: 0;
@@ -2041,6 +2064,132 @@ export default function TheRoomPageClient(page) {
             color: rgba(255, 255, 255, 0.5);
           }
         }
+
+        .room-page-landing {
+          --room-landing-viewport-pad-y: clamp(10px, 2.4vh, 32px);
+          --room-landing-viewport-pad-x: clamp(12px, 2.4vw, 24px);
+          min-height: 100svh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: var(--room-landing-viewport-pad-y) var(--room-landing-viewport-pad-x);
+          overflow: hidden;
+        }
+
+        .room-page-landing .room-shell {
+          width: min(1360px, 100%);
+          padding-left: 0;
+          padding-right: 0;
+        }
+
+        .room-page-landing .room-stage-landing {
+          min-height: 0;
+          height: auto;
+          width: 100%;
+          padding: 0;
+          gap: 0;
+        }
+
+        .room-page-landing .room-landing-shell {
+          min-height: 0;
+          height: min(calc(100svh - (var(--room-landing-viewport-pad-y) * 2)), 980px);
+          max-height: 100%;
+          grid-template-rows: clamp(34px, 6.2vh, 62px) minmax(0, 1fr) clamp(34px, 6.2vh, 62px);
+        }
+
+        .room-page-landing .room-landing-main {
+          min-height: 0;
+          padding: clamp(12px, 3.2vh, 56px) clamp(14px, 3.4vw, 56px);
+        }
+
+        .room-page-landing .room-landing-content {
+          width: min(1180px, 100%);
+          gap: clamp(8px, 2vh, 22px);
+          align-content: center;
+          justify-items: center;
+          text-align: center;
+        }
+
+        .room-page-landing .room-landing-title {
+          font-size: clamp(2.8rem, min(12vw, 11.2vmin), 11rem);
+          line-height: 0.88;
+        }
+
+        .room-page-landing .room-landing-tagline {
+          margin: 0;
+          font-size: clamp(0.58rem, min(1.2vw, 1.55vmin), 0.76rem);
+          letter-spacing: clamp(0.14em, 0.38vw, 0.26em);
+        }
+
+        .room-page-landing .room-landing-actions {
+          gap: clamp(6px, 1.2vh, 10px);
+        }
+
+        .room-page-landing .room-landing-cta {
+          width: min(266px, 82vw);
+          min-width: 0;
+          min-height: clamp(54px, 7.4vmin, 80px);
+          padding: 0 clamp(18px, 2.8vw, 34px);
+          font-size: clamp(1rem, min(2.2vw, 2.35vmin), 1.38rem);
+        }
+
+        .room-page-landing .room-landing-access-link {
+          font-size: clamp(0.62rem, min(1.05vw, 1.35vmin), 0.82rem);
+        }
+
+        @media (max-height: 620px) {
+          .room-page-landing {
+            --room-landing-viewport-pad-y: clamp(8px, 2vh, 16px);
+          }
+
+          .room-page-landing .room-landing-shell {
+            grid-template-rows: clamp(28px, 5.8vh, 44px) minmax(0, 1fr) clamp(28px, 5.8vh, 44px);
+          }
+
+          .room-page-landing .room-landing-main {
+            padding: clamp(8px, 2vh, 18px) clamp(12px, 3vw, 28px);
+          }
+
+          .room-page-landing .room-landing-title {
+            font-size: clamp(2.4rem, min(10vw, 9.8vmin), 4.8rem);
+          }
+
+          .room-page-landing .room-landing-cta {
+            min-height: clamp(48px, 6.8vmin, 60px);
+            font-size: clamp(0.92rem, min(2vw, 2.1vmin), 1.08rem);
+          }
+        }
+
+        @media (max-height: 460px) and (orientation: landscape) {
+          .room-page-landing .room-landing-shell {
+            grid-template-rows: 24px minmax(0, 1fr) 24px;
+          }
+
+          .room-page-landing .room-landing-content {
+            gap: 6px;
+          }
+
+          .room-page-landing .room-landing-title {
+            font-size: clamp(2rem, min(8vw, 8.8vmin), 3.8rem);
+          }
+
+          .room-page-landing .room-landing-tagline {
+            font-size: clamp(0.5rem, min(0.9vw, 1.1vmin), 0.64rem);
+          }
+
+          .room-page-landing .room-landing-actions {
+            gap: 5px;
+          }
+
+          .room-page-landing .room-landing-cta {
+            min-height: 44px;
+            font-size: 0.88rem;
+          }
+
+          .room-page-landing .room-landing-access-link {
+            font-size: 0.58rem;
+          }
+        }
       `}</style>
 
       <div className="cursor" id="cursor" />
@@ -2058,9 +2207,14 @@ export default function TheRoomPageClient(page) {
                   <div className="room-landing-content">
                     <h1 className="room-landing-title">{page.title}</h1>
                     <p className="room-landing-tagline">{page.landing.eyebrow}</p>
-                    <button className="room-landing-cta" onClick={() => setView("about")} type="button">
-                      {page.landing.ctaLabel}
-                    </button>
+                    <div className="room-landing-actions">
+                      <button className="room-landing-cta" onClick={() => setView("about")} type="button">
+                        {page.landing.ctaLabel}
+                      </button>
+                      <Link className="room-landing-access-link" href="/keyaccess">
+                        je dispose déjà d&apos;une clé d&apos;accès
+                      </Link>
+                    </div>
                   </div>
                 </div>
                 <div className="room-landing-rail" />
