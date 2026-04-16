@@ -1633,6 +1633,7 @@ export default function CataloguePageClient({ page }) {
             height: var(--catalog-wide-opium-height, auto);
             min-height: var(--catalog-wide-opium-height, 760px);
             max-height: var(--catalog-wide-opium-height, 760px);
+            grid-template-rows: auto minmax(0, 1fr);
           }
 
           .catalog-card[data-project-id="les-mauvais-jours"] .catalog-meta {
