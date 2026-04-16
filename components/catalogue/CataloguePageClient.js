@@ -1483,7 +1483,7 @@ export default function CataloguePageClient({ page }) {
           }
 
           .catalog-card:not(.is-featured) .catalog-actions {
-            margin-top: 0;
+            margin-top: auto;
             min-height: 42px;
             align-self: flex-start;
             flex: 0 0 auto;
