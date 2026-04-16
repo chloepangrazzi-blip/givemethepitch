@@ -235,6 +235,7 @@ export default function CataloguePageClient({ page }) {
   const [isTabletCompactRange, setIsTabletCompactRange] = useState(false);
   const [useTabletPosterVariant, setUseTabletPosterVariant] = useState(false);
   const [isTabletWideRange, setIsTabletWideRange] = useState(false);
+  const [isDesktopWideUniformRange, setIsDesktopWideUniformRange] = useState(false);
   const [wideTabletTextTier, setWideTabletTextTier] = useState(null);
   const featuredProject = page.projects.find((project) => project.featured) || null;
   const shelfProjects = page.projects.filter((project) => !project.featured);
@@ -275,6 +276,23 @@ export default function CataloguePageClient({ page }) {
     return () => {
       observer?.disconnect();
       window.removeEventListener("resize", syncFeaturedHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const syncDesktopWideUniformRange = () => {
+      setIsDesktopWideUniformRange(window.innerWidth >= 1126 && window.innerWidth <= 2560);
+    };
+
+    syncDesktopWideUniformRange();
+    window.addEventListener("resize", syncDesktopWideUniformRange);
+
+    return () => {
+      window.removeEventListener("resize", syncDesktopWideUniformRange);
     };
   }, []);
 
@@ -1045,23 +1063,74 @@ export default function CataloguePageClient({ page }) {
           margin-top: 22px;
         }
 
-        @media (min-width: 1280px) {
+        @media (min-width: 1126px) and (max-width: 2560px) {
           .catalog-grid {
-            grid-template-columns: repeat(5, minmax(0, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-auto-rows: 1fr;
+          }
+
+          .catalog-card {
+            min-height: 800px;
+          }
+
+          .catalog-card:not(.is-featured) {
+            height: 800px;
+            min-height: 800px;
+            max-height: 800px;
+            grid-template-rows: auto minmax(0, 1fr);
+          }
+
+          .catalog-card:not(.is-featured) .catalog-meta {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100%;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-meta-top {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            grid-template-rows: none;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-tags {
+            display: grid;
+            justify-items: start;
+            align-content: start;
+            gap: 8px;
+            min-height: 0;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-tags span {
+            width: fit-content;
+            max-width: 100%;
+          }
+
+          .catalog-card:not(.is-featured) .catalog-actions {
+            min-height: 42px;
+            margin-top: auto;
+            align-self: flex-start;
           }
 
           .catalog-card.is-featured {
             grid-column: span 2;
-            height: var(--featured-card-height, auto);
+            height: var(--featured-card-height, 800px);
+            min-height: var(--featured-card-height, 800px);
+            max-height: var(--featured-card-height, 800px);
+            grid-template-rows: auto minmax(0, 1fr);
           }
 
           .catalog-card.is-featured .catalog-poster-link,
           .catalog-card.is-featured .catalog-poster-static {
-            height: calc(var(--featured-card-height, 760px) - 158px);
+            height: calc(var(--featured-card-height, 800px) - 158px);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 8px 10px;
+            border-radius: 22px;
+            overflow: hidden;
           }
 
           .catalog-card.is-featured .catalog-poster {
@@ -1070,6 +1139,15 @@ export default function CataloguePageClient({ page }) {
             aspect-ratio: auto;
             object-fit: cover;
             object-position: center center;
+            border-radius: 18px !important;
+            clip-path: inset(0 round 18px);
+          }
+
+          .catalog-card.is-featured .catalog-meta {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100%;
           }
         }
 
@@ -1772,7 +1850,10 @@ export default function CataloguePageClient({ page }) {
               <ProjectCard
                 key={project.id}
                 featuredStatusPlacement={page.featuredStatusPlacement}
-                showTabletReadMore={(isTabletCompactRange || isTabletWideRange) && project.id === "consentement-mutuel"}
+                showTabletReadMore={
+                  (isTabletCompactRange || isTabletWideRange || isDesktopWideUniformRange) &&
+                  project.id === "consentement-mutuel"
+                }
                 tabletSharedHeight={tabletSharedHeight}
                 isTabletCompactRange={isTabletCompactRange}
                 useTabletPosterVariant={useTabletPosterVariant}
