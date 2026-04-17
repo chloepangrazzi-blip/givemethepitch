@@ -2538,17 +2538,22 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-footer-links {
             flex-wrap: nowrap;
-            gap: 6px;
+            justify-content: space-between;
+            gap: 4px;
             white-space: nowrap;
             width: 100%;
             max-width: 100%;
-            overflow: hidden;
           }
 
           .mn-footer-link {
             white-space: nowrap;
             font-size: 6px;
-            letter-spacing: 0.02em;
+            letter-spacing: 0;
+          }
+
+          .mn-footer {
+            padding-left: 10px;
+            padding-right: 10px;
           }
         }
       `}</style>
