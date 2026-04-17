@@ -1866,6 +1866,15 @@ export default function MareeNoirePageClient({ page }) {
             border-radius: 30px;
           }
 
+          .mn-quote-text,
+          .mn-watchers-editorial,
+          .mn-sea-editorial {
+            width: min(100%, 620px);
+            max-width: 100%;
+            padding-left: 32px;
+            padding-right: 32px;
+          }
+
           .mn-dive-grid {
             grid-template-columns: 1fr;
             gap: 22px;
