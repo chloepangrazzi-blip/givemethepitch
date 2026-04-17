@@ -909,6 +909,10 @@ export default function MareeNoirePageClient({ page }) {
           min-height: clamp(420px, 48vw, 700px);
         }
 
+        .mn-image-band-mobile-inline {
+          display: none;
+        }
+
         .mn-feature-grid {
           display: grid;
           grid-template-columns: minmax(0, 1.04fr) minmax(380px, 0.96fr);
@@ -2367,8 +2371,14 @@ export default function MareeNoirePageClient({ page }) {
             padding: 8px 0 8px;
           }
 
-          .mn-dive-grid + .mn-image-band {
-            margin-top: -8px;
+          .mn-image-band-mobile-inline {
+            display: block;
+            min-height: 220px;
+            margin-top: 2px;
+          }
+
+          .mn-image-band-default {
+            display: none;
           }
 
           .mn-dive-hook,
@@ -2528,14 +2538,17 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-footer-links {
             flex-wrap: nowrap;
-            gap: 10px;
+            gap: 6px;
             white-space: nowrap;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
           }
 
           .mn-footer-link {
             white-space: nowrap;
-            font-size: 9px;
-            letter-spacing: 0.08em;
+            font-size: 7px;
+            letter-spacing: 0.04em;
           }
         }
       `}</style>
@@ -2627,6 +2640,11 @@ export default function MareeNoirePageClient({ page }) {
                     ))}
                   </div>
                   <RichText className="mn-dive-accent" html={page.dive.accentHtml} />
+                  {page.dive.beachImage ? (
+                    <section className="mn-image-band mn-image-band-mobile-inline">
+                      <img alt="Noé sur la plage" src={page.dive.beachImage} />
+                    </section>
+                  ) : null}
                 </div>
                 <div className="mn-copy-cell">
                   <div className="mn-copy-stack">
@@ -2640,7 +2658,7 @@ export default function MareeNoirePageClient({ page }) {
               </section>
 
               {page.dive.beachImage ? (
-                <section className="mn-image-band">
+                <section className="mn-image-band mn-image-band-default">
                   <img alt="Noé sur la plage" src={page.dive.beachImage} />
                 </section>
               ) : null}
