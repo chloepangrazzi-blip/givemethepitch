@@ -2191,6 +2191,27 @@ export default function TheRoomPageClient(page) {
         }
 
         @media (max-width: 390px) {
+          .room-page-about .room-footer {
+            margin-top: 18px;
+            padding-top: 18px;
+            padding-bottom: 14px;
+          }
+
+          .room-page-about .room-footer-links {
+            justify-content: center;
+            gap: 10px;
+          }
+
+          .room-page-about .room-footer-link {
+            font-size: 8px;
+            letter-spacing: 0.05em;
+          }
+
+          .room-page-about .room-footer .room-note {
+            font-size: 7px;
+            letter-spacing: 0.04em;
+          }
+
           .room-page-form .room-form-header {
             padding-top: 52px;
             padding-bottom: 18px;
