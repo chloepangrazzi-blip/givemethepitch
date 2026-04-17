@@ -1394,6 +1394,11 @@ export default function MareeNoirePageClient({ page }) {
           max-width: none;
         }
 
+        .mn-copy-cell-story.mn-story-block-fixed-point .mn-split-title {
+          font-size: clamp(18px, 1.85vw, 25px);
+          line-height: 1.04;
+        }
+
         .mn-story-split .mn-split-title .mn-title-line {
           display: block;
           white-space: nowrap;
@@ -1490,12 +1495,12 @@ export default function MareeNoirePageClient({ page }) {
         }
 
         .mn-watchers-editorial {
-          margin-top: 26px;
-          margin-bottom: 118px;
+          margin-top: 10px;
+          margin-bottom: 88px;
           display: grid;
           justify-items: center;
-          align-content: center;
-          min-height: 520px;
+          align-content: start;
+          min-height: 0;
         }
 
         .mn-quote-card-before-watchers {
@@ -1509,8 +1514,8 @@ export default function MareeNoirePageClient({ page }) {
         }
 
         .mn-sea-editorial {
-          margin-top: 104px;
-          margin-bottom: 60px;
+          margin-top: 28px;
+          margin-bottom: 44px;
         }
 
         .mn-editorial-kicker {
@@ -2231,8 +2236,8 @@ export default function MareeNoirePageClient({ page }) {
             width: 100%;
             padding-left: 8px;
             padding-right: 8px;
-            margin-top: 28px;
-            margin-bottom: 24px;
+            margin-top: 18px;
+            margin-bottom: 20px;
           }
 
           .mn-watchers-editorial {
@@ -2603,8 +2608,8 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-watchers-editorial,
           .mn-sea-editorial {
-            margin-top: 24px;
-            margin-bottom: 20px;
+            margin-top: 16px;
+            margin-bottom: 16px;
           }
 
           .mn-editorial-title-watchers {
