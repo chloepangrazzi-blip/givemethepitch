@@ -3327,10 +3327,14 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-footer-link {
             white-space: nowrap;
-            font-size: 6px;
-            letter-spacing: 0;
             text-align: center;
             flex: 0 0 auto;
+          }
+
+          .mn-footer-thin .mn-footer-link {
+            font-size: 6px;
+            letter-spacing: 0;
+            font-weight: 200;
           }
 
           .mn-footer {
@@ -3422,12 +3426,16 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-footer-link {
-            font-size: 5px;
             line-height: 1;
           }
 
           .mn-footer-thin .mn-note {
             font-size: 8px;
+          }
+
+          .mn-footer-thin .mn-footer-link {
+            font-size: 5px;
+            letter-spacing: 0;
           }
         }
       `}</style>
