@@ -3408,6 +3408,29 @@ export default function MareeNoirePageClient({ page }) {
           </section>
 
 
+          <section className="mn-teaser-wrap">
+            <div className="mn-teaser-card">
+              <video
+                className="mn-video"
+                controlsList="nodownload noplaybackrate nofullscreen"
+                disablePictureInPicture
+                disableRemotePlayback
+                id="mareeNoireVideo"
+                playsInline
+                poster={page.teaser.posterSrc}
+                preload="auto"
+              >
+                <source data-desktop-src={page.teaser.desktopSrc} data-mobile-src={page.teaser.mobileSrc} />
+              </video>
+              <button aria-label="Lire le teaser" className="mn-player-overlay" id="mareeNoireOverlay" type="button">
+                <span className="mn-player-button">
+                  <span aria-hidden="true" className="mn-player-icon" />
+                </span>
+              </button>
+            </div>
+          </section>
+
+
           <section className="mn-pitch-card">
             {page.pitch.backgroundImage ? (
               <img alt="Pitch Marée Noire" className="mn-pitch-background" src={page.pitch.backgroundImage} />
