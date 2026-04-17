@@ -3452,6 +3452,12 @@ export default function MareeNoirePageClient({ page }) {
             text-transform: none;
           }
         }
+
+        @media (min-width: 321px) and (max-width: 390px) {
+          .mn-pitch-line {
+            margin: -16px auto 0;
+          }
+        }
       `}</style>
       <div className="cursor" id="cursor" />
       <main className="mn-page">
