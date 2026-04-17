@@ -558,11 +558,16 @@ export default function MareeNoirePageClient({ page }) {
 
         @media (min-width: 1121px) {
           .mn-intro-card {
-            padding-top: 42px;
+            gap: 22px;
+          }
+
+          .mn-intro-card .mn-meta-row {
+            margin-bottom: 4px;
           }
 
           .mn-title {
-            margin-top: 10px;
+            margin-top: 32px;
+            font-size: clamp(2.68rem, 7.15vw, 6.2rem);
           }
         }
 
