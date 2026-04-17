@@ -530,9 +530,25 @@ export default function NdaPageClient({
           }
         }
 
+        @media (max-width: 390px) {
+          .nda-header {
+            padding: 56px 8vw 24px;
+          }
+
+          .nda-body {
+            padding-top: 24px;
+            padding-bottom: 40px;
+          }
+
+          .nda-parties {
+            margin-bottom: 40px;
+          }
+        }
+
         @media (max-width: 320px) {
           .nda-body {
-            padding-bottom: 40px;
+            padding-top: 20px;
+            padding-bottom: 36px;
           }
 
           .signature-block {

@@ -548,7 +548,7 @@ export default function MareeNoirePageClient({ page }) {
         .mn-title {
           margin: 0;
           font-family: var(--mn-horizon);
-          font-size: clamp(3.2rem, 9vw, 8rem);
+          font-size: clamp(3rem, 8.2vw, 7rem);
           font-weight: 400;
           line-height: 0.9;
           text-transform: uppercase;
@@ -2968,20 +2968,42 @@ export default function MareeNoirePageClient({ page }) {
 
         @media (max-width: 390px) {
           .mn-page {
-            padding: 12px 10px 52px;
+            padding: 12px 16px 52px;
+            overflow-x: hidden;
           }
 
           .mn-shell {
             gap: 14px;
+            width: 100%;
+            max-width: 100%;
           }
 
           .mn-body-shell {
             padding: 14px;
             border-radius: 22px;
+            width: 100%;
+            max-width: 100%;
           }
 
           .mn-body-shell-inner {
             gap: 18px;
+            width: 100%;
+            max-width: 100%;
+          }
+
+          .mn-intro-grid,
+          .mn-quote-text,
+          .mn-watchers-editorial,
+          .mn-sea-editorial {
+            width: 100%;
+            max-width: 100%;
+          }
+
+          .mn-quote-text,
+          .mn-watchers-editorial,
+          .mn-sea-editorial {
+            padding-left: 20px;
+            padding-right: 20px;
           }
 
           .mn-intro-card,
@@ -3413,7 +3435,7 @@ export default function MareeNoirePageClient({ page }) {
             <section className="mn-audio-card" ref={audioSectionRef}>
               <div className="mn-audio-head">
                 <div className="mn-audio-copy">
-                  <p className="mn-section-kicker mn-audio-kicker">{audioData.kicker}</p>
+                  {audioData.kicker ? <p className="mn-section-kicker mn-audio-kicker">{audioData.kicker}</p> : null}
                   <h2 className="mn-audio-title">{audioData.title}</h2>
                   <p className="mn-audio-meta">
                     {audioData.durationLabel} · {audioData.chapterCountLabel}

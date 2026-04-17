@@ -741,9 +741,9 @@ export default function FormtestPageClient(page) {
           }
 
           .ft-submit-note {
-            font-size: 12px;
-            line-height: 1.65;
-            max-width: 62ch;
+            font-size: 9px;
+            line-height: 1.45;
+            max-width: 36ch;
             color: rgba(255, 255, 255, 0.5);
           }
         }
@@ -822,8 +822,10 @@ export default function FormtestPageClient(page) {
           }
 
           .ft-submit-note {
-            font-size: 11px;
-            line-height: 1.6;
+            font-size: 8px;
+            line-height: 1.35;
+            max-width: 32ch;
+            letter-spacing: 0.06em;
           }
         }
       `}</style>

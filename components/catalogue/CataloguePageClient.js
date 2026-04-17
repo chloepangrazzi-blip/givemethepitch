@@ -567,17 +567,19 @@ export default function CataloguePageClient({ page }) {
           width: 14px;
           height: 14px;
           background: var(--catalog-mint);
+          box-shadow: 0 0 0 1px rgba(191, 248, 220, 0.18);
           border-radius: 50%;
           pointer-events: none;
           z-index: 9999;
           transform: translate(-50%, -50%);
-          transition: width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
+          transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, opacity 0.2s ease, box-shadow 0.25s ease;
           mix-blend-mode: difference;
         }
 
         .cursor.hovering {
           width: 42px;
           height: 42px;
+          box-shadow: 0 0 0 1px rgba(191, 248, 220, 0.32);
         }
 
         .catalog-shell {
@@ -711,6 +713,8 @@ export default function CataloguePageClient({ page }) {
         .catalog-card.is-featured .catalog-meta {
           gap: 10px;
           padding: 0 2px 2px;
+          position: relative;
+          z-index: 4;
         }
 
         .catalog-card.is-featured .catalog-meta-top,
@@ -721,6 +725,7 @@ export default function CataloguePageClient({ page }) {
 
         .catalog-poster-wrap {
           position: relative;
+          z-index: 1;
         }
 
         .catalog-poster-link,
@@ -858,17 +863,30 @@ export default function CataloguePageClient({ page }) {
           letter-spacing: 0.12em;
           text-transform: uppercase;
           white-space: nowrap;
-          transition: box-shadow 180ms ease, background 180ms ease, border-color 180ms ease, opacity 180ms ease;
+          transition:
+            transform 180ms ease,
+            box-shadow 180ms ease,
+            background 180ms ease,
+            border-color 180ms ease,
+            opacity 180ms ease;
         }
 
         .catalog-tag-action:hover {
+          transform: translateY(-1px) scale(1.02);
           box-shadow: 0 10px 24px rgba(191, 248, 220, 0.12);
           background: #d7ffe9;
           border-color: rgba(191, 248, 220, 0.55);
         }
 
+        .catalog-tag-action:focus-visible {
+          outline: none;
+          transform: translateY(-1px) scale(1.02);
+          box-shadow: 0 0 0 2px rgba(191, 248, 220, 0.22), 0 10px 24px rgba(191, 248, 220, 0.14);
+        }
+
         .catalog-tag-action:active {
           opacity: 0.92;
+          transform: scale(0.99);
         }
 
         .catalog-tags.is-stacked {

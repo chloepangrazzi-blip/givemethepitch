@@ -2018,6 +2018,12 @@ export default function TheRoomPageClient(page) {
         }
 
         @media (max-width: 500px) {
+          .room-page-about,
+          .room-page-about .room-shell-about,
+          .room-page-about .room-stage-about {
+            overflow-x: hidden;
+          }
+
           .room-page-about .room-about-kicker-line {
             display: block;
             margin-top: 4px;
@@ -2053,6 +2059,47 @@ export default function TheRoomPageClient(page) {
           .room-page-about .room-about-pivot {
             padding-left: clamp(24px, 6vw, 32px);
             padding-right: clamp(24px, 6vw, 32px);
+          }
+
+          .room-page-about .room-about-hero-inner {
+            width: 100%;
+            max-width: 100%;
+          }
+
+          .room-page-about .room-about-title,
+          .room-page-about .room-about-tagline,
+          .room-page-about .room-about-pivot-pill,
+          .room-page-about .room-about-pivot-pill-filled,
+          .room-page-about .room-about-pivot-title {
+            max-width: 100%;
+          }
+
+          .room-page-about .room-about-pivot-pill,
+          .room-page-about .room-about-pivot-pill-filled {
+            text-align: center;
+          }
+
+          .room-page-about .room-about-pivot-title {
+            width: 100%;
+            box-sizing: border-box;
+            padding-left: 18px;
+            padding-right: 18px;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            letter-spacing: 0.12em;
+          }
+
+          .room-page-about .room-footer-links {
+            flex-wrap: wrap;
+            white-space: normal;
+            gap: 8px;
+            max-width: 100%;
+          }
+
+          .room-page-about .room-footer-link {
+            white-space: normal;
+            font-size: 9px;
+            letter-spacing: 0.1em;
           }
 
           .room-page-form .room-form-input::placeholder {
