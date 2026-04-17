@@ -2237,7 +2237,7 @@ export default function MareeNoirePageClient({ page }) {
 
         @media (max-width: 390px) {
           .mn-page {
-            padding: 14px 10px 56px;
+            padding: 12px 10px 52px;
           }
 
           .mn-shell {
@@ -2284,15 +2284,15 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-title {
-            font-size: clamp(2.34rem, 11vw, 2.72rem);
+            font-size: clamp(2.08rem, 10vw, 2.44rem);
           }
 
           .mn-session,
           .mn-pill {
-            min-height: 34px;
-            padding: 0 10px;
-            font-size: 0.66rem;
-            letter-spacing: 0.08em;
+            min-height: 32px;
+            padding: 0 9px;
+            font-size: 0.62rem;
+            letter-spacing: 0.07em;
           }
 
           .mn-brief-step {
@@ -2303,17 +2303,17 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-brief-index {
             min-height: 30px;
-            font-size: 0.66rem;
+            font-size: 0.62rem;
           }
 
           .mn-brief-text {
-            font-size: 0.88rem;
-            line-height: 1.52;
+            font-size: 0.82rem;
+            line-height: 1.48;
           }
 
           .mn-brief-note {
-            font-size: 0.68rem;
-            letter-spacing: 0.1em;
+            font-size: 0.64rem;
+            letter-spacing: 0.08em;
           }
 
           .mn-pitch-card {
@@ -2329,13 +2329,13 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-pitch-copy .mn-body {
-            font-size: 0.88rem;
-            line-height: 1.62;
+            font-size: 0.82rem;
+            line-height: 1.56;
           }
 
           .mn-pitch-word,
           .mn-pitch-line {
-            font-size: 0.9rem;
+            font-size: 0.84rem;
           }
 
           .mn-section-band {
@@ -2349,7 +2349,7 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-section-band-title,
           .mn-body-shell .mn-section-band-title {
-            font-size: clamp(1.24rem, 6.4vw, 1.7rem);
+            font-size: clamp(1.12rem, 5.9vw, 1.48rem);
           }
 
           .mn-dive-grid {
@@ -2358,14 +2358,14 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-dive-hook,
           .mn-dive-accent {
-            font-size: 0.86rem;
+            font-size: 0.8rem;
             line-height: 1.06;
           }
 
           .mn-dive-beats p,
           .mn-dive-grid > .mn-copy-cell:last-child .mn-body {
-            font-size: 0.88rem;
-            line-height: 1.64;
+            font-size: 0.82rem;
+            line-height: 1.58;
           }
 
           .mn-feature-grid {
@@ -2397,7 +2397,7 @@ export default function MareeNoirePageClient({ page }) {
           .mn-editorial-title-watchers,
           .mn-editorial-title-sea,
           .mn-opener-card .mn-section-title {
-            font-size: clamp(1.06rem, 5.6vw, 1.42rem);
+            font-size: clamp(0.96rem, 5vw, 1.26rem);
             line-height: 1.02;
           }
 
@@ -2406,8 +2406,8 @@ export default function MareeNoirePageClient({ page }) {
           .mn-opener-card .mn-section-kicker,
           .mn-story-split .mn-section-kicker,
           .mn-editorial-kicker {
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
+            font-size: 0.64rem;
+            letter-spacing: 0.08em;
           }
 
           .mn-feature-grid .mn-copy-stack .mn-body,
@@ -2418,8 +2418,8 @@ export default function MareeNoirePageClient({ page }) {
           .mn-editorial-copy .mn-body,
           .mn-opener-card .mn-body,
           .mn-word-copy .mn-body {
-            font-size: 0.88rem;
-            line-height: 1.68;
+            font-size: 0.82rem;
+            line-height: 1.6;
           }
 
           .mn-copy-stack,
@@ -2440,8 +2440,8 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-quote-card p {
-            font-size: 0.92rem;
-            line-height: 1.42;
+            font-size: 0.84rem;
+            line-height: 1.36;
           }
 
           .mn-watchers-editorial,
@@ -2451,11 +2451,11 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-editorial-title-watchers {
-            font-size: 0.96rem;
+            font-size: 0.88rem;
           }
 
           .mn-editorial-title-sea {
-            font-size: 1.34rem;
+            font-size: 1.18rem;
           }
 
           .mn-gallery-card,
@@ -2483,14 +2483,14 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-word-title {
-            font-size: 0.88rem;
-            letter-spacing: 0.09em;
-            line-height: 1.5;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            line-height: 1.42;
           }
 
           .mn-word-references {
-            font-size: 0.66rem;
-            letter-spacing: 0.12em;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
           }
 
           .mn-opener-card {
@@ -2504,11 +2504,11 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-action {
             min-height: 52px;
-            font-size: 0.86rem;
+            font-size: 0.8rem;
           }
 
           .mn-action-caption {
-            font-size: 0.78rem;
+            font-size: 0.72rem;
           }
         }
       `}</style>
