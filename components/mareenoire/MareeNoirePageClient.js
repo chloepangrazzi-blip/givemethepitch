@@ -3409,6 +3409,27 @@ export default function MareeNoirePageClient({ page }) {
             font-size: 0.72rem;
           }
         }
+
+        @media (max-width: 320px) {
+          .mn-footer {
+            padding-left: 8px;
+            padding-right: 8px;
+          }
+
+          .mn-footer-links {
+            justify-content: center;
+            gap: 4px;
+          }
+
+          .mn-footer-link {
+            font-size: 5px;
+            line-height: 1;
+          }
+
+          .mn-footer-thin .mn-note {
+            font-size: 8px;
+          }
+        }
       `}</style>
       <div className="cursor" id="cursor" />
       <main className="mn-page">
