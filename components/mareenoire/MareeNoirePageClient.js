@@ -1810,30 +1810,31 @@ export default function MareeNoirePageClient({ page }) {
 
         @media (max-width: 899px) {
           .mn-page {
-            padding: 20px 20px 72px;
+            padding: 24px 30px 80px;
           }
 
           .mn-shell {
-            gap: 18px;
+            gap: 20px;
           }
 
           .mn-body-shell {
-            padding: 20px;
-            border-radius: 28px;
+            padding: 24px;
+            border-radius: 30px;
           }
 
           .mn-body-shell-inner {
-            gap: 24px;
+            gap: 26px;
           }
 
           .mn-pitch-card {
-            min-height: 560px;
-            padding: 24px;
-            gap: 22px;
+            min-height: 580px;
+            padding: 28px;
+            gap: 24px;
+            border-radius: 30px;
           }
 
           .mn-pitch-copy {
-            width: min(520px, calc(100% - 28px));
+            width: min(520px, calc(100% - 72px));
             padding: 22px 24px;
             border-radius: 24px;
             gap: 16px;
@@ -1852,28 +1853,38 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-pitch-line {
             width: fit-content;
-            max-width: min(100%, 92%);
-            margin: 12px auto 10px;
+            max-width: min(100%, 90%);
+            margin: 16px auto 14px;
             padding: 12px 18px;
             border-radius: 22px;
             font-size: 1rem;
             line-height: 1.08;
           }
 
+          .mn-section-band,
+          .mn-image-band {
+            border-radius: 30px;
+          }
+
           .mn-dive-grid {
             grid-template-columns: 1fr;
             gap: 22px;
+            width: min(100%, 620px);
+            margin: 0 auto;
             padding: 4px 0 8px;
           }
 
           .mn-dive-grid > .mn-copy-cell:first-child,
           .mn-dive-grid > .mn-copy-cell:last-child {
-            padding-left: 0;
-            padding-right: 0;
+            width: 100%;
+            padding: 22px 24px;
             gap: 18px;
+            border-radius: 26px;
           }
 
           .mn-dive-grid > .mn-copy-cell:first-child {
+            min-height: 0;
+            align-content: start;
             justify-items: center;
             text-align: center;
           }
@@ -1885,7 +1896,7 @@ export default function MareeNoirePageClient({ page }) {
           .mn-dive-hook,
           .mn-dive-accent,
           .mn-dive-beats {
-            width: min(100%, 560px);
+            width: min(100%, 520px);
             margin-left: auto;
             margin-right: auto;
           }
@@ -1905,8 +1916,10 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-image-band-mobile-inline {
             display: block;
+            width: 100%;
             min-height: 380px;
-            margin-top: 4px;
+            margin: 8px auto 0;
+            border-radius: 26px;
           }
 
           .mn-image-band-default {
