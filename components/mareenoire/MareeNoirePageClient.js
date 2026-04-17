@@ -1808,6 +1808,116 @@ export default function MareeNoirePageClient({ page }) {
           }
         }
 
+        @media (max-width: 899px) {
+          .mn-page {
+            padding: 20px 20px 72px;
+          }
+
+          .mn-shell {
+            gap: 18px;
+          }
+
+          .mn-body-shell {
+            padding: 20px;
+            border-radius: 28px;
+          }
+
+          .mn-body-shell-inner {
+            gap: 24px;
+          }
+
+          .mn-pitch-card {
+            min-height: 560px;
+            padding: 24px;
+            gap: 22px;
+          }
+
+          .mn-pitch-copy {
+            width: min(520px, calc(100% - 28px));
+            padding: 22px 24px;
+            border-radius: 24px;
+            gap: 16px;
+          }
+
+          .mn-pitch-copy .mn-body {
+            font-size: 1rem;
+            line-height: 1.7;
+          }
+
+          .mn-pitch-word {
+            justify-self: end;
+            text-align: right;
+            font-size: 1rem;
+          }
+
+          .mn-pitch-line {
+            width: fit-content;
+            max-width: min(100%, 92%);
+            margin: 12px auto 10px;
+            padding: 12px 18px;
+            border-radius: 22px;
+            font-size: 1rem;
+            line-height: 1.08;
+          }
+
+          .mn-dive-grid {
+            grid-template-columns: 1fr;
+            gap: 22px;
+            padding: 4px 0 8px;
+          }
+
+          .mn-dive-grid > .mn-copy-cell:first-child,
+          .mn-dive-grid > .mn-copy-cell:last-child {
+            padding-left: 0;
+            padding-right: 0;
+            gap: 18px;
+          }
+
+          .mn-dive-grid > .mn-copy-cell:first-child {
+            justify-items: center;
+            text-align: center;
+          }
+
+          .mn-dive-grid > .mn-copy-cell:last-child {
+            border-left: 0;
+          }
+
+          .mn-dive-hook,
+          .mn-dive-accent,
+          .mn-dive-beats {
+            width: min(100%, 560px);
+            margin-left: auto;
+            margin-right: auto;
+          }
+
+          .mn-dive-hook,
+          .mn-dive-accent {
+            text-align: center;
+          }
+
+          .mn-dive-beats {
+            gap: 14px;
+          }
+
+          .mn-dive-beats p {
+            text-align: center;
+          }
+
+          .mn-image-band-mobile-inline {
+            display: block;
+            min-height: 380px;
+            margin-top: 4px;
+          }
+
+          .mn-image-band-default {
+            display: none;
+          }
+
+          .mn-section-band-copy {
+            display: none;
+          }
+        }
+
         @media (max-width: 720px) {
           .mn-page {
             padding: 16px 12px 64px;
