@@ -253,7 +253,7 @@ export default function FormtestPageClient(page) {
         }
 
         .ft-form-header {
-          padding: 110px 6vw 58px;
+          padding: 80px 6vw 64px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
@@ -581,7 +581,7 @@ export default function FormtestPageClient(page) {
 
         @media (max-width: 760px) {
           .ft-form-header {
-            padding: 88px 20px 34px;
+            padding: 72px 20px 32px;
           }
 
           .ft-form-body {
@@ -612,6 +612,11 @@ export default function FormtestPageClient(page) {
 
           .ft-field-input {
             font-size: 13px;
+          }
+
+          .ft-submit-note {
+            font-size: 11px;
+            line-height: 1.7;
           }
 
           .ft-form-subtitle {
@@ -660,6 +665,165 @@ export default function FormtestPageClient(page) {
           .ft-chip-label {
             padding: 7px 12px;
             font-size: 10px;
+          }
+        }
+
+        @media (max-width: 500px) {
+          .ft-form-header {
+            padding: 56px clamp(16px, 5vw, 24px) 20px;
+          }
+
+          .ft-form-body {
+            padding: 24px clamp(16px, 5vw, 24px) 52px;
+          }
+
+          .ft-q-label {
+            font-size: clamp(15px, 4vw, 17px);
+            line-height: 1.55;
+          }
+
+          .ft-card-section {
+            padding: 20px 16px;
+          }
+
+          .ft-card-divider {
+            margin: 22px 0;
+          }
+
+          .ft-field-input {
+            min-height: 52px;
+            padding: 0 16px;
+            font-size: 15px;
+          }
+
+          .ft-field-input::placeholder {
+            font-size: 12px;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.3);
+          }
+
+          .ft-field-textarea {
+            min-height: 92px;
+            padding: 14px 16px;
+          }
+
+          .ft-chip-group {
+            gap: 8px;
+          }
+
+          .ft-chip {
+            flex: 1 1 auto;
+            display: flex;
+          }
+
+          .ft-chip-label {
+            display: flex;
+            width: 100%;
+            min-height: 42px;
+            padding: 10px 14px;
+            font-size: 11px;
+            line-height: 1.35;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+          }
+
+          .ft-form-submit-wrap {
+            margin-top: 36px;
+          }
+
+          .ft-submit {
+            padding: 18px 22px;
+            font-size: clamp(18px, 5vw, 22px);
+          }
+
+          .ft-submit-note {
+            font-size: 12px;
+            line-height: 1.65;
+            max-width: 62ch;
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+
+        @media (max-width: 390px) {
+          .ft-form-header {
+            padding-top: 52px;
+            padding-bottom: 18px;
+          }
+
+          .ft-form-body {
+            padding-top: 22px;
+            padding-bottom: 48px;
+          }
+
+          .ft-form-title {
+            font-size: clamp(42px, 11vw, 56px);
+          }
+
+          .ft-block-label {
+            margin-top: 52px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            font-size: 9px;
+            letter-spacing: 0.28em;
+          }
+
+          .ft-q-label {
+            font-size: 13px;
+            line-height: 1.45;
+          }
+
+          .ft-card-section {
+            padding: 18px 14px;
+          }
+
+          .ft-card-divider {
+            margin: 20px 0;
+          }
+
+          .ft-field-input {
+            min-height: 48px;
+            padding: 0 14px;
+            font-size: 13px;
+          }
+
+          .ft-field-input::placeholder {
+            font-size: 11px;
+          }
+
+          .ft-field-textarea {
+            min-height: 88px;
+            padding: 13px 14px;
+          }
+
+          .ft-chip-group {
+            gap: 7px;
+          }
+
+          .ft-chip-label {
+            min-height: 40px;
+            padding: 9px 12px;
+            font-size: 10.5px;
+            line-height: 1.3;
+          }
+
+          .ft-form-submit-wrap {
+            margin-top: 32px;
+          }
+
+          .ft-submit {
+            min-height: 54px;
+            padding: 16px 20px;
+            font-size: clamp(16px, 4.8vw, 18px);
+            letter-spacing: 0.03em;
+          }
+
+          .ft-submit-note {
+            font-size: 11px;
+            line-height: 1.6;
           }
         }
       `}</style>
