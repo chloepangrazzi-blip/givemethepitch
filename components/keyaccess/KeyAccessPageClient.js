@@ -300,6 +300,11 @@ export default function KeyAccessPageClient({
           opacity: 0.65;
         }
 
+        .ka-enter-loading {
+          font-size: clamp(0.8rem, min(1.45vw, 1.55vmin), 0.94rem);
+          letter-spacing: 0.04em;
+        }
+
         .ka-error {
           min-height: 18px;
           margin: 0;
@@ -471,6 +476,10 @@ export default function KeyAccessPageClient({
             font-size: clamp(0.98rem, 1.8vw, 1.12rem);
           }
 
+          .ka-enter-loading {
+            font-size: clamp(0.82rem, 1.42vw, 0.96rem);
+          }
+
           .ka-error {
             font-size: var(--ka-error-size);
             white-space: nowrap;
@@ -513,6 +522,10 @@ export default function KeyAccessPageClient({
 
           .ka-enter {
             font-size: clamp(0.86rem, 1.5vw, 0.98rem);
+          }
+
+          .ka-enter-loading {
+            font-size: clamp(0.74rem, 1.2vw, 0.84rem);
           }
         }
 
@@ -561,7 +574,7 @@ export default function KeyAccessPageClient({
                       value={accessKey}
                     />
                   </div>
-                  <button className="ka-enter" disabled={isLoading} onClick={checkKey} type="button">
+                  <button className={`ka-enter${isLoading ? " ka-enter-loading" : ""}`} disabled={isLoading} onClick={checkKey} type="button">
                     {isLoading ? loadingLabel : submitLabel}
                   </button>
                   <p className={`ka-error${showError ? " ka-error-visible" : ""}`}>{errorLabel}</p>

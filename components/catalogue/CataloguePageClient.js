@@ -242,9 +242,9 @@ export default function CataloguePageClient({ page }) {
   const mobileRows = chunkItems(shelfProjects, 3);
 
   useDesktopCursor({
-    hoverSelector: "button, a, .catalog-modal-backdrop",
+    hoverSelector: "button, a, input, textarea, label",
     spotlightSelector:
-      ".catalog-action, .catalog-header-link, .catalog-poster-link, .catalog-more, .catalog-modal-close",
+      ".catalog-action, .catalog-tag-action, .catalog-header-link, .catalog-poster-link, .catalog-more, .catalog-modal-close",
   });
 
   useEffect(() => {
@@ -596,9 +596,9 @@ export default function CataloguePageClient({ page }) {
           background: var(--catalog-mint);
           border-radius: 50%;
           pointer-events: none;
-          z-index: 10110;
+          z-index: 9999;
           transform: translate(-50%, -50%);
-          transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, opacity 0.2s ease;
+          transition: width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
           mix-blend-mode: difference;
         }
 
@@ -740,6 +740,12 @@ export default function CataloguePageClient({ page }) {
           padding: 0 2px 2px;
         }
 
+        .catalog-card.is-featured .catalog-meta-top,
+        .catalog-card.is-featured .catalog-tags {
+          position: relative;
+          z-index: 2;
+        }
+
         .catalog-poster-wrap {
           position: relative;
         }
@@ -859,9 +865,13 @@ export default function CataloguePageClient({ page }) {
         }
 
         .catalog-tag-action {
+          position: relative;
+          z-index: 3;
+          pointer-events: auto;
           display: inline-flex;
           align-items: center;
           justify-content: center;
+          flex: 0 0 auto;
           min-height: 34px;
           width: 132px;
           padding: 0 12px;
@@ -875,14 +885,17 @@ export default function CataloguePageClient({ page }) {
           letter-spacing: 0.12em;
           text-transform: uppercase;
           white-space: nowrap;
-          transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+          transition: box-shadow 180ms ease, background 180ms ease, border-color 180ms ease, opacity 180ms ease;
         }
 
         .catalog-tag-action:hover {
-          transform: translateY(-1px);
           box-shadow: 0 10px 24px rgba(191, 248, 220, 0.12);
           background: #d7ffe9;
           border-color: rgba(191, 248, 220, 0.55);
+        }
+
+        .catalog-tag-action:active {
+          opacity: 0.92;
         }
 
         .catalog-tags.is-stacked {
