@@ -2547,8 +2547,8 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-footer-link {
             white-space: nowrap;
-            font-size: 7px;
-            letter-spacing: 0.04em;
+            font-size: 6px;
+            letter-spacing: 0.02em;
           }
         }
       `}</style>
