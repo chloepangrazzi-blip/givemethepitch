@@ -488,6 +488,7 @@ export default function MareeNoirePageClient({ page }) {
           margin: 0 auto;
           display: grid;
           gap: 28px;
+          min-width: 0;
         }
 
         .mn-intro-grid {
@@ -495,6 +496,7 @@ export default function MareeNoirePageClient({ page }) {
           grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
           gap: 24px;
           align-items: stretch;
+          min-width: 0;
         }
 
         .mn-intro-card,
@@ -509,9 +511,21 @@ export default function MareeNoirePageClient({ page }) {
         .mn-watchers-card,
         .mn-sea-card,
         .mn-final-action {
+          min-width: 0;
           border: 1px solid var(--mn-line-strong);
           border-radius: 32px;
           background: var(--mn-card);
+        }
+
+        .mn-body-shell,
+        .mn-body-shell-inner,
+        .mn-intro-grid > *,
+        .mn-feature-grid > *,
+        .mn-watchers-grid > *,
+        .mn-gallery-grid > *,
+        .mn-arenas-grid > *,
+        .mn-dive-grid > * {
+          min-width: 0;
         }
 
         .mn-intro-card,
@@ -3302,10 +3316,11 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-footer-links {
-            flex-wrap: nowrap;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            align-items: center;
+            justify-items: center;
             gap: 4px;
-            white-space: nowrap;
             width: 100%;
             max-width: 100%;
           }
@@ -3314,6 +3329,8 @@ export default function MareeNoirePageClient({ page }) {
             white-space: nowrap;
             font-size: 6px;
             letter-spacing: 0;
+            min-width: 0;
+            text-align: center;
           }
 
           .mn-footer {
