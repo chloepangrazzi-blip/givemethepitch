@@ -2338,6 +2338,13 @@ export default function MareeNoirePageClient({ page }) {
             font-size: 0.84rem;
           }
 
+          .mn-pitch-line {
+            padding: 10px 12px;
+            border-radius: 18px;
+            letter-spacing: 0.01em;
+            line-height: 1.04;
+          }
+
           .mn-section-band {
             min-height: 220px;
           }
@@ -2352,8 +2359,16 @@ export default function MareeNoirePageClient({ page }) {
             font-size: clamp(1.12rem, 5.9vw, 1.48rem);
           }
 
+          .mn-section-band-copy {
+            display: none;
+          }
+
           .mn-dive-grid {
-            padding: 8px 0 16px;
+            padding: 8px 0 8px;
+          }
+
+          .mn-dive-grid + .mn-image-band {
+            margin-top: -8px;
           }
 
           .mn-dive-hook,
@@ -2509,6 +2524,18 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-action-caption {
             font-size: 0.72rem;
+          }
+
+          .mn-footer-links {
+            flex-wrap: nowrap;
+            gap: 10px;
+            white-space: nowrap;
+          }
+
+          .mn-footer-link {
+            white-space: nowrap;
+            font-size: 9px;
+            letter-spacing: 0.08em;
           }
         }
       `}</style>
