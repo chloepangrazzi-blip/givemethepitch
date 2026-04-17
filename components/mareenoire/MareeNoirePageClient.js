@@ -3316,11 +3316,11 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-footer-links {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            display: flex;
+            flex-wrap: nowrap;
             align-items: center;
-            justify-items: center;
-            gap: 4px;
+            justify-content: space-between;
+            gap: 8px;
             width: 100%;
             max-width: 100%;
           }
@@ -3329,8 +3329,8 @@ export default function MareeNoirePageClient({ page }) {
             white-space: nowrap;
             font-size: 6px;
             letter-spacing: 0;
-            min-width: 0;
             text-align: center;
+            flex: 0 0 auto;
           }
 
           .mn-footer {
