@@ -2125,6 +2125,8 @@ export default function TheRoomPageClient(page) {
 
           .room-page-about .room-footer .room-note {
             white-space: nowrap;
+            font-size: 8px;
+            letter-spacing: 0.05em;
           }
 
           .room-page-form .room-form-input::placeholder {
