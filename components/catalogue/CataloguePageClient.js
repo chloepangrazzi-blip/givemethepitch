@@ -517,33 +517,6 @@ export default function CataloguePageClient({ page }) {
   return (
     <>
       <style>{`
-        @font-face {
-          font-family: "Poppins";
-          src:
-            url("/fonts/Poppins-Regular.woff2") format("woff2"),
-            url("/fonts/Poppins-Regular.woff") format("woff");
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: "Poppins";
-          src:
-            url("/fonts/Poppins-Light.woff2") format("woff2"),
-            url("/fonts/Poppins-Light.woff") format("woff");
-          font-weight: 300;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: "Made Soulmaze";
-          src: url("/fonts/MADE-Soulmaze.otf") format("opentype");
-          font-weight: 400;
-          font-style: normal;
-        }
-
         :root {
           --catalog-bg: #000000;
           --catalog-card: #070707;
