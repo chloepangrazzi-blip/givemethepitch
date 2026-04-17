@@ -3125,7 +3125,8 @@ export default function MareeNoirePageClient({ page }) {
             width: fit-content;
             max-width: 100%;
             justify-self: center;
-            margin: 0 auto;
+            align-self: start;
+            margin: -6px auto 0;
             padding: 10px 12px;
             border-radius: 18px;
             letter-spacing: 0.01em;
