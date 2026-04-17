@@ -3385,21 +3385,6 @@ export default function MareeNoirePageClient({ page }) {
               <p className="mn-brief-note">{page.intro.estimatedDuration}</p>
             </aside>
           </section>
-          <section className="mn-pitch-card">
-            {page.pitch.backgroundImage ? (
-              <img alt="Pitch Marée Noire" className="mn-pitch-background" src={page.pitch.backgroundImage} />
-            ) : null}
-            <h2 className="mn-pitch-word">{page.pitch.word}</h2>
-            <div className="mn-pitch-copy">
-              {page.pitch.paragraphs.map((paragraph) => (
-                <p className="mn-body" key={paragraph}>
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <div className="mn-pitch-line">{page.pitch.finalLine}</div>
-          </section>
-
           <section className="mn-teaser-wrap">
             <div className="mn-teaser-card">
               <video
@@ -3422,6 +3407,21 @@ export default function MareeNoirePageClient({ page }) {
             </div>
           </section>
 
+
+          <section className="mn-pitch-card">
+            {page.pitch.backgroundImage ? (
+              <img alt="Pitch Marée Noire" className="mn-pitch-background" src={page.pitch.backgroundImage} />
+            ) : null}
+            <h2 className="mn-pitch-word">{page.pitch.word}</h2>
+            <div className="mn-pitch-copy">
+              {page.pitch.paragraphs.map((paragraph) => (
+                <p className="mn-body" key={paragraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <div className="mn-pitch-line">{page.pitch.finalLine}</div>
+          </section>
 
           {audioData ? (
             <section className="mn-audio-card" ref={audioSectionRef}>
