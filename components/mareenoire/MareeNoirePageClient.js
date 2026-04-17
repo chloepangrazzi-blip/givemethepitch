@@ -3319,8 +3319,8 @@ export default function MareeNoirePageClient({ page }) {
             display: flex;
             flex-wrap: nowrap;
             align-items: center;
-            justify-content: space-between;
-            gap: 8px;
+            justify-content: center;
+            gap: 6px;
             width: 100%;
             max-width: 100%;
           }
@@ -3329,17 +3329,19 @@ export default function MareeNoirePageClient({ page }) {
             white-space: nowrap;
             text-align: center;
             flex: 0 0 auto;
+            text-transform: none;
           }
 
           .mn-footer-thin .mn-footer-link {
-            font-size: 6px;
+            font-size: 7px;
             letter-spacing: 0;
             font-weight: 200;
+            line-height: 1;
           }
 
           .mn-footer {
-            padding-left: 10px;
-            padding-right: 10px;
+            padding-left: 12px;
+            padding-right: 12px;
           }
 
           .mn-audio-card {
@@ -3434,8 +3436,9 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-footer-thin .mn-footer-link {
-            font-size: 5px;
+            font-size: 6px;
             letter-spacing: 0;
+            text-transform: none;
           }
         }
       `}</style>
