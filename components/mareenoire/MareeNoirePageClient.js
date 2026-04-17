@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useDesktopCursor from "../shared/useDesktopCursor";
 import { PANEL_PUBLIC_TEST_PATH } from "../../lib/public-paths";
 
@@ -15,6 +15,36 @@ function IroiseHook({ html }) {
 
 function stripHtml(value) {
   return (value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function formatAudioTime(totalSeconds) {
+  if (!Number.isFinite(totalSeconds) || totalSeconds < 0) {
+    return "0:00";
+  }
+
+  const wholeSeconds = Math.floor(totalSeconds);
+  const minutes = Math.floor(wholeSeconds / 60);
+  const seconds = wholeSeconds % 60;
+
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
+function getCurrentChapterIndex(chapters, currentTime) {
+  if (!chapters?.length) {
+    return -1;
+  }
+
+  let activeIndex = 0;
+
+  for (let index = 0; index < chapters.length; index += 1) {
+    if (currentTime >= chapters[index].time) {
+      activeIndex = index;
+    } else {
+      break;
+    }
+  }
+
+  return activeIndex;
 }
 
 function MetaPill({ children, tone = "default" }) {
@@ -135,9 +165,156 @@ function LongArcSplit({ item }) {
 
 export default function MareeNoirePageClient({ page }) {
   useDesktopCursor({
-    hoverSelector: "button, a, video, .mn-player-overlay",
-    spotlightSelector: ".mn-brief-card, .mn-intro-card, .mn-copy-cell, .mn-media-cell, .mn-quote-card, .mn-pitch-card",
+    hoverSelector: "button, a, video, .mn-player-overlay, input[type='range']",
+    spotlightSelector:
+      ".mn-brief-card, .mn-intro-card, .mn-audio-card, .mn-copy-cell, .mn-media-cell, .mn-quote-card, .mn-pitch-card, .mn-audio-sticky",
   });
+
+  const audioRef = useRef(null);
+  const audioSectionRef = useRef(null);
+  const audioData = page.audio;
+  const audioChapters = audioData?.chapters ?? [];
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(audioData?.durationSeconds ?? 0);
+  const [audioHasStarted, setAudioHasStarted] = useState(false);
+  const [audioStickyVisible, setAudioStickyVisible] = useState(false);
+
+  const currentAudioChapterIndex = useMemo(
+    () => getCurrentChapterIndex(audioChapters, audioCurrentTime),
+    [audioChapters, audioCurrentTime]
+  );
+  const currentAudioChapter =
+    currentAudioChapterIndex >= 0 ? audioChapters[currentAudioChapterIndex] : audioChapters[0] ?? null;
+  const resolvedAudioDuration = audioDuration || audioData?.durationSeconds || 0;
+  const audioProgress =
+    resolvedAudioDuration > 0 ? Math.min(100, (audioCurrentTime / resolvedAudioDuration) * 100) : 0;
+
+  const toggleAudioPlayback = async () => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return;
+    }
+
+    setAudioHasStarted(true);
+
+    try {
+      if (audio.paused) {
+        await audio.play();
+      } else {
+        audio.pause();
+      }
+    } catch {
+      // Browser blocked playback or the media is not ready yet.
+    }
+  };
+
+  const jumpToAudioChapter = async (nextTime) => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return;
+    }
+
+    audio.currentTime = nextTime;
+    setAudioCurrentTime(nextTime);
+    setAudioHasStarted(true);
+
+    try {
+      await audio.play();
+    } catch {
+      // Browser blocked playback or the media is not ready yet.
+    }
+  };
+
+  const handleAudioScrub = (event) => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return;
+    }
+
+    const nextTime = Number(event.target.value);
+    audio.currentTime = nextTime;
+    setAudioCurrentTime(nextTime);
+    setAudioHasStarted(true);
+  };
+
+  const focusAudioPlayer = () => {
+    audioSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return undefined;
+    }
+
+    const syncDuration = () => {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        setAudioDuration(audio.duration);
+      }
+    };
+
+    const syncTime = () => {
+      setAudioCurrentTime(audio.currentTime);
+    };
+
+    const onPlay = () => {
+      setAudioPlaying(true);
+      setAudioHasStarted(true);
+      syncDuration();
+    };
+
+    const onPause = () => {
+      setAudioPlaying(false);
+    };
+
+    const onEnded = () => {
+      setAudioPlaying(false);
+      setAudioCurrentTime(audio.duration || 0);
+    };
+
+    syncDuration();
+    audio.addEventListener("loadedmetadata", syncDuration);
+    audio.addEventListener("durationchange", syncDuration);
+    audio.addEventListener("timeupdate", syncTime);
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+    audio.addEventListener("ended", onEnded);
+
+    return () => {
+      audio.removeEventListener("loadedmetadata", syncDuration);
+      audio.removeEventListener("durationchange", syncDuration);
+      audio.removeEventListener("timeupdate", syncTime);
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
+      audio.removeEventListener("ended", onEnded);
+    };
+  }, [audioData?.durationSeconds]);
+
+  useEffect(() => {
+    const node = audioSectionRef.current;
+
+    if (!node || !("IntersectionObserver" in window)) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setAudioStickyVisible(!entry.isIntersecting);
+      },
+      { threshold: 0.28 }
+    );
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const overlay = document.getElementById("mareeNoireOverlay");
@@ -322,6 +499,7 @@ export default function MareeNoirePageClient({ page }) {
 
         .mn-intro-card,
         .mn-brief-card,
+        .mn-audio-card,
         .mn-copy-cell,
         .mn-media-cell,
         .mn-quote-card,
@@ -338,6 +516,7 @@ export default function MareeNoirePageClient({ page }) {
 
         .mn-intro-card,
         .mn-brief-card,
+        .mn-audio-card,
         .mn-copy-cell,
         .mn-opener-card,
         .mn-watchers-card,
@@ -481,6 +660,319 @@ export default function MareeNoirePageClient({ page }) {
           font-weight: 300;
           letter-spacing: 0.12em;
           text-transform: uppercase;
+        }
+
+        .mn-audio-card {
+          display: grid;
+          gap: 24px;
+        }
+
+        .mn-audio-head {
+          display: grid;
+          grid-template-columns: minmax(0, 0.92fr) minmax(340px, 1.08fr);
+          gap: 24px;
+          align-items: start;
+        }
+
+        .mn-audio-copy {
+          display: grid;
+          gap: 10px;
+          align-content: start;
+        }
+
+        .mn-audio-kicker {
+          color: var(--mn-mint);
+        }
+
+        .mn-audio-title {
+          margin: 0;
+          color: #ffffff;
+          font-family: var(--mn-horizon);
+          font-size: clamp(1.48rem, 3.1vw, 2.56rem);
+          line-height: 0.94;
+          font-weight: 400;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
+        }
+
+        .mn-audio-meta {
+          margin: 0;
+          color: var(--mn-rose);
+          font-size: 0.82rem;
+          font-weight: 300;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        .mn-audio-description,
+        .mn-audio-note {
+          margin: 0;
+          color: var(--mn-muted);
+          font-size: 0.98rem;
+          line-height: 1.72;
+          font-weight: 300;
+        }
+
+        .mn-audio-description {
+          max-width: 42ch;
+        }
+
+        .mn-audio-controls {
+          display: grid;
+          gap: 14px;
+          padding: 22px 24px;
+          border: 1px solid rgba(200, 245, 232, 0.22);
+          border-radius: 28px;
+          background: rgba(255, 255, 255, 0.03);
+        }
+
+        .mn-audio-transport {
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr);
+          gap: 14px;
+          align-items: center;
+        }
+
+        .mn-audio-toggle,
+        .mn-audio-sticky-toggle,
+        .mn-audio-sticky-jump {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: fit-content;
+          min-height: 50px;
+          padding: 0 18px;
+          border-radius: 999px;
+          border: 1px solid rgba(200, 245, 232, 0.24);
+          background: rgba(255, 255, 255, 0.04);
+          color: var(--mn-mint);
+          font-family: "Poppins", var(--mn-sans);
+          font-size: 0.72rem;
+          font-weight: 300;
+          letter-spacing: 0.14em;
+          line-height: 1;
+          text-transform: uppercase;
+          transition:
+            border-color 0.2s ease,
+            background 0.2s ease,
+            color 0.2s ease,
+            transform 0.2s ease;
+        }
+
+        .mn-audio-toggle:hover,
+        .mn-audio-sticky-toggle:hover,
+        .mn-audio-sticky-jump:hover,
+        .mn-audio-chapter:hover {
+          border-color: rgba(200, 245, 232, 0.38);
+        }
+
+        .mn-audio-toggle:hover,
+        .mn-audio-sticky-toggle:hover,
+        .mn-audio-sticky-jump:hover {
+          transform: translateY(-1px);
+        }
+
+        .mn-audio-toggle.is-playing,
+        .mn-audio-sticky-toggle.is-playing {
+          background: var(--mn-mint);
+          color: #04120e;
+        }
+
+        .mn-audio-progress-block {
+          display: grid;
+          gap: 10px;
+          min-width: 0;
+        }
+
+        .mn-audio-progress-head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+        }
+
+        .mn-audio-current {
+          min-width: 0;
+          color: #ffffff;
+          font-size: 0.92rem;
+          font-weight: 300;
+          line-height: 1.32;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .mn-audio-time,
+        .mn-audio-chapter-time,
+        .mn-audio-sticky-meta {
+          color: var(--mn-soft);
+          font-size: 0.68rem;
+          font-weight: 300;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+
+        .mn-audio-range {
+          width: 100%;
+          height: 4px;
+          margin: 0;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.16);
+          appearance: none;
+          -webkit-appearance: none;
+        }
+
+        .mn-audio-range::-webkit-slider-runnable-track {
+          height: 4px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.16);
+        }
+
+        .mn-audio-range::-webkit-slider-thumb {
+          width: 14px;
+          height: 14px;
+          margin-top: -5px;
+          border: 0;
+          border-radius: 999px;
+          background: var(--mn-mint);
+          -webkit-appearance: none;
+        }
+
+        .mn-audio-range::-moz-range-track {
+          height: 4px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.16);
+        }
+
+        .mn-audio-range::-moz-range-thumb {
+          width: 14px;
+          height: 14px;
+          border: 0;
+          border-radius: 999px;
+          background: var(--mn-mint);
+        }
+
+        .mn-audio-chapters {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .mn-audio-chapter {
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr);
+          gap: 12px;
+          align-items: start;
+          min-height: 84px;
+          padding: 14px;
+          border-radius: 22px;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          background: rgba(255, 255, 255, 0.03);
+          color: #ffffff;
+          text-align: left;
+          transition:
+            border-color 0.2s ease,
+            background 0.2s ease,
+            transform 0.2s ease;
+        }
+
+        .mn-audio-chapter.is-active {
+          border-color: rgba(200, 245, 232, 0.4);
+          background: rgba(200, 245, 232, 0.08);
+        }
+
+        .mn-audio-chapter-index {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 34px;
+          min-height: 34px;
+          border-radius: 999px;
+          border: 1px solid rgba(200, 245, 232, 0.24);
+          color: var(--mn-mint);
+          font-size: 0.68rem;
+          font-weight: 300;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        .mn-audio-chapter-copy {
+          display: grid;
+          gap: 6px;
+          min-width: 0;
+        }
+
+        .mn-audio-chapter-title {
+          color: #ffffff;
+          font-size: 0.86rem;
+          font-weight: 300;
+          line-height: 1.36;
+        }
+
+        .mn-audio-element {
+          display: none;
+        }
+
+        .mn-audio-sticky {
+          position: fixed;
+          left: 50%;
+          bottom: 18px;
+          width: min(760px, calc(100vw - 28px));
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr) auto;
+          gap: 12px;
+          align-items: center;
+          padding: 12px 14px;
+          border: 1px solid rgba(200, 245, 232, 0.26);
+          border-radius: 24px;
+          background: rgba(5, 5, 5, 0.92);
+          backdrop-filter: blur(12px);
+          box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+          transform: translate(-50%, 20px);
+          opacity: 0;
+          pointer-events: none;
+          z-index: 120;
+          transition:
+            opacity 0.25s ease,
+            transform 0.25s ease;
+        }
+
+        .mn-audio-sticky.is-visible {
+          transform: translate(-50%, 0);
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .mn-audio-sticky-copy {
+          display: grid;
+          gap: 8px;
+          min-width: 0;
+        }
+
+        .mn-audio-sticky-title {
+          color: #ffffff;
+          font-size: 0.84rem;
+          font-weight: 300;
+          line-height: 1.3;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .mn-audio-sticky-progress {
+          position: relative;
+          width: 100%;
+          height: 3px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.12);
+          overflow: hidden;
+        }
+
+        .mn-audio-sticky-progress span {
+          display: block;
+          height: 100%;
+          border-radius: inherit;
+          background: var(--mn-mint);
         }
 
         .mn-image-band,
@@ -1811,6 +2303,14 @@ export default function MareeNoirePageClient({ page }) {
             margin: 0;
             padding: 24px;
           }
+
+          .mn-audio-head {
+            grid-template-columns: 1fr;
+          }
+
+          .mn-audio-chapters {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
 
         @media (max-width: 899px) {
@@ -1943,6 +2443,31 @@ export default function MareeNoirePageClient({ page }) {
           .mn-section-band-copy {
             display: none;
           }
+
+          .mn-audio-card {
+            gap: 20px;
+          }
+
+          .mn-audio-head {
+            gap: 18px;
+          }
+
+          .mn-audio-title {
+            font-size: clamp(1.38rem, 5vw, 1.96rem);
+          }
+
+          .mn-audio-controls {
+            padding: 18px;
+            border-radius: 24px;
+          }
+
+          .mn-audio-chapters {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .mn-audio-sticky {
+            width: min(680px, calc(100vw - 24px));
+          }
         }
 
         @media (max-width: 720px) {
@@ -1965,6 +2490,7 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-intro-card,
           .mn-brief-card,
+          .mn-audio-card,
           .mn-copy-cell,
           .mn-opener-card,
           .mn-watchers-card,
@@ -2374,6 +2900,70 @@ export default function MareeNoirePageClient({ page }) {
           .mn-footer {
             padding: 24px 16px;
           }
+
+          .mn-audio-card {
+            gap: 18px;
+          }
+
+          .mn-audio-head {
+            gap: 16px;
+          }
+
+          .mn-audio-title {
+            font-size: clamp(1.2rem, 6.4vw, 1.56rem);
+          }
+
+          .mn-audio-description,
+          .mn-audio-note {
+            font-size: 0.9rem;
+            line-height: 1.62;
+          }
+
+          .mn-audio-controls {
+            padding: 16px;
+            border-radius: 20px;
+          }
+
+          .mn-audio-transport {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+
+          .mn-audio-toggle {
+            width: 100%;
+          }
+
+          .mn-audio-progress-head {
+            gap: 8px;
+          }
+
+          .mn-audio-current {
+            font-size: 0.82rem;
+          }
+
+          .mn-audio-chapters {
+            grid-template-columns: 1fr;
+          }
+
+          .mn-audio-chapter {
+            min-height: 0;
+          }
+
+          .mn-audio-sticky {
+            width: calc(100vw - 20px);
+            gap: 8px;
+            padding: 10px 12px;
+          }
+
+          .mn-audio-sticky-toggle,
+          .mn-audio-sticky-jump {
+            min-height: 40px;
+            padding: 0 12px;
+          }
+
+          .mn-audio-sticky-title {
+            font-size: 0.78rem;
+          }
         }
 
         @media (max-width: 390px) {
@@ -2396,6 +2986,7 @@ export default function MareeNoirePageClient({ page }) {
 
           .mn-intro-card,
           .mn-brief-card,
+          .mn-audio-card,
           .mn-copy-cell,
           .mn-opener-card,
           .mn-watchers-card,
@@ -2692,6 +3283,77 @@ export default function MareeNoirePageClient({ page }) {
             padding-left: 10px;
             padding-right: 10px;
           }
+
+          .mn-audio-card {
+            gap: 16px;
+          }
+
+          .mn-audio-title {
+            font-size: clamp(1.04rem, 6.2vw, 1.28rem);
+          }
+
+          .mn-audio-meta,
+          .mn-audio-time,
+          .mn-audio-chapter-time,
+          .mn-audio-sticky-meta {
+            font-size: 0.58rem;
+            letter-spacing: 0.08em;
+          }
+
+          .mn-audio-description,
+          .mn-audio-note {
+            font-size: 0.82rem;
+            line-height: 1.54;
+          }
+
+          .mn-audio-controls {
+            padding: 14px;
+            gap: 12px;
+          }
+
+          .mn-audio-toggle {
+            min-height: 42px;
+            padding: 0 12px;
+            font-size: 0.66rem;
+            letter-spacing: 0.1em;
+          }
+
+          .mn-audio-current {
+            font-size: 0.74rem;
+          }
+
+          .mn-audio-chapter {
+            padding: 12px;
+            gap: 10px;
+            border-radius: 18px;
+          }
+
+          .mn-audio-chapter-index {
+            min-width: 28px;
+            min-height: 28px;
+            font-size: 0.58rem;
+          }
+
+          .mn-audio-chapter-title {
+            font-size: 0.76rem;
+          }
+
+          .mn-audio-sticky {
+            width: calc(100vw - 16px);
+            padding: 10px;
+          }
+
+          .mn-audio-sticky-toggle,
+          .mn-audio-sticky-jump {
+            min-height: 36px;
+            padding: 0 10px;
+            font-size: 0.6rem;
+            letter-spacing: 0.08em;
+          }
+
+          .mn-audio-sticky-title {
+            font-size: 0.72rem;
+          }
         }
       `}</style>
       <div className="cursor" id="cursor" />
@@ -2723,6 +3385,76 @@ export default function MareeNoirePageClient({ page }) {
               <p className="mn-brief-note">{page.intro.estimatedDuration}</p>
             </aside>
           </section>
+
+          {audioData ? (
+            <section className="mn-audio-card" ref={audioSectionRef}>
+              <div className="mn-audio-head">
+                <div className="mn-audio-copy">
+                  <p className="mn-section-kicker mn-audio-kicker">{audioData.kicker}</p>
+                  <h2 className="mn-audio-title">{audioData.title}</h2>
+                  <p className="mn-audio-meta">
+                    {audioData.durationLabel} · {audioData.chapterCountLabel}
+                  </p>
+                  <p className="mn-audio-description">{audioData.description}</p>
+                </div>
+                <div className="mn-audio-controls">
+                  <div className="mn-audio-transport">
+                    <button
+                      className={`mn-audio-toggle ${audioPlaying ? "is-playing" : ""}`}
+                      onClick={toggleAudioPlayback}
+                      type="button"
+                    >
+                      {audioPlaying
+                        ? audioData.pauseLabel
+                        : audioCurrentTime > 0
+                          ? audioData.resumeLabel
+                          : audioData.ctaLabel}
+                    </button>
+                    <div className="mn-audio-progress-block">
+                      <div className="mn-audio-progress-head">
+                        <span className="mn-audio-current">
+                          {currentAudioChapter ? currentAudioChapter.title : audioData.stickyLabel}
+                        </span>
+                        <span className="mn-audio-time">
+                          {formatAudioTime(audioCurrentTime)} / {formatAudioTime(resolvedAudioDuration)}
+                        </span>
+                      </div>
+                      <input
+                        aria-label="Progression du livre audio"
+                        className="mn-audio-range"
+                        max={resolvedAudioDuration || 1}
+                        min="0"
+                        onChange={handleAudioScrub}
+                        step="0.1"
+                        type="range"
+                        value={Math.min(audioCurrentTime, resolvedAudioDuration || 0)}
+                      />
+                    </div>
+                  </div>
+                  <p className="mn-audio-note">{audioData.note}</p>
+                </div>
+              </div>
+              <div className="mn-audio-chapters">
+                {audioChapters.map((chapter, index) => (
+                  <button
+                    className={`mn-audio-chapter ${index === currentAudioChapterIndex ? "is-active" : ""}`}
+                    key={chapter.label}
+                    onClick={() => jumpToAudioChapter(chapter.time)}
+                    type="button"
+                  >
+                    <span className="mn-audio-chapter-index">{chapter.label}</span>
+                    <span className="mn-audio-chapter-copy">
+                      <span className="mn-audio-chapter-title">{chapter.title}</span>
+                      <span className="mn-audio-chapter-time">{formatAudioTime(chapter.time)}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <audio className="mn-audio-element" preload="metadata" ref={audioRef}>
+                <source src={audioData.src} type={audioData.mimeType} />
+              </audio>
+            </section>
+          ) : null}
 
           <section className="mn-pitch-card">
             {page.pitch.backgroundImage ? (
@@ -2966,6 +3698,32 @@ export default function MareeNoirePageClient({ page }) {
               {page.longArc.finalActionLabel}
             </Link>
           </section>
+
+          {audioData ? (
+            <div className={`mn-audio-sticky ${audioHasStarted && audioStickyVisible ? "is-visible" : ""}`}>
+              <button
+                className={`mn-audio-sticky-toggle ${audioPlaying ? "is-playing" : ""}`}
+                onClick={toggleAudioPlayback}
+                type="button"
+              >
+                {audioPlaying ? "Pause" : "Lire"}
+              </button>
+              <div className="mn-audio-sticky-copy">
+                <span className="mn-audio-sticky-title">
+                  {currentAudioChapter ? currentAudioChapter.title : audioData.stickyLabel}
+                </span>
+                <span className="mn-audio-sticky-meta">
+                  {formatAudioTime(audioCurrentTime)} / {formatAudioTime(resolvedAudioDuration)}
+                </span>
+                <div className="mn-audio-sticky-progress">
+                  <span style={{ width: `${audioProgress}%` }} />
+                </div>
+              </div>
+              <button className="mn-audio-sticky-jump" onClick={focusAudioPlayer} type="button">
+                {audioData.compactJumpLabel}
+              </button>
+            </div>
+          ) : null}
 
           <footer className="mn-footer mn-footer-thin">
             <div className="mn-footer-links">
