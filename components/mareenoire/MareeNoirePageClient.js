@@ -3122,6 +3122,10 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-pitch-line {
+            width: fit-content;
+            max-width: 100%;
+            justify-self: center;
+            margin: 0 auto;
             padding: 10px 12px;
             border-radius: 18px;
             letter-spacing: 0.01em;
