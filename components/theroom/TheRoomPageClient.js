@@ -2064,6 +2064,8 @@ export default function TheRoomPageClient(page) {
           .room-page-about .room-about-hero-inner {
             width: 100%;
             max-width: 100%;
+            align-items: center;
+            text-align: center;
           }
 
           .room-page-about .room-about-title,
@@ -2072,6 +2074,17 @@ export default function TheRoomPageClient(page) {
           .room-page-about .room-about-pivot-pill-filled,
           .room-page-about .room-about-pivot-title {
             max-width: 100%;
+          }
+
+          .room-page-about .room-about-title {
+            width: 100%;
+            text-align: center;
+          }
+
+          .room-page-about .room-about-tagline {
+            width: 100%;
+            margin: 8px auto 0;
+            text-align: center;
           }
 
           .room-page-about .room-about-pivot-pill,
@@ -2090,16 +2103,28 @@ export default function TheRoomPageClient(page) {
           }
 
           .room-page-about .room-footer-links {
-            flex-wrap: wrap;
-            white-space: normal;
-            gap: 8px;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            white-space: nowrap;
+            gap: 4px;
+            width: 100%;
             max-width: 100%;
           }
 
           .room-page-about .room-footer-link {
-            white-space: normal;
-            font-size: 9px;
-            letter-spacing: 0.1em;
+            white-space: nowrap;
+            font-size: 7px;
+            letter-spacing: 0.04em;
+            flex: 0 1 auto;
+          }
+
+          .room-page-about .room-footer {
+            padding-left: 12px;
+            padding-right: 12px;
+          }
+
+          .room-page-about .room-footer .room-note {
+            white-space: nowrap;
           }
 
           .room-page-form .room-form-input::placeholder {
