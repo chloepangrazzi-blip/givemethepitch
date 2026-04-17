@@ -3344,6 +3344,11 @@ export default function MareeNoirePageClient({ page }) {
             padding-right: 12px;
           }
 
+          .mn-footer-thin .mn-note {
+            font-size: 7px;
+            letter-spacing: 0;
+          }
+
           .mn-audio-card {
             gap: 16px;
           }
@@ -3432,7 +3437,8 @@ export default function MareeNoirePageClient({ page }) {
           }
 
           .mn-footer-thin .mn-note {
-            font-size: 8px;
+            font-size: 6px;
+            letter-spacing: 0;
           }
 
           .mn-footer-thin .mn-footer-link {
