@@ -556,6 +556,16 @@ export default function MareeNoirePageClient({ page }) {
           color: #ffffff;
         }
 
+        @media (min-width: 1121px) {
+          .mn-intro-card {
+            padding-top: 42px;
+          }
+
+          .mn-title {
+            margin-top: 10px;
+          }
+        }
+
         .mn-body {
           margin: 0;
           color: var(--mn-muted);

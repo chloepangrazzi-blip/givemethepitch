@@ -573,7 +573,8 @@ export default function CataloguePageClient({ page }) {
           z-index: 9999;
           transform: translate(-50%, -50%);
           transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, opacity 0.2s ease, box-shadow 0.25s ease;
-          mix-blend-mode: difference;
+          mix-blend-mode: normal;
+          opacity: 0.96;
         }
 
         .cursor.hovering {
