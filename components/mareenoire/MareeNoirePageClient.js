@@ -3385,6 +3385,43 @@ export default function MareeNoirePageClient({ page }) {
               <p className="mn-brief-note">{page.intro.estimatedDuration}</p>
             </aside>
           </section>
+          <section className="mn-pitch-card">
+            {page.pitch.backgroundImage ? (
+              <img alt="Pitch Marée Noire" className="mn-pitch-background" src={page.pitch.backgroundImage} />
+            ) : null}
+            <h2 className="mn-pitch-word">{page.pitch.word}</h2>
+            <div className="mn-pitch-copy">
+              {page.pitch.paragraphs.map((paragraph) => (
+                <p className="mn-body" key={paragraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <div className="mn-pitch-line">{page.pitch.finalLine}</div>
+          </section>
+
+          <section className="mn-teaser-wrap">
+            <div className="mn-teaser-card">
+              <video
+                className="mn-video"
+                controlsList="nodownload noplaybackrate nofullscreen"
+                disablePictureInPicture
+                disableRemotePlayback
+                id="mareeNoireVideo"
+                playsInline
+                poster={page.teaser.posterSrc}
+                preload="auto"
+              >
+                <source data-desktop-src={page.teaser.desktopSrc} data-mobile-src={page.teaser.mobileSrc} />
+              </video>
+              <button aria-label="Lire le teaser" className="mn-player-overlay" id="mareeNoireOverlay" type="button">
+                <span className="mn-player-button">
+                  <span aria-hidden="true" className="mn-player-icon" />
+                </span>
+              </button>
+            </div>
+          </section>
+
 
           {audioData ? (
             <section className="mn-audio-card" ref={audioSectionRef}>
@@ -3455,43 +3492,6 @@ export default function MareeNoirePageClient({ page }) {
               </audio>
             </section>
           ) : null}
-
-          <section className="mn-pitch-card">
-            {page.pitch.backgroundImage ? (
-              <img alt="Pitch Marée Noire" className="mn-pitch-background" src={page.pitch.backgroundImage} />
-            ) : null}
-            <h2 className="mn-pitch-word">{page.pitch.word}</h2>
-            <div className="mn-pitch-copy">
-              {page.pitch.paragraphs.map((paragraph) => (
-                <p className="mn-body" key={paragraph}>
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <div className="mn-pitch-line">{page.pitch.finalLine}</div>
-          </section>
-
-          <section className="mn-teaser-wrap">
-            <div className="mn-teaser-card">
-              <video
-                className="mn-video"
-                controlsList="nodownload noplaybackrate nofullscreen"
-                disablePictureInPicture
-                disableRemotePlayback
-                id="mareeNoireVideo"
-                playsInline
-                poster={page.teaser.posterSrc}
-                preload="auto"
-              >
-                <source data-desktop-src={page.teaser.desktopSrc} data-mobile-src={page.teaser.mobileSrc} />
-              </video>
-              <button aria-label="Lire le teaser" className="mn-player-overlay" id="mareeNoireOverlay" type="button">
-                <span className="mn-player-button">
-                  <span aria-hidden="true" className="mn-player-icon" />
-                </span>
-              </button>
-            </div>
-          </section>
 
           <section className="mn-body-shell">
             <div className="mn-body-shell-inner">
