@@ -3454,8 +3454,19 @@ export default function MareeNoirePageClient({ page }) {
         }
 
         @media (min-width: 321px) and (max-width: 390px) {
+          .mn-pitch-card {
+            min-height: 0;
+            grid-template-rows: auto auto auto;
+            align-content: start;
+          }
+
+          .mn-pitch-copy {
+            place-self: start center;
+          }
+
           .mn-pitch-line {
-            margin: -16px auto 0;
+            align-self: start;
+            margin: 8px auto 0;
           }
         }
       `}</style>
