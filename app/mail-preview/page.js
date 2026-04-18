@@ -12,8 +12,9 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function MailPreviewPage({ searchParams }) {
-  const variant = String(searchParams?.variant || "access").toLowerCase();
+export default async function MailPreviewPage({ searchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const variant = String(resolvedSearchParams?.variant || "access").toLowerCase();
 
   const htmlByVariant = {
     access: buildAccessEmailHtml({
