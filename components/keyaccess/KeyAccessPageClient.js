@@ -67,7 +67,7 @@ export default function KeyAccessPageClient({
       window.sessionStorage?.setItem("gmtp_access_code", normalizedCode);
       window.sessionStorage?.removeItem("gmtp_access_code_prefill");
       setShowError(false);
-      window.location.href = nextPath;
+      window.location.href = result.nextPath || nextPath;
       return true;
     } catch {
       flashError();

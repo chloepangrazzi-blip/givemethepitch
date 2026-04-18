@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
-import { sendPanelLaunchReminderEmail } from "../../../../../lib/access-email";
+import {
+  sendPanelLaunchAccessReminderEmail,
+  sendPanelLaunchStartReminderEmail,
+} from "../../../../../lib/access-email";
 import { getAppOrigin } from "../../../../../lib/app-origin";
 import {
+  buildPanelKeyAccessUrl,
   buildPanelLaunchUrl,
   getPanelLaunchMailPayload,
   markPanelLaunchReminderSent,
@@ -66,13 +70,32 @@ export async function POST(request) {
           continue;
         }
 
-        await sendPanelLaunchReminderEmail({
-          to: launch.email,
-          fullName: launch.fullName,
-          theRoomUrl: buildPanelLaunchUrl(origin, {
-            operationCode: launch.operationCode,
-          }),
-        });
+        const hasPersonalAccess =
+          Boolean(launch.keyActivatedAt) ||
+          Boolean(launch.verifiedAt) ||
+          Boolean(launch.ndaSignedAt) ||
+          Boolean(launch.formStartedAt) ||
+          Boolean(launch.formCompletedAt);
+
+        if (hasPersonalAccess) {
+          await sendPanelLaunchAccessReminderEmail({
+            to: launch.email,
+            fullName: launch.fullName,
+            accessCode: launch.accessCode,
+            keyaccessUrl: buildPanelKeyAccessUrl(origin, {
+              accessCode: launch.accessCode,
+            }),
+            ndaAlreadySigned: Boolean(launch.ndaSignedAt),
+          });
+        } else {
+          await sendPanelLaunchStartReminderEmail({
+            to: launch.email,
+            fullName: launch.fullName,
+            theRoomUrl: buildPanelLaunchUrl(origin, {
+              operationCode: launch.operationCode,
+            }),
+          });
+        }
 
         await markPanelLaunchReminderSent(operationCode);
 
@@ -80,6 +103,7 @@ export async function POST(request) {
           operationCode,
           email: launch.email,
           accessCode: launch.accessCode,
+          variant: hasPersonalAccess ? "access" : "start",
         });
       } catch (error) {
         failed.push({

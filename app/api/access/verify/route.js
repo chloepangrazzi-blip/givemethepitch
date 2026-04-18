@@ -4,6 +4,7 @@ import {
   getAccessRequestByCode,
   markAccessVerified,
 } from "../../../../lib/access-repository";
+import { PANEL_PUBLIC_CATALOGUE_PATH } from "../../../../lib/public-paths";
 import { getTestAccessCode } from "../../../../lib/runtime-config";
 
 export async function POST(request) {
@@ -20,6 +21,7 @@ export async function POST(request) {
       const response = NextResponse.json({
         ok: true,
         sessionSlug: record.sessionSlug || "mareenoire",
+        nextPath: record.ndaSignedAt ? PANEL_PUBLIC_CATALOGUE_PATH : "/nda",
       });
 
       response.cookies.set("gmtp_access_code", testAccessCode, {
@@ -46,6 +48,7 @@ export async function POST(request) {
     const response = NextResponse.json({
       ok: true,
       sessionSlug: verified.sessionSlug,
+      nextPath: record.ndaSignedAt ? PANEL_PUBLIC_CATALOGUE_PATH : "/nda",
     });
 
     response.cookies.set("gmtp_access_code", verified.accessCode, {

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { sendPanelCampaignClosingEmail } from "../../../../../lib/access-email";
 import { getAppOrigin } from "../../../../../lib/app-origin";
-import { getPanelLaunchMailPayload } from "../../../../../lib/panel-launch";
+import { getCataloguePageData } from "../../../../../lib/catalogue-data";
+import { buildPanelVoteUrl, getPanelLaunchMailPayload } from "../../../../../lib/panel-launch";
 
 function isAuthorized(request) {
   const token = String(process.env.PANEL_LAUNCH_TOKEN || "").trim();
@@ -47,9 +48,6 @@ export async function POST(request) {
     }
 
     const origin = getAppOrigin(request);
-    const voteUrl =
-      String(payload?.voteUrl || "").trim() ||
-      `${String(origin || "").replace(/\/$/, "")}/catalogue`;
 
     const sent = [];
     const failed = [];
@@ -66,16 +64,29 @@ export async function POST(request) {
           continue;
         }
 
+        const voteOptions = getCataloguePageData("signal").projects
+          .filter((project) => project.id !== "maree-noire")
+          .map((project) => ({
+            title: project.title,
+            genre: project.genre,
+            format: project.format,
+            shortPitch: project.shortPitch,
+            voteUrl: buildPanelVoteUrl(origin, {
+              operationCode: launch.operationCode,
+              projectId: project.id,
+            }),
+          }));
+
         await sendPanelCampaignClosingEmail({
           to: launch.email,
           fullName: launch.fullName,
-          voteUrl,
+          voteOptions,
         });
 
         sent.push({
           operationCode,
           email: launch.email,
-          voteUrl,
+          voteCount: voteOptions.length,
         });
       } catch (error) {
         failed.push({
