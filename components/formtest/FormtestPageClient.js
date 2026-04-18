@@ -874,7 +874,7 @@ export default function FormtestPageClient(page) {
               <button className="ft-submit" disabled={effectivePhase === "processing"} onClick={handleSubmit} type="button">
                 {page.submitLabel}
               </button>
-              <p className="ft-submit-note">{page.legalNote}</p>
+              {page.legalNote ? <p className="ft-submit-note">{page.legalNote}</p> : null}
               {error ? <p className="ft-error">{error}</p> : null}
             </div>
           </div>
