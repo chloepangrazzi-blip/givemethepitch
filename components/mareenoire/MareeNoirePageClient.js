@@ -3568,7 +3568,7 @@ export default function MareeNoirePageClient({ page }) {
                       />
                     </div>
                   </div>
-                  <p className="mn-audio-note">{audioData.note}</p>
+                  {audioData.note ? <p className="mn-audio-note">{audioData.note}</p> : null}
                 </div>
               </div>
               <div className="mn-audio-chapters">
