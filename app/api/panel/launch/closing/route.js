@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import { sendPanelLaunchReminderEmail } from "../../../../../lib/access-email";
+import { sendPanelCampaignClosingEmail } from "../../../../../lib/access-email";
 import { getAppOrigin } from "../../../../../lib/app-origin";
-import {
-  buildPanelLaunchUrl,
-  getPanelLaunchMailPayload,
-  markPanelLaunchReminderSent,
-} from "../../../../../lib/panel-launch";
+import { getPanelLaunchMailPayload } from "../../../../../lib/panel-launch";
 
 function isAuthorized(request) {
   const token = String(process.env.PANEL_LAUNCH_TOKEN || "").trim();
@@ -33,7 +29,7 @@ export async function POST(request) {
   try {
     if (!isAuthorized(request)) {
       return NextResponse.json(
-        { ok: false, error: "unauthorized_launch_remind" },
+        { ok: false, error: "unauthorized_launch_closing" },
         { status: 401 }
       );
     }
@@ -51,14 +47,18 @@ export async function POST(request) {
     }
 
     const origin = getAppOrigin(request);
-    const reminded = [];
+    const voteUrl =
+      String(payload?.voteUrl || "").trim() ||
+      `${String(origin || "").replace(/\/$/, "")}/catalogue`;
+
+    const sent = [];
     const failed = [];
 
     for (const operationCode of operationCodes) {
       try {
         const launch = await getPanelLaunchMailPayload(operationCode);
 
-        if (!launch?.email || !launch?.accessCode) {
+        if (!launch?.email) {
           failed.push({
             operationCode,
             error: "missing_launch_mail_payload",
@@ -66,20 +66,16 @@ export async function POST(request) {
           continue;
         }
 
-        await sendPanelLaunchReminderEmail({
+        await sendPanelCampaignClosingEmail({
           to: launch.email,
           fullName: launch.fullName,
-          theRoomUrl: buildPanelLaunchUrl(origin, {
-            operationCode: launch.operationCode,
-          }),
+          voteUrl,
         });
 
-        await markPanelLaunchReminderSent(operationCode);
-
-        reminded.push({
+        sent.push({
           operationCode,
           email: launch.email,
-          accessCode: launch.accessCode,
+          voteUrl,
         });
       } catch (error) {
         failed.push({
@@ -91,12 +87,12 @@ export async function POST(request) {
 
     return NextResponse.json({
       ok: failed.length === 0,
-      reminded,
+      sent,
       failed,
     });
   } catch (error) {
     return NextResponse.json(
-      { ok: false, error: "panel_launch_remind_failed", detail: error.message },
+      { ok: false, error: "panel_launch_closing_failed", detail: error.message },
       { status: 500 }
     );
   }
