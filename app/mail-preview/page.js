@@ -14,7 +14,10 @@ export const dynamic = "force-dynamic";
 
 export default async function MailPreviewPage({ searchParams }) {
   const resolvedSearchParams = await searchParams;
-  const variant = String(resolvedSearchParams?.variant || "access").toLowerCase();
+  const rawVariant = Array.isArray(resolvedSearchParams?.variant)
+    ? resolvedSearchParams.variant[0]
+    : resolvedSearchParams?.variant;
+  const variant = String(rawVariant || "access").toLowerCase();
 
   const htmlByVariant = {
     access: buildAccessEmailHtml({
