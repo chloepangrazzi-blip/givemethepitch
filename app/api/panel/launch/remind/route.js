@@ -7,7 +7,9 @@ import { getAppOrigin } from "../../../../../lib/app-origin";
 import {
   buildPanelKeyAccessUrl,
   buildPanelLaunchUrl,
+  buildPanelUnsubscribeUrl,
   getPanelLaunchMailPayload,
+  isPanelLaunchEmailSuppressed,
   markPanelLaunchReminderSent,
 } from "../../../../../lib/panel-launch";
 
@@ -70,12 +72,23 @@ export async function POST(request) {
           continue;
         }
 
+        if (await isPanelLaunchEmailSuppressed(launch.contactId)) {
+          failed.push({
+            operationCode,
+            error: "email_suppressed",
+          });
+          continue;
+        }
+
         const hasPersonalAccess =
           Boolean(launch.keyActivatedAt) ||
           Boolean(launch.verifiedAt) ||
           Boolean(launch.ndaSignedAt) ||
           Boolean(launch.formStartedAt) ||
           Boolean(launch.formCompletedAt);
+        const unsubscribeUrl = buildPanelUnsubscribeUrl(origin, {
+          operationCode: launch.operationCode,
+        });
 
         if (hasPersonalAccess) {
           await sendPanelLaunchAccessReminderEmail({
@@ -86,6 +99,8 @@ export async function POST(request) {
               accessCode: launch.accessCode,
             }),
             ndaAlreadySigned: Boolean(launch.ndaSignedAt),
+            unsubscribeUrl,
+            operationCode: launch.operationCode,
           });
         } else {
           await sendPanelLaunchStartReminderEmail({
@@ -94,6 +109,8 @@ export async function POST(request) {
             theRoomUrl: buildPanelLaunchUrl(origin, {
               operationCode: launch.operationCode,
             }),
+            unsubscribeUrl,
+            operationCode: launch.operationCode,
           });
         }
 

@@ -3,8 +3,10 @@ import { sendPanelLaunchInviteEmail } from "../../../../../lib/access-email";
 import { getAppOrigin } from "../../../../../lib/app-origin";
 import {
   buildPanelLaunchUrl,
+  buildPanelUnsubscribeUrl,
   createPanelLaunchInvitation,
   getPublicPanelProcheInvitees,
+  isPanelLaunchEmailSuppressed,
   markPanelLaunchSent,
 } from "../../../../../lib/panel-launch";
 
@@ -89,7 +91,19 @@ export async function POST(request) {
           country,
           notes,
         });
+        if (await isPanelLaunchEmailSuppressed(invitation.contactId)) {
+          failed.push({
+            fullName: invitation.fullName,
+            email: invitation.email,
+            error: "email_suppressed",
+          });
+          continue;
+        }
+
         const theRoomUrl = buildPanelLaunchUrl(origin, {
+          operationCode: invitation.operationCode,
+        });
+        const unsubscribeUrl = buildPanelUnsubscribeUrl(origin, {
           operationCode: invitation.operationCode,
         });
 
@@ -97,6 +111,8 @@ export async function POST(request) {
           to: invitation.email,
           fullName: invitation.fullName,
           theRoomUrl,
+          unsubscribeUrl,
+          operationCode: invitation.operationCode,
         });
 
         await markPanelLaunchSent(invitation.operationCode);

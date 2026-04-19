@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import { sendPanelCampaignClosingEmail } from "../../../../../lib/access-email";
 import { getAppOrigin } from "../../../../../lib/app-origin";
 import { getCataloguePageData } from "../../../../../lib/catalogue-data";
-import { buildPanelVoteUrl, getPanelLaunchMailPayload } from "../../../../../lib/panel-launch";
+import {
+  buildPanelUnsubscribeUrl,
+  buildPanelVoteUrl,
+  getPanelLaunchMailPayload,
+  isPanelLaunchEmailSuppressed,
+} from "../../../../../lib/panel-launch";
 
 function isAuthorized(request) {
   const token = String(process.env.PANEL_LAUNCH_TOKEN || "").trim();
@@ -64,6 +69,14 @@ export async function POST(request) {
           continue;
         }
 
+        if (await isPanelLaunchEmailSuppressed(launch.contactId)) {
+          failed.push({
+            operationCode,
+            error: "email_suppressed",
+          });
+          continue;
+        }
+
         const voteOptions = getCataloguePageData("signal").projects
           .filter((project) => project.id !== "maree-noire")
           .map((project) => ({
@@ -76,11 +89,16 @@ export async function POST(request) {
               projectId: project.id,
             }),
           }));
+        const unsubscribeUrl = buildPanelUnsubscribeUrl(origin, {
+          operationCode: launch.operationCode,
+        });
 
         await sendPanelCampaignClosingEmail({
           to: launch.email,
           fullName: launch.fullName,
           voteOptions,
+          unsubscribeUrl,
+          operationCode: launch.operationCode,
         });
 
         sent.push({
