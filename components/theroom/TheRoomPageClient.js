@@ -30,6 +30,49 @@ function normalizeTrackingValue(value) {
   return String(value || "").trim().toUpperCase();
 }
 
+function readHistoryInviteState() {
+  if (typeof window === "undefined") {
+    return {
+      launchCode: "",
+      accessCode: "",
+    };
+  }
+
+  const state = window.history.state && typeof window.history.state === "object"
+    ? window.history.state
+    : {};
+
+  return {
+    launchCode: normalizeTrackingValue(state.gmtpPanelLaunchCode),
+    accessCode: normalizeTrackingValue(state.gmtpAccessCodePrefill),
+  };
+}
+
+function writeHistoryInviteState({ launchCode = "", accessCode = "", url }) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const currentState = window.history.state && typeof window.history.state === "object"
+    ? window.history.state
+    : {};
+  const nextState = { ...currentState };
+
+  if (launchCode) {
+    nextState.gmtpPanelLaunchCode = normalizeTrackingValue(launchCode);
+  } else {
+    delete nextState.gmtpPanelLaunchCode;
+  }
+
+  if (accessCode) {
+    nextState.gmtpAccessCodePrefill = normalizeTrackingValue(accessCode);
+  } else {
+    delete nextState.gmtpAccessCodePrefill;
+  }
+
+  window.history.replaceState(nextState, "", url || window.location.href);
+}
+
 function GmtpLogo() {
   return (
     <svg aria-hidden="true" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +115,7 @@ function ChipGroup({ name, onChange, options, type, value }) {
   );
 }
 
-function QuestionField({ onChange, question, value }) {
+function QuestionField({ disabled = false, onChange, question, readOnly = false, value }) {
   if (question.type === "radio" || question.type === "checkbox") {
     return <ChipGroup name={question.name} onChange={onChange} options={question.options} type={question.type} value={value} />;
   }
@@ -81,8 +124,10 @@ function QuestionField({ onChange, question, value }) {
     return (
       <textarea
         className="room-form-input room-form-textarea"
+        disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
         placeholder={question.placeholder}
+        readOnly={readOnly}
         rows={4}
         value={value || ""}
       />
@@ -91,9 +136,12 @@ function QuestionField({ onChange, question, value }) {
 
   return (
     <input
+      aria-readonly={readOnly}
       className="room-form-input"
+      disabled={disabled}
       onChange={(event) => onChange(event.target.value)}
       placeholder={question.placeholder}
+      readOnly={readOnly}
       type={question.type}
       value={value || ""}
     />
@@ -108,6 +156,7 @@ export default function TheRoomPageClient(page) {
   const [message, setMessage] = useState("");
   const [launchCode, setLaunchCode] = useState("");
   const [prefilledAccessCode, setPrefilledAccessCode] = useState("");
+  const [invitedRecipient, setInvitedRecipient] = useState(null);
   const hasTrackedLaunchClick = useRef(false);
   const hasTrackedFormStart = useRef(false);
 
@@ -124,19 +173,20 @@ export default function TheRoomPageClient(page) {
     const url = new URL(window.location.href);
     const inviteFromUrl = normalizeTrackingValue(url.searchParams.get("invite"));
     const codeFromUrl = normalizeTrackingValue(url.searchParams.get("code"));
-    const storedLaunchCode = normalizeTrackingValue(window.sessionStorage?.getItem("gmtp_panel_launch_code"));
-    const storedAccessCode = normalizeTrackingValue(window.sessionStorage?.getItem("gmtp_access_code_prefill"));
-    const resolvedLaunchCode = inviteFromUrl || storedLaunchCode;
-    const resolvedAccessCode = codeFromUrl || storedAccessCode;
+    const historyState = readHistoryInviteState();
+    const resolvedLaunchCode = inviteFromUrl || historyState.launchCode;
+    const resolvedAccessCode = codeFromUrl || historyState.accessCode;
 
     if (resolvedLaunchCode) {
       setLaunchCode(resolvedLaunchCode);
-      window.sessionStorage?.setItem("gmtp_panel_launch_code", resolvedLaunchCode);
+    } else {
+      setLaunchCode("");
     }
 
     if (resolvedAccessCode) {
       setPrefilledAccessCode(resolvedAccessCode);
-      window.sessionStorage?.setItem("gmtp_access_code_prefill", resolvedAccessCode);
+    } else {
+      setPrefilledAccessCode("");
     }
 
     if (inviteFromUrl && !hasTrackedLaunchClick.current) {
@@ -153,12 +203,84 @@ export default function TheRoomPageClient(page) {
       }).catch(() => {});
     }
 
+    window.sessionStorage?.removeItem("gmtp_panel_launch_code");
+
     if (inviteFromUrl || codeFromUrl) {
       url.searchParams.delete("invite");
       url.searchParams.delete("code");
-      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+      writeHistoryInviteState({
+        launchCode: resolvedLaunchCode,
+        accessCode: resolvedAccessCode,
+        url: `${url.pathname}${url.search}${url.hash}`,
+      });
+      return;
     }
+
+    if (resolvedLaunchCode || resolvedAccessCode) {
+      writeHistoryInviteState({
+        launchCode: resolvedLaunchCode,
+        accessCode: resolvedAccessCode,
+      });
+      return;
+    }
+
+    window.sessionStorage?.removeItem("gmtp_access_code_prefill");
+    writeHistoryInviteState({
+      launchCode: "",
+      accessCode: "",
+    });
   }, []);
+
+  useEffect(() => {
+    if (!launchCode) {
+      setInvitedRecipient(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    void fetch(`/api/panel/launch/invite?invite=${encodeURIComponent(launchCode)}`, {
+      credentials: "same-origin",
+      cache: "no-store",
+    })
+      .then(async (response) => {
+        const result = await response.json();
+        if (!response.ok || !result?.ok || !result?.invite?.email) {
+          throw new Error(result?.error || "invalid_launch_invite");
+        }
+
+        if (cancelled) {
+          return;
+        }
+
+        const nextInvite = {
+          operationCode: normalizeTrackingValue(result.invite.operationCode),
+          email: String(result.invite.email || "").trim().toLowerCase(),
+          fullName: String(result.invite.fullName || "").trim(),
+        };
+
+        setInvitedRecipient(nextInvite);
+        setAnswers((current) => {
+          if (current.email === nextInvite.email) {
+            return current;
+          }
+
+          return {
+            ...current,
+            email: nextInvite.email,
+          };
+        });
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setInvitedRecipient(null);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [launchCode]);
 
   useEffect(() => {
     if (view !== "form" || !launchCode || hasTrackedFormStart.current) {
@@ -314,11 +436,18 @@ export default function TheRoomPageClient(page) {
         if (typeof window !== "undefined") {
           window.sessionStorage?.removeItem("gmtp_access_code_prefill");
           window.sessionStorage?.removeItem("gmtp_panel_launch_code");
+          writeHistoryInviteState({
+            launchCode: "",
+            accessCode: "",
+          });
         }
+        setLaunchCode("");
+        setPrefilledAccessCode("");
+        setInvitedRecipient(null);
 
         setMessage(
           result.emailSent
-            ? "Vos informations sont enregistrées. Votre clé d'accès vous a été envoyée par mail."
+            ? "Votre clé d'accès vous a été envoyée sur votre email."
             : "Vos informations sont bien enregistrées. L'envoi de la clé par mail n'est pas encore activé sur cet environnement."
         );
         return;
@@ -326,7 +455,7 @@ export default function TheRoomPageClient(page) {
 
       setMessage(
         result.emailSent
-          ? "Votre clé d'accès est envoyée sur votre mail."
+          ? "Votre clé d'accès vous a été envoyée sur votre email."
           : "Votre demande est bien enregistrée. L'envoi par mail n'est pas encore activé sur cet environnement."
       );
     } catch (caughtError) {
@@ -346,6 +475,10 @@ export default function TheRoomPageClient(page) {
 
   const isAboutView = view === "about";
   const isFormView = view === "form";
+  const isInvitedEmailLocked =
+    Boolean(launchCode) &&
+    normalizeTrackingValue(invitedRecipient?.operationCode) === launchCode &&
+    Boolean(invitedRecipient?.email);
   const questionsByName = useMemo(
     () =>
       Object.fromEntries(
@@ -382,16 +515,28 @@ export default function TheRoomPageClient(page) {
       return null;
     }
 
+    const isEmailQuestion = question.name === "email";
+    const isLocked = isEmailQuestion && isInvitedEmailLocked;
+    const displayValue =
+      isLocked && invitedRecipient?.email ? invitedRecipient.email : answers[question.name];
+
     return (
       <div className="room-form-field-wrap">
         <label className="room-form-field-label">
           {question.label} {renderRequiredMark(question)}
         </label>
         <QuestionField
+          disabled={false}
           onChange={(nextValue) => setAnswer(question, nextValue)}
           question={question}
-          value={answers[question.name]}
+          readOnly={isLocked}
+          value={displayValue}
         />
+        {isLocked ? (
+          <p className="room-form-field-hint">
+            Cette adresse est liée a votre invitation et recevra la cle d'acces.
+          </p>
+        ) : null}
       </div>
     );
   };
@@ -597,6 +742,17 @@ export default function TheRoomPageClient(page) {
           line-height: 1.5;
         }
 
+        .room-form-field-hint {
+          margin: -2px 0 0;
+          color: rgba(200, 245, 232, 0.72);
+          font-family: var(--room-sans);
+          font-size: 11px;
+          font-weight: 300;
+          line-height: 1.5;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+
         .room-form-req {
           color: var(--room-rose);
           margin-left: 2px;
@@ -625,6 +781,13 @@ export default function TheRoomPageClient(page) {
         .room-form-input:focus {
           border-color: rgba(200, 245, 232, 0.4);
           background: rgba(255, 255, 255, 0.06);
+        }
+
+        .room-form-input[readonly] {
+          border-color: rgba(200, 245, 232, 0.28);
+          background: rgba(200, 245, 232, 0.07);
+          color: rgba(255, 255, 255, 0.9);
+          cursor: default;
         }
 
         .room-form-textarea {

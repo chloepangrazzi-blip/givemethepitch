@@ -37,12 +37,49 @@ function normalizeInviteePayload(payload) {
   return [];
 }
 
-async function resolveInvitees(payload) {
-  if (payload?.source === "panel_proche" || payload?.fromPublicSignup === true) {
-    return getPublicPanelProcheInvitees();
+function normalizeInvitee(invitee) {
+  if (!invitee || typeof invitee !== "object") {
+    return null;
   }
 
-  return normalizeInviteePayload(payload);
+  return {
+    fullName: String(invitee.fullName || "").trim(),
+    email: String(invitee.email || "").trim().toLowerCase(),
+    city: String(invitee.city || "").trim(),
+    country: String(invitee.country || "").trim(),
+    notes: String(invitee.notes || "").trim(),
+  };
+}
+
+function dedupeInvitees(invitees) {
+  const seenEmails = new Set();
+
+  return invitees
+    .map(normalizeInvitee)
+    .filter(Boolean)
+    .filter((invitee) => {
+      if (!invitee.email) {
+        return true;
+      }
+
+      if (seenEmails.has(invitee.email)) {
+        return false;
+      }
+
+      seenEmails.add(invitee.email);
+      return true;
+    });
+}
+
+async function resolveInvitees(payload) {
+  const manualInvitees = normalizeInviteePayload(payload);
+
+  if (payload?.source === "panel_proche" || payload?.fromPublicSignup === true) {
+    const publicInvitees = await getPublicPanelProcheInvitees();
+    return dedupeInvitees([...publicInvitees, ...manualInvitees]);
+  }
+
+  return dedupeInvitees(manualInvitees);
 }
 
 export async function POST(request) {

@@ -10,16 +10,20 @@ import {
 } from "../../../../lib/panel-launch";
 import { PANEL_PUBLIC_KEYACCESS_PATH } from "../../../../lib/public-paths";
 
+function normalizeEmail(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
 export async function POST(request) {
   try {
     const payload = await request.json();
     const fullName = String(payload.fullName || "").trim();
-    const email = String(payload.email || "").trim();
+    const submittedEmail = String(payload.email || "").trim();
     const mobile = String(payload.mobile || "").trim();
     const city = String(payload.city || "").trim();
     const consent = Boolean(payload.consent);
 
-    if (!fullName || !email || !mobile || !city || !consent) {
+    if (!fullName || !submittedEmail || !mobile || !city || !consent) {
       return NextResponse.json(
         { ok: false, error: "missing_required_fields" },
         { status: 400 }
@@ -31,17 +35,15 @@ export async function POST(request) {
     const launchRecord = launchCode ? await getPanelLaunchByCode(launchCode) : null;
     const launchMailPayload = launchCode ? await getPanelLaunchMailPayload(launchCode) : null;
     const invitedFlow = Boolean(launchCode && launchRecord);
+    const invitedEmail = normalizeEmail(
+      launchRecord?.email || launchMailPayload?.email || ""
+    );
+    const normalizedSubmittedEmail = normalizeEmail(submittedEmail);
+    const resolvedEmail = invitedEmail || normalizedSubmittedEmail;
 
     if (launchCode && !launchRecord) {
       return NextResponse.json(
         { ok: false, error: "invalid_launch_invite" },
-        { status: 400 }
-      );
-    }
-
-    if (launchRecord?.email && launchRecord.email.toLowerCase() !== email.toLowerCase()) {
-      return NextResponse.json(
-        { ok: false, error: "invited_email_mismatch" },
         { status: 400 }
       );
     }
@@ -69,11 +71,20 @@ export async function POST(request) {
     const record = await createAccessRequest({
       accessCode,
       fullName,
-      email,
+      email: resolvedEmail,
       mobile,
       city,
       consent,
-      answers: payload.answers || {},
+      answers: {
+        ...(payload.answers || {}),
+        invited_email: invitedEmail || null,
+        invited_email_mismatch:
+          invitedFlow &&
+          Boolean(invitedEmail) &&
+          Boolean(normalizedSubmittedEmail) &&
+          invitedEmail !== normalizedSubmittedEmail,
+        submitted_email: normalizedSubmittedEmail || null,
+      },
       panelProfile: payload.panelProfile || {},
     });
 
