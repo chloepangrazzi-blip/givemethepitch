@@ -5,6 +5,7 @@ import {
   buildPanelLaunchUrl,
   buildPanelUnsubscribeUrl,
   createPanelLaunchInvitation,
+  getPanelLaunchRecipientStateByEmail,
   getPublicPanelProcheInvitees,
   isPanelLaunchEmailSuppressed,
   markPanelLaunchSent,
@@ -55,6 +56,7 @@ export async function POST(request) {
 
     const payload = await request.json();
     const invitees = await resolveInvitees(payload);
+    const forceSend = payload?.force === true;
 
     if (!invitees.length) {
       return NextResponse.json(
@@ -84,6 +86,28 @@ export async function POST(request) {
       }
 
       try {
+        if (!forceSend) {
+          const recipientState = await getPanelLaunchRecipientStateByEmail(email);
+
+          if (recipientState.alreadyCompleted) {
+            failed.push({
+              fullName,
+              email,
+              error: "already_completed",
+            });
+            continue;
+          }
+
+          if (recipientState.alreadySent) {
+            failed.push({
+              fullName,
+              email,
+              error: "already_sent",
+            });
+            continue;
+          }
+        }
+
         const invitation = await createPanelLaunchInvitation({
           fullName,
           email,
