@@ -27,6 +27,7 @@ export default async function MailPreviewPage({ searchParams }) {
   const voteOptions = getCataloguePageData("signal").projects
     .filter((project) => project.id !== "maree-noire")
     .map((project) => ({
+      id: project.id,
       title: project.title,
       genre: project.genre,
       format: project.format,

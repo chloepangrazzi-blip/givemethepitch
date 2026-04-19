@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470">
+  <rect x="4" y="4" width="1192" height="462" rx="48" fill="#080808" stroke="#f5c6d8" stroke-width="2"/>
+  <text x="64" y="92" font-family="Helvetica, Arial, sans-serif" font-size="50" font-weight="400" fill="#ffffff">Opium</text>
+  <text x="64" y="140" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="300" letter-spacing="4" fill="#c8f5e8">UCHRONIE · 6 × 52 MIN</text>
+  <text x="64" y="208" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="400" fill="#d9d9d9">
+    <tspan x="64" dy="0">Aujourd’hui Mathilde fête ses 15 ans dans un monde où</tspan>
+    <tspan x="64" dy="52">l’héroïne réglementaire rend les gens meilleurs.</tspan>
+  </text>
+</svg>
