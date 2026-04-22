@@ -38,7 +38,7 @@ select
     when 5 then 'Rapide & fluide'
     else null
   end as libelle_duree_formulaire
-from pilot_signal.tests st
+from "03_pilot_signal"."02_tests" st
 join signal.test_responses tr on tr.reponse_test_code = st.code_test
 left join ops.enrolments e on e.id = tr.enrolment_id
 join signal.room_feedback rr on rr.enrolment_id = e.id;
