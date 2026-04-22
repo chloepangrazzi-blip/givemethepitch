@@ -489,7 +489,28 @@ select
   rr.experience_quality_score as qualite_experience,
   rr.duration_relevance_score as pertinence_duree,
   rr.device_recommendation_score as recommandation_dispositif,
-  rr.free_comment as commentaire_room
+  rr.free_comment as commentaire_room,
+  rr.reading_fluidity_score as ressenti_lecture_projet_score,
+  case rr.reading_fluidity_score
+    when 1 then 'Trop long'
+    when 2 then 'Un peu long'
+    when 4 then 'Bien comme il faut'
+    when 5 then 'Rapide & fluide'
+    else null
+  end as libelle_lecture_projet,
+  case rr.material_sufficiency_score
+    when 1 then 'Non'
+    when 5 then 'Oui'
+    else null
+  end as libelle_materiel_suffisant,
+  rr.duration_relevance_score as ressenti_duree_formulaire_score,
+  case rr.duration_relevance_score
+    when 1 then 'Trop long'
+    when 2 then 'Un peu long'
+    when 4 then 'Bien comme il faut'
+    when 5 then 'Rapide & fluide'
+    else null
+  end as libelle_duree_formulaire
 from "03_pilot_signal"."02_tests" st
 join signal.test_responses tr on tr.reponse_test_code = st.code_test
 left join "03_pilot_signal"."03_retours" sr on sr.code_test = st.code_test
@@ -512,7 +533,28 @@ select
   rr.experience_quality_score as qualite_experience,
   rr.duration_relevance_score as pertinence_duree,
   rr.device_recommendation_score as recommandation_dispositif,
-  rr.free_comment as commentaire_room
+  rr.free_comment as commentaire_room,
+  rr.reading_fluidity_score as ressenti_lecture_projet_score,
+  case rr.reading_fluidity_score
+    when 1 then 'Trop long'
+    when 2 then 'Un peu long'
+    when 4 then 'Bien comme il faut'
+    when 5 then 'Rapide & fluide'
+    else null
+  end as libelle_lecture_projet,
+  case rr.material_sufficiency_score
+    when 1 then 'Non'
+    when 5 then 'Oui'
+    else null
+  end as libelle_materiel_suffisant,
+  rr.duration_relevance_score as ressenti_duree_formulaire_score,
+  case rr.duration_relevance_score
+    when 1 then 'Trop long'
+    when 2 then 'Un peu long'
+    when 4 then 'Bien comme il faut'
+    when 5 then 'Rapide & fluide'
+    else null
+  end as libelle_duree_formulaire
 from "03_pilot_signal"."02_tests" st
 join signal.test_responses tr on tr.reponse_test_code = st.code_test
 left join ops.enrolments e on e.id = tr.enrolment_id
