@@ -11,6 +11,10 @@ function mapErrorMessage(errorCode) {
       return "clé introuvable - repasse par key access";
     case "invalid_code":
       return "clé invalide ou inactive - repasse par key access";
+    case "campaign_frozen":
+    case "campaign_not_active":
+    case "Cette session de test est clôturée.":
+      return "cette session de test est clôturée";
     case "nda_sign_failed":
     case "verify_failed":
     default:

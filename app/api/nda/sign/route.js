@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { markNdaSigned } from "../../../../lib/access-repository";
+import {
+  ensureTestAccessRequest,
+  markNdaSigned,
+} from "../../../../lib/access-repository";
+import { isSessionClosedErrorCode, SIGNAL_SESSION_CLOSED_MESSAGE } from "../../../../lib/campaign-access";
 import { getTestAccessCode } from "../../../../lib/runtime-config";
 
 export async function POST(request) {
@@ -34,6 +38,7 @@ export async function POST(request) {
     }
 
     if (testAccessCode && accessCode === testAccessCode) {
+      await ensureTestAccessRequest(testAccessCode);
       return NextResponse.json({ ok: true, nextPath: "/mareenoire" });
     }
 
@@ -41,8 +46,17 @@ export async function POST(request) {
     try {
       record = await markNdaSigned(accessCode, { prenom, nom });
     } catch (error) {
+      const message = error instanceof Error ? error.message : "nda_sign_failed";
+
+      if (isSessionClosedErrorCode(message)) {
+        return NextResponse.json(
+          { ok: false, error: message, detail: SIGNAL_SESSION_CLOSED_MESSAGE },
+          { status: 409 }
+        );
+      }
+
       return NextResponse.json(
-        { ok: false, error: "nda_sign_failed", detail: error.message },
+        { ok: false, error: "nda_sign_failed", detail: message },
         { status: 500 }
       );
     }
@@ -69,8 +83,17 @@ export async function POST(request) {
 
     return response;
   } catch (error) {
+    const message = error instanceof Error ? error.message : "nda_sign_failed";
+
+    if (isSessionClosedErrorCode(message)) {
+      return NextResponse.json(
+        { ok: false, error: message, detail: SIGNAL_SESSION_CLOSED_MESSAGE },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { ok: false, error: "nda_sign_failed", detail: error.message },
+      { ok: false, error: "nda_sign_failed", detail: message },
       { status: 500 }
     );
   }

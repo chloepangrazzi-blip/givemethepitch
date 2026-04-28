@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isSessionClosedErrorCode, SIGNAL_SESSION_CLOSED_MESSAGE } from "../../../../lib/campaign-access";
 import { submitSignalTest } from "../../../../lib/signal-test-repository";
 import { getTestAccessCode, isDebugLoggingEnabled } from "../../../../lib/runtime-config";
 
@@ -48,15 +49,24 @@ export async function POST(request) {
 
     return NextResponse.json({ ok: true, ...result });
   } catch (error) {
+    const message = error instanceof Error ? error.message : "test_submit_failed";
+
     if (isDebugLoggingEnabled()) {
       console.error("[tests/submit] failure", {
-        message: error instanceof Error ? error.message : String(error),
+        message,
         stack: error instanceof Error ? error.stack : null,
       });
     }
 
+    if (isSessionClosedErrorCode(message)) {
+      return NextResponse.json(
+        { ok: false, error: message, detail: SIGNAL_SESSION_CLOSED_MESSAGE },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { ok: false, error: "test_submit_failed", detail: error.message },
+      { ok: false, error: "test_submit_failed", detail: message },
       { status: 500 }
     );
   }

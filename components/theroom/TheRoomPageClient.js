@@ -465,6 +465,8 @@ export default function TheRoomPageClient(page) {
         invalid_launch_invite: "Ce lien d'invitation n'est plus valide.",
         invalid_invite_access_pair: "Cette invitation ne correspond plus à un accès valide.",
         missing_invite_access_code: "Cette invitation ne peut pas encore générer de clé d'accès.",
+        campaign_frozen: "Cette session de test est clôturée.",
+        campaign_not_active: "Cette session de test est clôturée.",
       };
       setRequestState("error");
       setMessage(

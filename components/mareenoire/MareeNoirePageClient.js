@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useDesktopCursor from "../shared/useDesktopCursor";
 import { PANEL_PUBLIC_TEST_PATH } from "../../lib/public-paths";
+import {
+  SIGNAL_SESSION_CLOSED_CTA_HREF,
+  SIGNAL_SESSION_CLOSED_CTA_LABEL,
+  SIGNAL_SESSION_CLOSED_TEXT,
+  SIGNAL_SESSION_CLOSED_TITLE,
+} from "../../lib/campaign-access";
 
 function RichText({ className, html }) {
   return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
@@ -163,7 +169,7 @@ function LongArcSplit({ item }) {
   );
 }
 
-export default function MareeNoirePageClient({ page }) {
+export default function MareeNoirePageClient({ page, sessionClosed = false }) {
   useDesktopCursor({
     hoverSelector: "button, a, video, .mn-player-overlay, input[type='range']",
     spotlightSelector:
@@ -2126,6 +2132,42 @@ export default function MareeNoirePageClient({ page }) {
           text-align: center;
         }
 
+        .mn-final-action-closed {
+          width: min(720px, calc(100% - 32px));
+          margin: 0 auto;
+          padding: clamp(28px, 4vw, 42px);
+          border: 1px solid rgba(191, 248, 220, 0.18);
+          border-radius: 28px;
+          background: rgba(191, 248, 220, 0.05);
+        }
+
+        .mn-closed-kicker {
+          margin: 0;
+          color: var(--mn-mint);
+          font-size: 0.76rem;
+          font-weight: 300;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+        }
+
+        .mn-closed-title {
+          margin: 8px 0 0;
+          font-family: var(--mn-horizon);
+          font-size: clamp(2rem, 5vw, 3.2rem);
+          font-weight: 400;
+          line-height: 1.02;
+          letter-spacing: 0.02em;
+        }
+
+        .mn-closed-copy {
+          margin: 14px auto 0;
+          max-width: 34rem;
+          color: var(--mn-soft);
+          font-size: 1rem;
+          font-weight: 300;
+          line-height: 1.8;
+        }
+
         .mn-body-shell .mn-copy-cell,
         .mn-body-shell .mn-media-cell,
         .mn-body-shell .mn-arena-text,
@@ -3809,11 +3851,22 @@ export default function MareeNoirePageClient({ page }) {
             </div>
           </section>
 
-          <section className="mn-final-action">
-            <Link className="mn-action" href={PANEL_PUBLIC_TEST_PATH}>
-              {page.longArc.finalActionLabel}
-            </Link>
-          </section>
+          {sessionClosed ? (
+            <section className="mn-final-action mn-final-action-closed">
+              <p className="mn-closed-kicker">The Room × Give Me The Pitch</p>
+              <h3 className="mn-closed-title">{SIGNAL_SESSION_CLOSED_TITLE}</h3>
+              <p className="mn-closed-copy">{SIGNAL_SESSION_CLOSED_TEXT}</p>
+              <Link className="mn-action" href={SIGNAL_SESSION_CLOSED_CTA_HREF}>
+                {SIGNAL_SESSION_CLOSED_CTA_LABEL}
+              </Link>
+            </section>
+          ) : (
+            <section className="mn-final-action">
+              <Link className="mn-action" href={PANEL_PUBLIC_TEST_PATH}>
+                {page.longArc.finalActionLabel}
+              </Link>
+            </section>
+          )}
 
           {audioData ? (
             <div className={`mn-audio-sticky ${audioHasStarted && audioStickyVisible ? "is-visible" : ""}`}>

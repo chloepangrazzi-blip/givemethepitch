@@ -17,6 +17,7 @@ export default function KeyAccessPageClient({
   errorLabel = "clé incorrecte - réessaie",
 }) {
   const [accessKey, setAccessKey] = useState("");
+  const [errorMessage, setErrorMessage] = useState(errorLabel);
   const [showError, setShowError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const hasAutoSubmitted = useRef(false);
@@ -26,12 +27,25 @@ export default function KeyAccessPageClient({
     spotlightSelector: ".ka-enter, .ka-input-shell",
   });
 
-  const flashError = () => {
+  const flashError = (nextMessage = errorLabel) => {
+    setErrorMessage(nextMessage);
     setShowError(false);
     window.requestAnimationFrame(() => {
       setShowError(true);
       window.setTimeout(() => setShowError(false), 2500);
     });
+  };
+
+  const getFriendlyErrorMessage = (rawMessage) => {
+    if (
+      rawMessage === "campaign_frozen" ||
+      rawMessage === "campaign_not_active" ||
+      rawMessage === "Cette session de test est clôturée."
+    ) {
+      return "cette session de test est clôturée";
+    }
+
+    return errorLabel;
   };
 
   const verifyKey = async (rawCode) => {
@@ -61,7 +75,7 @@ export default function KeyAccessPageClient({
       const result = await response.json();
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || "invalid_code");
+        throw new Error(result.detail || result.error || "invalid_code");
       }
 
       window.sessionStorage?.setItem("gmtp_access_code", normalizedCode);
@@ -69,8 +83,9 @@ export default function KeyAccessPageClient({
       setShowError(false);
       window.location.href = result.nextPath || nextPath;
       return true;
-    } catch {
-      flashError();
+    } catch (caughtError) {
+      const message = caughtError instanceof Error ? caughtError.message : errorLabel;
+      flashError(getFriendlyErrorMessage(message));
       return false;
     } finally {
       setIsLoading(false);
@@ -577,7 +592,7 @@ export default function KeyAccessPageClient({
                   <button className={`ka-enter${isLoading ? " ka-enter-loading" : ""}`} disabled={isLoading} onClick={checkKey} type="button">
                     {isLoading ? loadingLabel : submitLabel}
                   </button>
-                  <p className={`ka-error${showError ? " ka-error-visible" : ""}`}>{errorLabel}</p>
+                  <p className={`ka-error${showError ? " ka-error-visible" : ""}`}>{errorMessage}</p>
                 </div>
               </div>
             </div>

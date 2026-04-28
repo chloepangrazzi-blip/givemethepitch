@@ -4,6 +4,7 @@ import {
   getAccessRequestByCode,
   markAccessVerified,
 } from "../../../../lib/access-repository";
+import { isSessionClosedErrorCode, SIGNAL_SESSION_CLOSED_MESSAGE } from "../../../../lib/campaign-access";
 import { PANEL_PUBLIC_CATALOGUE_PATH } from "../../../../lib/public-paths";
 import { getTestAccessCode } from "../../../../lib/runtime-config";
 
@@ -61,8 +62,17 @@ export async function POST(request) {
 
     return response;
   } catch (error) {
+    const message = error instanceof Error ? error.message : "verify_failed";
+
+    if (isSessionClosedErrorCode(message)) {
+      return NextResponse.json(
+        { ok: false, error: message, detail: SIGNAL_SESSION_CLOSED_MESSAGE },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { ok: false, error: "verify_failed", detail: error.message },
+      { ok: false, error: "verify_failed", detail: message },
       { status: 500 }
     );
   }

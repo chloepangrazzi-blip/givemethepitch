@@ -4,6 +4,12 @@ import { createAccessRequest, getAccessRequestByCode } from "../../../../lib/acc
 import { generateAccessCode } from "../../../../lib/access-store";
 import { getAppOrigin } from "../../../../lib/app-origin";
 import {
+  getCampaignAccessError,
+  isCampaignActiveStatus,
+  isSessionClosedErrorCode,
+  SIGNAL_SESSION_CLOSED_MESSAGE,
+} from "../../../../lib/campaign-access";
+import {
   getPanelLaunchByCode,
   getPanelLaunchMailPayload,
   markPanelLaunchCompleted,
@@ -63,6 +69,17 @@ export async function POST(request) {
         return NextResponse.json(
           { ok: false, error: "invalid_invite_access_pair" },
           { status: 400 }
+        );
+      }
+
+      if (!isCampaignActiveStatus(existingAccess.campaignStatus)) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: getCampaignAccessError(existingAccess),
+            detail: SIGNAL_SESSION_CLOSED_MESSAGE,
+          },
+          { status: 409 }
         );
       }
     }
@@ -126,8 +143,17 @@ export async function POST(request) {
       keyaccessUrl,
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : "request_failed";
+
+    if (isSessionClosedErrorCode(message)) {
+      return NextResponse.json(
+        { ok: false, error: message, detail: SIGNAL_SESSION_CLOSED_MESSAGE },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { ok: false, error: "request_failed", detail: error.message },
+      { ok: false, error: "request_failed", detail: message },
       { status: 500 }
     );
   }

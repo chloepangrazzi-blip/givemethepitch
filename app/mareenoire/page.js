@@ -1,11 +1,11 @@
 export const dynamic = "force-dynamic";
 
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import MareeNoirePageClient from "../../components/mareenoire/MareeNoirePageClient";
-import { getAccessRequestByCode } from "../../lib/access-repository";
+import { isCampaignActiveStatus } from "../../lib/campaign-access";
 import { getMareeNoirePageData } from "../../lib/mareenoire-page";
+import { getCurrentPanelAccessRecord } from "../../lib/panel-session-server";
 
 export function generateMetadata() {
   const page = getMareeNoirePageData();
@@ -20,37 +20,36 @@ export function generateMetadata() {
 }
 
 async function resolveAccessGate() {
-  const cookieStore = await cookies();
-  const accessCode = String(cookieStore.get("gmtp_access_code")?.value || "")
-    .trim()
-    .toUpperCase();
-
-  if (!accessCode) {
-    return "/theroom";
-  }
-
-  const record = await getAccessRequestByCode(accessCode);
+  const record = await getCurrentPanelAccessRecord();
 
   if (!record) {
-    return "/theroom";
+    return { redirectPath: "/theroom", sessionClosed: false };
+  }
+
+  if (!isCampaignActiveStatus(record.campaignStatus)) {
+    if (record.verifiedAt && record.ndaSignedAt) {
+      return { redirectPath: null, sessionClosed: true };
+    }
+
+    return { redirectPath: "/theroom", sessionClosed: true };
   }
 
   if (!record.verifiedAt) {
-    return "/theroom";
+    return { redirectPath: "/theroom", sessionClosed: false };
   }
 
   if (!record.ndaSignedAt) {
-    return "/nda";
+    return { redirectPath: "/nda", sessionClosed: false };
   }
 
-  return null;
+  return { redirectPath: null, sessionClosed: false };
 }
 
 export default async function MareeNoirePage() {
-  const gateRedirect = await resolveAccessGate();
+  const gate = await resolveAccessGate();
 
-  if (gateRedirect) {
-    redirect(gateRedirect);
+  if (gate.redirectPath) {
+    redirect(gate.redirectPath);
   }
 
   const page = getMareeNoirePageData();
@@ -59,5 +58,5 @@ export default async function MareeNoirePage() {
     notFound();
   }
 
-  return <MareeNoirePageClient page={page} />;
+  return <MareeNoirePageClient page={page} sessionClosed={gate.sessionClosed} />;
 }
