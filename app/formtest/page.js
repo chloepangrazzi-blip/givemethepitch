@@ -19,21 +19,28 @@ export function generateMetadata() {
 
 export default async function FormtestPage({ searchParams }) {
   const page = getFormtestPageData();
-  const accessRecord = await getCurrentPanelAccessRecord();
 
   if (!page) {
     notFound();
   }
 
+  const resolvedSearchParams = await searchParams;
+  const previewMode =
+    resolvedSearchParams?.preview === "confirm" ||
+    resolvedSearchParams?.preview === "processing" ||
+    resolvedSearchParams?.preview === "editorial"
+      ? resolvedSearchParams.preview
+      : "";
+
+  if (previewMode === "editorial" && process.env.NODE_ENV !== "production") {
+    return <FormtestPageClient {...getFormtestPageData({ formVersion: "signal_v3" })} previewMode={previewMode} />;
+  }
+
+  const accessRecord = await getCurrentPanelAccessRecord();
+
   if (!accessRecord || !isCampaignActiveStatus(accessRecord.campaignStatus)) {
     return <SignalSessionClosedPage />;
   }
 
-  const resolvedSearchParams = await searchParams;
-  const previewMode =
-    resolvedSearchParams?.preview === "confirm" || resolvedSearchParams?.preview === "processing"
-      ? resolvedSearchParams.preview
-      : "";
-
-  return <FormtestPageClient {...page} previewMode={previewMode} />;
+  return <FormtestPageClient {...getFormtestPageData({ formVersion: accessRecord.formVersion })} previewMode={previewMode} />;
 }

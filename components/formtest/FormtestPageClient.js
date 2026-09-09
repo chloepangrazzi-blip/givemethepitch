@@ -8,6 +8,11 @@ function isVisible(question, answers) {
     return true;
   }
 
+  if (question.visibleWhen.includesAny) {
+    const answer = answers[question.visibleWhen.name];
+    return Array.isArray(answer) && question.visibleWhen.includesAny.some((option) => answer.includes(option));
+  }
+
   return answers[question.visibleWhen.name] === question.visibleWhen.value;
 }
 
@@ -86,7 +91,11 @@ export default function FormtestPageClient(page) {
   const [progressStep, setProgressStep] = useState(0);
   const [error, setError] = useState("");
   const timeoutRef = useRef([]);
-  const previewMode = page.previewMode === "confirm" || page.previewMode === "processing" ? page.previewMode : "";
+  const previewMode =
+    page.previewMode === "confirm" || page.previewMode === "processing" || page.previewMode === "editorial"
+      ? page.previewMode
+      : "";
+  const isEditorialPreview = previewMode === "editorial";
   const effectivePhase = previewMode === "confirm" || previewMode === "processing" ? previewMode : phase;
   const effectiveProgressStep =
     previewMode === "processing" ? page.processingMessages.length - 1 : progressStep;
@@ -112,9 +121,13 @@ export default function FormtestPageClient(page) {
     setAnswers((current) => {
       if (question.type === "checkbox") {
         const currentValues = Array.isArray(current[question.name]) ? current[question.name] : [];
+        const exclusiveOptions = question.exclusiveOptions || [];
+        const isExclusiveOption = exclusiveOptions.includes(nextValue);
         const updatedValues = currentValues.includes(nextValue)
           ? currentValues.filter((item) => item !== nextValue)
-          : [...currentValues, nextValue];
+          : isExclusiveOption
+            ? [nextValue]
+            : [...currentValues.filter((item) => !exclusiveOptions.includes(item)), nextValue];
 
         return {
           ...current,
@@ -140,6 +153,12 @@ export default function FormtestPageClient(page) {
     }
 
     setError("");
+
+    if (isEditorialPreview) {
+      setError("Preview locale : aucune soumission envoyée.");
+      return;
+    }
+
     setPhase("processing");
     setProgressStep(0);
     window.scrollTo({ top: 0, behavior: "smooth" });
