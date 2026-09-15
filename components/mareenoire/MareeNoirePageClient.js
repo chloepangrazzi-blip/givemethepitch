@@ -29,7 +29,7 @@ const CHAPTERS = [
     nav: "Le retour de Noé",
     signal: "Intrigue",
     feedback: "Signal reçu.",
-    title: "Il revient. Il n'a pas changé.",
+    title: "Le retour de Noé",
     imageKey: "noe",
     audio: {
       label: "Enregistrement de l'intervention — 1:04",
@@ -37,13 +37,7 @@ const CHAPTERS = [
       duration: "1:04",
       src: "/audio/maree-noire-fragment-01-intervention.mp4",
     },
-    paragraphs: [
-      "Noé avait huit ans quand il a disparu. Un deuil sans corps. Une enquête classée. Une absence que la ville avait appris à ne plus toucher.",
-      "Huit ans plus tard, il réapparaît sur la côte. Vivant. Inchangé. Même visage. Même âge. Même regard.",
-      "Son retour devrait refermer une plaie. Il la rouvre.",
-      "À partir de ce matin-là, tout ce qui tenait se défait : les souvenirs, les versions officielles, les silences utiles. La question semble d'abord simple : où était Noé ?",
-      "Mais très vite, une autre s'impose : pourquoi revient-il maintenant ?",
-    ],
+    paragraphs: [],
     question: "Ce retour ressemble d'abord à…",
     answers: ["un miracle", "une menace", "une erreur", "un secret qui remonte"],
     answerValues: {
@@ -53,19 +47,8 @@ const CHAPTERS = [
       "un secret qui remonte": 100,
     },
     bonusIntro: "Accéder à la fiche personnage de Noé.",
-    bonusTitle: "Noé — 8 ans — le disparu",
-    hideBonusTitle: true,
-    bonusCards: [
-      {
-        title: "Noé — 8 ans — le disparu",
-        paragraphs: [
-          "Ce Noé-là n'est pas revenu ; celui qui est sorti de l'eau porte quelque chose qui n'appartient pas à l'enfance.",
-          "Le mur du salon de la maison familiale est couvert de photos de la vie d'avant. On y voit un Noé espiègle, Noé riant ou courant sur la plage. On y devine un gamin malin, curieux de tout, joyeux.",
-          "Celui qui est sorti de l'eau a bien huit ans, le même visage, les mêmes mains, la même oreille gauche légèrement décollée. Mais il porte en lui une gravité qui n'appartient pas à l'enfance. Il parle peu, observe beaucoup, répond aux questions avec une précision tranquille qui met les adultes mal à l'aise sans qu'ils sachent exactement pourquoi. L'insouciance a disparu. À la place, quelque chose de dense, de lourd semble habiter le jeune garçon.",
-          "La nuit, il se lève. Silencieusement, les yeux ouverts, il marche vers la mer. Toujours vers la mer. Le matin il ne se souvient de rien. Il dit juste, parfois, qu'il a entendu quelque chose. Quand on lui demande quoi, il cherche ses mots un moment. Puis il hausse les épaules comme si la réponse était trop simple pour être expliquée.",
-        ],
-      },
-    ],
+    bonusTitle: "Noé",
+    bonusCharacterNames: ["Noé"],
   },
   {
     id: "meres",
@@ -73,7 +56,7 @@ const CHAPTERS = [
     nav: "Deux mères",
     signal: "Attachement",
     feedback: "Signal reçu.",
-    title: "Elles ont traversé la même absence. Pas pour les mêmes raisons.",
+    title: "Deux mères",
     imageKey: "meres",
     audio: {
       label: "Message audio de Camille — 1:52",
@@ -81,13 +64,7 @@ const CHAPTERS = [
       duration: "1:52",
       src: "/audio/maree-noire-fragment-02-camille.mp4",
     },
-    paragraphs: [
-      "Soaz et Camille sont les mères de Noé. Elles ont traversé l'absence ensemble, mais chacune dans sa manière de tenir.",
-      "Soaz est née sur la côte. Sellière, dure en surface, économe en mots. Ce qu'elle porte depuis la disparition de Noé, elle le garde dans un endroit que personne n'atteint. Même pas Camille.",
-      "Camille vient d'ailleurs. Illustratrice jeunesse, elle dessine des mondes doux, des enfants heureux, des histoires qui se terminent bien. Dans cette ville, elle est restée une étrangère au sens profond : pas rejetée, jamais tout à fait des leurs.",
-      "Quand Noé revient, Camille reçoit son retour comme une grâce. Soaz comprend à la seconde où elle le voit que quelque chose va remonter avec lui.",
-      "Ce qu'elle sait. Ce qu'elle a tu. Ce qu'elle a cru pouvoir garder enfoui pour toujours.",
-    ],
+    paragraphs: [],
     question: "Face au retour de Noé, ce qui vous intéresse le plus est…",
     answers: ["ce qu'elles veulent croire", "ce qu'elles refusent de voir", "ce qu'elles se cachent", "ce que Noé leur fait redevenir"],
     answerValues: {
@@ -97,33 +74,16 @@ const CHAPTERS = [
       "ce que Noé leur fait redevenir": 100,
     },
     bonusIntro: "Accéder à la fiche personnage de Soaz et Camille.",
-    bonusTitle: "Soaz & Camille — Les mères de Noé",
-    bonusCards: [
-      {
-        title: "Soaz — 46 ans — sellière",
-        paragraphs: [
-          "Soaz est née sur la côte. Sellière, elle travaille seule dans son atelier, les mains dans le cuir, dans l'odeur des matières, dans le bruit des outils. Dure en surface, économe en mots. Ce qu'elle porte depuis la disparition de Noé, elle le garde dans un endroit que personne n'atteint. Même pas Camille.",
-        ],
-      },
-      {
-        title: "Camille — 44 ans — illustratrice jeunesse",
-        paragraphs: [
-          "Camille a grandi à Lyon, vécu à Paris, puis a tout quitté pour Soaz et pour cette vie qu'elles construisaient ensemble. Illustratrice de livres pour enfants, elle passe ses journées à dessiner des mondes doux, des enfants heureux, des histoires qui se terminent bien. Dans cette ville elle est restée une étrangère au sens profond, pas rejetée, juste jamais tout à fait des leurs.",
-        ],
-      },
-    ],
-    bonusBody: [
-      "Depuis la disparition de Noé, elles fonctionnent en parallèle. Chacune dans sa bulle, chacune avec sa façon de tenir. Elles s'aiment, ça se voit dans les petits gestes. Mais quelque chose s'est creusé entre elles que ni l'une ni l'autre n'a voulu nommer.",
-      "Quand Noé revient, ce creux devient un abîme. Camille reçoit son retour comme une grâce. Soaz, elle, comprend à la seconde où elle le voit que quelque chose va remonter avec lui. Ce qu'elle sait. Ce qu'elle a tu. Ce qu'elle a cru pouvoir garder enfoui pour toujours.",
-    ],
+    bonusTitle: "Soaz & Camille",
+    bonusCharacterNames: ["Soaz", "Camille"],
   },
   {
     id: "ville",
     number: "03",
-    nav: "La ville / La digue",
+    nav: "Sous la surface",
     signal: "Tension",
     feedback: "Signal reçu.",
-    title: "Une ville qui a appris à se taire.",
+    title: "Sous la surface",
     imageKey: "ville",
     audio: {
       label: "Archives appel à témoins - 2018 — 3:55",
@@ -131,13 +91,7 @@ const CHAPTERS = [
       duration: "3:55",
       src: "/audio/maree-noire-fragment-03-repondeur-appel-temoins.mp4",
     },
-    paragraphs: [
-      "La ville fonctionne comme toutes les petites villes de bord de mer : hiérarchies invisibles, solidarités de façade, mémoires sélectives.",
-      "On s'y connaît depuis toujours. On se doit des choses. On se surveille. On se couvre.",
-      "Depuis la disparition de Noé, chacun vit avec sa version du drame : la version officielle de l'enquête, la version intime des familles, la version collective faite de rumeurs et de demi-phrases.",
-      "Le retour de Noé brise ce mécanisme. Trop de contradictions, trop de douleur, trop de regards qui se croisent et se détournent.",
-      "Et au centre : la digue. Un ouvrage de béton, puis peu à peu autre chose. Un seuil. Un endroit qu'on évite, qu'on surveille, qu'on fantasme.",
-    ],
+    paragraphs: [],
     question: "Dans cette ville, le danger semble venir…",
     answers: ["des silences", "de la mer", "des habitants", "de ce qu'on a enterré"],
     answerValues: {
@@ -146,24 +100,6 @@ const CHAPTERS = [
       "des habitants": 75,
       "de ce qu'on a enterré": 100,
     },
-    bonusIntro: "Accéder à la cartographie de la ville et de la digue.",
-    bonusTitle: "La ville, la mer, la digue",
-    bonusCards: [
-      {
-        title: "Ce que l'on voit",
-        paragraphs: [
-          "La ville fonctionne comme toutes les petites villes de bord de mer : elle a ses hiérarchies invisibles, ses solidarités de façade, ses mémoires sélectives. On s'y connaît depuis toujours, ce qui signifie qu'on se doit des choses, qu'on se surveille, qu'on se couvre. Elle a appris à transformer ce qu'elle ne comprend pas en histoire partageable, à lisser les aspérités, à faire tenir ensemble des gens qui ont des raisons de ne pas se parler.",
-          "Le retour de Noé brise ce mécanisme. Trop de contradictions, trop de douleur, trop de regards qui se croisent et se détournent. La ville se retrouve face à elle-même, face à ce qu'elle a accepté, à ce qu'elle a laissé se faire, à la distance exacte entre ce qu'elle croit être et ce qu'elle est. Elle fait alors ce qu'elle sait faire : elle se divise, choisit des camps, cherche un responsable. Le retour de Noé ne crée aucune de ces tensions. Il les révèle.",
-        ],
-      },
-      {
-        title: "Ce que l'on enfouit",
-        paragraphs: [
-          "La mer est dans le son des scènes d'intérieur, dans les corps des personnages, dans l'odeur qui ne quitte jamais les vêtements. Dans une ville comme celle-ci, la mer fait partie du quotidien au point qu'on a appris à vivre avec ses humeurs : la marée, le vent, la houle. Elle renvoie à la ville l'image de ce qu'elle refuse d'admettre : qu'il existe des forces qui la dépassent.",
-          "La digue est l'endroit où ces deux réalités se touchent. Plus l'affaire avance, plus elle devient autre chose qu'un ouvrage de béton. Une sorte de seuil, un endroit qu'on évite, qu'on surveille, qu'on fantasme. Ce qui se passe en dessous, dans l'eau noire, dans les cavités sous le béton, répond à tout ce que la ville a choisi d'enfouir. Chaque secret que l'enquête remonte à la surface trouve son écho dans ce qui pulse sous la digue. Les deux réalités se répondent et s'alimentent jusqu'à ce qu'on ne puisse plus prétendre que l'une n'a rien à voir avec l'autre.",
-        ],
-      },
-    ],
   },
   {
     id: "chercheurs",
@@ -171,7 +107,7 @@ const CHAPTERS = [
     nav: "Ceux qui cherchent",
     signal: "Curiosité",
     feedback: "Signal reçu.",
-    title: "Trois regards. Trois manières de chercher la vérité.",
+    title: "Ceux qui cherchent",
     imageKey: "chercheurs",
     audio: {
       label: "Notes vocales de Vera — 1:23",
@@ -179,13 +115,7 @@ const CHAPTERS = [
       duration: "1:23",
       src: "/audio/maree-noire-fragment-04-vera.mp4",
     },
-    paragraphs: [
-      "Le retour de Noé relance l'enquête, mais personne ne l'aborde depuis le même endroit.",
-      "Iroise connaît les noms, les visages, les histoires, les failles. Infirmière le jour, cheffe des pompiers volontaires le reste du temps, elle est celle qu'on appelle quand ça déborde.",
-      "Vikram, commissaire, a classé le dossier Noé il y a huit ans. Ce que ça lui a coûté, il commence seulement à le mesurer.",
-      "Vera, biologiste marine, est venue avec des certitudes scientifiques. Quand Noé revient, ce qu'elle trouve sur lui confirme des années de recherche.",
-      "Iroise lit les corps. Vikram reprend les angles morts. Vera cherche une logique dans l'impossible. Au centre, Noé rend chaque certitude suspecte.",
-    ],
+    paragraphs: [],
     question: "Pour approcher la vérité, vous suivriez plutôt…",
     answers: ["l'instinct d'Iroise", "l'enquête de Vikram", "la science de Vera", "personne ne semble fiable"],
     answerValues: {
@@ -196,33 +126,7 @@ const CHAPTERS = [
     },
     bonusIntro: "Accéder aux fiches des trois points de vue.",
     bonusTitle: "Trois regards sur l'impossible",
-    bonusCards: [
-      {
-        title: "Iroise — 42 ans — infirmière et cheffe des pompiers volontaires",
-        paragraphs: [
-          "Iroise est une enfant du pays au sens le plus charnel du terme. Elle porte cette ville dans le corps. Son grand-père pêchait au large, son père aussi. Elle a choisi la terre ferme. Les gens. Infirmière le jour, cheffe des pompiers volontaires le reste du temps, et dans les deux cas la même chose : quelqu'un à qui on fait appel quand ça déborde.",
-          "Elle est bourrue, directe, sans fioritures. Son humour est sec, rare, dévastateur. Elle arrive dans une pièce et prend toute la place sans même s'en rendre compte. À sa ceinture, le couteau de marin de son grand-père. Dans la poche de sa veste, des chewing-gums à la nicotine qu'elle mâche en permanence depuis qu'elle a décidé d'arrêter de fumer.",
-          "Sa vie personnelle est un mystère que personne n'a vraiment percé. Elle est seule, et ça semble lui aller. Les gens l'aiment, la respectent, lui font confiance, personne ne la connaît vraiment. Elle est partout dans cette ville et nulle part en même temps. Comme si prendre soin de tout le monde était aussi une façon de rester à distance.",
-        ],
-      },
-      {
-        title: "Vikram — 43 ans — commissaire",
-        paragraphs: [
-          "Vikram est arrivé ici par mutation il y a quinze ans. Il devait repartir, mais a décidé de rester pour sa femme, pour les enfants, pour cette vie tranquille qui s'est construite presque malgré lui. Deux étrangers qui ont trouvé leur place dans une ville qui les a acceptés sans jamais tout à fait les adopter.",
-          "Poli à l'excès, précautionneux dans chaque mot, chaque geste. Cette politesse, c'est son armure. Construite patiemment, couche après couche, depuis le premier jour où quelqu'un lui a fait une remarque qu'il a fait semblant de ne pas entendre.",
-          "Son équipe le trouve trop doux, trop précis, trop dans « bien comme il faut ». Ce qu'ils voient : un chef qui s'efface. Ce qu'ils ratent : un flic d'une rigueur et d'une intuition rares, capable de tenir un dossier sur des années sans perdre un détail, de lire une scène en quelques secondes, de sentir quand quelque chose cloche avant même de savoir quoi. C'est d'ailleurs pour ça qu'il occupe ce poste. Quelqu'un, quelque part, a reconnu ce qu'il valait vraiment.",
-        ],
-      },
-      {
-        title: "Vera — 37 ans — biologiste marine",
-        paragraphs: [
-          "Vera vit sur un vieux voilier qu'elle déplace au gré de ses missions, des ports provisoires, des amarres jamais définitives. Elle pose ses affaires, elle travaille, elle repart. Ici elle a loué un emplacement au port. Son bateau est encombré de matériel, de carnets couverts d'annotations, de bouteilles vides et de cartes marines punaisées partout. C'est à la fois un laboratoire et un champ de bataille.",
-          "Vera est indépendante, solitaire, mystérieuse. Magnétique aussi, comme ces gens qui n'ont aucune conscience de leur capacité d'attraction. La liberté comme mode de survie.",
-          "Dans son travail elle est obsessionnelle, précise, inarrêtable. Elle a passé des années sur des données que personne ne prenait au sérieux, des anomalies biologiques côtières, des corrélations que ses collègues trouvaient trop spéculatives. Elle a continué. Elle boit trop, surtout la nuit quand les chiffres ne s'alignent pas. Elle fume sur le pont à trois heures du matin en regardant la mer avec l'expression de quelqu'un qui cherche une réponse à une question qu'elle formule encore.",
-          "Quelque chose l'a abîmée. On ne sait pas quoi. Elle n'en parle jamais. Le travail est peut-être la seule façon qu'elle a trouvée de tenir debout. Quand Noé revient, ce qu'elle trouve sur lui confirme des années de recherche. Elle garde ça pour elle. Trop longtemps.",
-        ],
-      },
-    ],
+    bonusCharacterNames: ["Iroise", "Vikram", "Vera"],
   },
   {
     id: "veilleurs",
@@ -230,7 +134,7 @@ const CHAPTERS = [
     nav: "Les Veilleurs",
     signal: "Trouble",
     feedback: "Signal reçu.",
-    title: "Quand une communauté perd son récit, elle en fabrique un.",
+    title: "Les Veilleurs",
     imageKey: "veilleurs",
     audio: {
       label: "Discours de Lenn — 1:51",
@@ -238,13 +142,7 @@ const CHAPTERS = [
       duration: "1:51",
       src: "/audio/maree-noire-fragment-05-lenn.mp4",
     },
-    paragraphs: [
-      "Avant même le retour de Noé, certains refusaient de croire à une disparition ordinaire.",
-      "Autour de Lenn, ancien instituteur, les Veilleurs se sont organisés. Pas comme une secte spectaculaire, mais comme une communauté discrète, née du besoin de donner un sens à ce que les autres avaient renoncé à comprendre.",
-      "Lenn sait parler, convaincre, tenir une salle. Il sait faire sentir aux gens qu'ils comptent, qu'ils sont vus, qu'ils appartiennent à quelque chose.",
-      "Quand Noé revient, les Veilleurs ont enfin ce qu'ils attendaient : une preuve possible.",
-      "Mais Le Braz, lui, sait autre chose. Il a travaillé sur la digue. Il a vu quelque chose, il y a longtemps. Et ce qu'il a vu n'a rien à voir avec ce que Lenn raconte.",
-    ],
+    paragraphs: [],
     question: "Ce qui trouble le plus chez les Veilleurs, c'est…",
     answers: ["ce qu'ils croient", "ce qu'ils savent peut-être", "leur emprise sur la ville", "le besoin qu'ils viennent combler"],
     answerValues: {
@@ -254,37 +152,9 @@ const CHAPTERS = [
       "le besoin qu'ils viennent combler": 85,
     },
     bonusIntro: "Accéder au dossier confidentiel des Veilleurs.",
-    bonusTitle: "Dossier — Les Veilleurs",
+    bonusTitle: "Lenn & Le Braz",
     archive: true,
-    bonusCards: [
-      {
-        title: "Les Veilleurs",
-        paragraphs: [
-          "Lenn a transformé ces huit années en quelque chose. Il a fédéré autour de lui des gens qui ne supportaient pas l'inaction. Avec le temps, ce groupe s'est resserré, s'est donné des rites et un symbole : un bracelet noué en signe d'appartenance, de dette partagée, de mission.",
-          "Le Braz a toujours su, lui. Il a vu des choses près de la digue il y a longtemps. Le retour de Noé ne le soulage pas, il le terrifie. Cette fracture entre les deux hommes dit quelque chose d'essentiel sur ce que les Veilleurs sont en train de devenir.",
-        ],
-      },
-      {
-        title: "Lenn — 54 ans — ancien instituteur",
-        paragraphs: [
-          "Lenn a appris à lire à une génération entière d'enfants de cette côte. Il sait parler, convaincre, tenir une salle. Il a ce don rare de faire sentir aux gens qu'ils comptent, qu'ils sont vus, qu'ils font partie de quelque chose. Les parents lui faisaient confiance. Les enfants l'adoraient. Dans une petite ville, ce type de capital social vaut de l'or.",
-          "Sa vie personnelle a moins bien tenu. Divorcé, il n'a plus de lien avec ses enfants qui vivent ailleurs. Et c'est peut-être là que tout commence, dans ce besoin d'être au centre, d'être indispensable, de compter pour quelque chose.",
-          "La nuit de la disparition de Noé, Lenn était là. Il n'a rien vu mais il a été parmi les premiers à organiser les recherches, à fédérer les gens, à prendre en main ce que les autres ne savaient pas comment tenir. Cette utilité-là, il l'a reconnue immédiatement. Elle lui allait bien.",
-          "Les Veilleurs sont nés de ça. Au départ : des rondes, des battues, une présence organisée autour de la digue. Quelque chose de respectable, presque admirable. Avec le temps, Lenn a compris que le groupe avait besoin d'une lecture différente du monde pour continuer à exister et il a fourni ces réponses. Consciemment. Avec l'intelligence de quelqu'un qui sait exactement ce qu'il fait et pourquoi.",
-          "Ce qui le rend magnétique et redoutable à la fois : il est cultivé, précis, toujours au bon niveau dans la conversation. Il adapte son discours à son interlocuteur avec une fluidité qui impressionne. Et il a cette façon de vous regarder, comme si vous étiez la seule personne dans la pièce.",
-          "Quand Noé revient, Lenn a enfin la preuve que tout le monde attendait. Les Veilleurs se radicalisent. Et Lenn, pour la première fois depuis longtemps, se sent vraiment vivant.",
-        ],
-      },
-      {
-        title: "Le Braz — âge incertain — ancien ouvrier",
-        paragraphs: [
-          "Le Braz est une figure de la ville sans vraiment en faire partie. On le voit, on le connaît de nom, on l'évite un peu. Son âge est difficile à lire, il pourrait avoir soixante-cinq ans comme quatre-vingts, selon la lumière, selon le jour. Grand, massif, une présence physique qui étonne encore, comme si le corps avait décidé de tenir quoi qu'il arrive. On ne sait pas vraiment où il vit, ce qu'il a été, s'il a eu une famille. Il est là depuis toujours, c'est à peu près tout ce que la ville sait de lui.",
-          "Il a travaillé sur la digue pendant des années, les chantiers, les fondations, les cavités sous le béton. Il connaît ce lieu autrement que les autres. De l'intérieur, littéralement. Et c'est là qu'il a vu quelque chose, il y a longtemps. Quelque chose qu'il a raconté, une fois, puis deux, puis différemment à chaque fois parce que personne n'écoutait et qu'il espérait que changer les mots ferait changer la réception. Ça n'a pas marché. Il a fini par se taire.",
-          "Ce qui le distingue des illuminés que la ville a appris à ignorer : il est lucide. D'une lucidité tranquille et légèrement féroce qui surprend ceux qui l'approchent pour la première fois. Bourru, imprévisible, il peut passer de l'hostilité au trait d'esprit dévastateur en quelques secondes. Les gens qui le sous-estiment le regrettent assez vite.",
-          "Quand Noé revient, Le Braz est le seul dans cette ville à ne pas être surpris. Et c'est précisément pour ça qu'il est terrorisé. Lenn veut le rallier aux Veilleurs, Le Braz représenterait une légitimité que leur doctrine seule ne peut pas avoir. Le Braz refuse. Ce qu'il a vu sous la digue n'a rien à voir avec ce que Lenn raconte. Et cette différence-là, pour lui, est fondamentale.",
-        ],
-      },
-    ],
+    bonusCharacterNames: ["Lenn", "Le Braz"],
   },
   {
     id: "mer",
@@ -292,7 +162,7 @@ const CHAPTERS = [
     nav: "Ce que la mer réclame",
     signal: "Désir de suite",
     feedback: "Signal reçu.",
-    title: "Ce qu'elle donne, elle le compte.",
+    title: "Ce que la mer réclame",
     imageKey: "mer",
     audio: {
       label: "Appel téléphonique de Soaz — 0:48",
@@ -300,13 +170,7 @@ const CHAPTERS = [
       duration: "0:48",
       src: "/audio/maree-noire-fragment-06-soaz.mp4",
     },
-    paragraphs: [
-      "Noé s'approche de la mer chaque nuit. Il se lève, les yeux ouverts, marche vers la digue avec une attention que sa tête ne comprend pas mais que son corps reconnaît.",
-      "Le matin, il ne se souvient de rien. Il dit seulement, parfois, qu'il a entendu quelque chose.",
-      "À mesure que la saison avance, chaque vérité arrachée au passé déclenche une réaction immédiate dans le présent. L'enquête livre une réponse humaine, ancrée, dérangeante. La ville croit pouvoir reprendre son souffle.",
-      "Mais sous le béton, sous le sel, autre chose répond.",
-      "La vraie question devient : qu'est-ce que la mer a rendu avec lui — et qu'est-ce qu'elle attend en échange ?",
-    ],
+    paragraphs: [],
     question: "À ce stade, vous voulez surtout savoir…",
     answers: ["où Noé était", "ce que la ville cache", "ce que la mer réclame", "qui manipule le récit"],
     answerValues: {
@@ -315,13 +179,6 @@ const CHAPTERS = [
       "ce que la mer réclame": 100,
       "qui manipule le récit": 90,
     },
-    bonusIntro: "Accéder à la promesse de saison.",
-    bonusTitle: "La mer — ce qu'elle donne, elle le reprend",
-    bonusBody: [
-      "Noé s'en approche chaque nuit. Il se réveille, il se lève, il fixe la direction de la digue avec une attention que sa tête ne comprend pas mais que son corps reconnaît. Quelque chose d'ancien, de profond, comme si une partie de lui était restée là-bas et cherchait à revenir.",
-      "La saison progresse ainsi : révélations et conséquences. Chaque vérité arrachée au passé déclenche une réaction immédiate dans le présent. Jusqu'au moment où tout converge vers la digue, vers l'endroit que personne ne voulait regarder.",
-      "L'enquête finit par livrer une réponse humaine, ancrée, dérangeante. Et au moment où la ville croit pouvoir reprendre son souffle, la mer rappelle sa loi : ce qu'elle donne, elle le compte.",
-    ],
   },
 ];
 
@@ -332,12 +189,59 @@ function formatTime(value) {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
+function renderInlineMarkdown(text) {
+  const parts = String(text || "").split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).filter(Boolean);
+
+  return parts.map((part, index) => {
+    const key = `${part}-${index}`;
+
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={key}>{part.slice(2, -2)}</strong>;
+    }
+
+    if (part.startsWith("*") && part.endsWith("*")) {
+      return <em key={key}>{part.slice(1, -1)}</em>;
+    }
+
+    return <span key={key}>{part}</span>;
+  });
+}
+
+function buildBonusCard(character) {
+  return {
+    title: character.name,
+    meta: character.meta,
+    paragraphs: character.paragraphs,
+  };
+}
+
+function getChaptersWithEditorial(page) {
+  const editorialChapters = new Map((page?.editorial?.chapters ?? []).map((chapter) => [chapter.number, chapter]));
+  const editorialCharacters = new Map((page?.editorial?.characters ?? []).map((character) => [character.name, character]));
+
+  return CHAPTERS.map((chapter) => {
+    const editorialChapter = editorialChapters.get(chapter.number);
+    const bonusCards = (chapter.bonusCharacterNames ?? [])
+      .map((name) => editorialCharacters.get(name))
+      .filter(Boolean)
+      .map(buildBonusCard);
+
+    return {
+      ...chapter,
+      nav: editorialChapter?.title ?? chapter.nav,
+      title: editorialChapter?.title ?? chapter.title,
+      paragraphs: editorialChapter?.paragraphs?.length ? editorialChapter.paragraphs : chapter.paragraphs,
+      bonusCards,
+    };
+  });
+}
+
 function uniqueImages(values) {
   return [...new Set(values.filter(Boolean))];
 }
 
-function getSignalValues(answers) {
-  return CHAPTERS.reduce((values, chapter) => {
+function getSignalValues(answers, chapters = CHAPTERS) {
+  return chapters.reduce((values, chapter) => {
     const answer = answers[chapter.id];
     return {
       ...values,
@@ -347,6 +251,8 @@ function getSignalValues(answers) {
 }
 
 function getImages(page) {
+  if (page?.experienceImages) return page.experienceImages;
+
   const featureByName = new Map(
     (page?.characterFeatures ?? []).map((item) => [String(item.nameHtml || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(), item.imageSrc])
   );
@@ -418,11 +324,11 @@ function SignalBarometer({ answeredSignals, signalValues, compact = false }) {
   );
 }
 
-function ExperienceRail({ activeChapter, answeredSignals }) {
+function ExperienceRail({ activeChapter, answeredSignals, chapters = CHAPTERS }) {
   const answeredCount = answeredSignals.size;
   const progressLabel = answeredCount === 0
     ? "Signal en attente"
-    : answeredCount === CHAPTERS.length
+    : answeredCount === chapters.length
       ? "Parcours complet"
       : "Signal en cours";
 
@@ -434,7 +340,7 @@ function ExperienceRail({ activeChapter, answeredSignals }) {
       </div>
       <nav className="mnv2-rail-nav" aria-label="Chapitres">
         <span>Découverte</span>
-        {CHAPTERS.map((chapter) => (
+        {chapters.map((chapter) => (
           <a className={activeChapter === chapter.id ? "is-active" : ""} href={`#chapter-${chapter.id}`} key={chapter.id}>
             {chapter.nav}
           </a>
@@ -445,7 +351,7 @@ function ExperienceRail({ activeChapter, answeredSignals }) {
         <span>{progressLabel}</span>
         <strong>{answeredCount} / 6 fragments</strong>
         <div>
-          {CHAPTERS.map((chapter) => (
+          {chapters.map((chapter) => (
             <i className={answeredSignals.has(chapter.signal) ? "is-active" : ""} key={chapter.id} />
           ))}
         </div>
@@ -561,20 +467,21 @@ function Bonus({ item, children }) {
 }
 
 function BonusCard({ card }) {
-  const [name, meta, ...tagParts] = card.title.split(" — ");
+  const [name, parsedMeta, ...tagParts] = card.title.split(" — ");
+  const meta = card.meta ?? parsedMeta;
   const tags = tagParts.join(" — ");
 
   return (
     <article>
       <div className="mnv2-bonus-card-head">
         {card.hideTitle ? null : <h4>{name}</h4>}
-        {meta ? <span className="mnv2-bonus-meta">{meta}</span> : null}
+        {meta ? <span className="mnv2-bonus-meta">{renderInlineMarkdown(meta)}</span> : null}
         {tags ? <span className="mnv2-bonus-tag">{tags}</span> : null}
       </div>
       <i aria-hidden="true" />
       <div className="mnv2-bonus-card-copy">
         {(card.paragraphs || [card.text]).filter(Boolean).map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+          <p key={paragraph}>{renderInlineMarkdown(paragraph)}</p>
         ))}
       </div>
     </article>
@@ -606,15 +513,16 @@ function MicroSignal({ chapter, answer, onAnswer }) {
   );
 }
 
-function Chapter({ chapter, images = [], active, answer, onAnswer, playingId, setPlayingId, answeredSignals, signalValues }) {
+function Chapter({ chapter, chapters, images = [], active, answer, onAnswer, playingId, setPlayingId, answeredSignals, signalValues }) {
   const chapterImages = images.filter(Boolean);
   const activeImage = chapterImages[0] || null;
   const stackedMediaLimit = ["ville", "chercheurs", "veilleurs", "mer"].includes(chapter.id) ? 3 : chapter.id === "noe" || chapter.id === "meres" ? 2 : 0;
   const stackedMediaClass = stackedMediaLimit === 3 ? "is-trio" : stackedMediaLimit === 2 ? "is-duo" : "";
+  const hasBonus = Boolean(chapter.bonusCards?.length || chapter.bonusBody?.length);
 
   return (
     <section className={`mnv2-chapter ${active ? "is-active" : ""}`} id={`chapter-${chapter.id}`} data-chapter-id={chapter.id}>
-      <ExperienceRail activeChapter={chapter.id} answeredSignals={answeredSignals} />
+      <ExperienceRail activeChapter={chapter.id} answeredSignals={answeredSignals} chapters={chapters} />
       <div className="mnv2-chapter-index">
         <strong>{chapter.number}</strong>
         <span>Chapitre</span>
@@ -639,7 +547,7 @@ function Chapter({ chapter, images = [], active, answer, onAnswer, playingId, se
         <h2>{chapter.title}</h2>
         <div className="mnv2-copy-stack">
           {chapter.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <p key={paragraph}>{renderInlineMarkdown(paragraph)}</p>
           ))}
         </div>
       </div>
@@ -647,18 +555,20 @@ function Chapter({ chapter, images = [], active, answer, onAnswer, playingId, se
       <div className="mnv2-chapter-controls">
         <FragmentAudio audio={chapter.audio} id={chapter.id} playingId={playingId} setPlayingId={setPlayingId} />
         <MicroSignal chapter={chapter} answer={answer} onAnswer={onAnswer} />
-        <Bonus item={chapter}>
-          {chapter.bonusCards ? (
-            <div className="mnv2-bonus-grid">
-              {chapter.bonusCards.map((card) => (
-                <BonusCard card={card} key={card.title} />
-              ))}
-            </div>
-          ) : null}
-          {chapter.bonusBody?.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </Bonus>
+        {hasBonus ? (
+          <Bonus item={chapter}>
+            {chapter.bonusCards?.length ? (
+              <div className="mnv2-bonus-grid">
+                {chapter.bonusCards.map((card) => (
+                  <BonusCard card={card} key={card.title} />
+                ))}
+              </div>
+            ) : null}
+            {chapter.bonusBody?.map((paragraph) => (
+              <p key={paragraph}>{renderInlineMarkdown(paragraph)}</p>
+            ))}
+          </Bonus>
+        ) : null}
       </div>
     </section>
   );
@@ -671,6 +581,7 @@ export default function MareeNoirePageClient({ page, sessionClosed = false }) {
   });
 
   const images = useMemo(() => getImages(page), [page]);
+  const chapters = useMemo(() => getChaptersWithEditorial(page), [page]);
   const [answers, setAnswers] = useState({});
   const [activeChapter, setActiveChapter] = useState(CHAPTERS[0].id);
   const [playingId, setPlayingId] = useState(null);
@@ -693,12 +604,12 @@ export default function MareeNoirePageClient({ page, sessionClosed = false }) {
   const heroFormat = page?.format ?? "6 × 52 min";
   const answeredSignals = useMemo(() => {
     const active = new Set();
-    CHAPTERS.forEach((chapter) => {
+    chapters.forEach((chapter) => {
       if (answers[chapter.id]) active.add(chapter.signal);
     });
     return active;
-  }, [answers]);
-  const signalValues = useMemo(() => getSignalValues(answers), [answers]);
+  }, [answers, chapters]);
+  const signalValues = useMemo(() => getSignalValues(answers, chapters), [answers, chapters]);
 
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll("[data-chapter-id]"));
@@ -2046,6 +1957,10 @@ export default function MareeNoirePageClient({ page, sessionClosed = false }) {
           text-transform: uppercase;
         }
 
+        .mnv2-bonus-meta {
+          font-style: italic;
+        }
+
         .mnv2-bonus-tag {
           padding: 5px 12px;
           border: 1px solid rgba(var(--mnv2-mint-rgb), 0.7);
@@ -2521,11 +2436,12 @@ export default function MareeNoirePageClient({ page, sessionClosed = false }) {
             <SignalBarometer answeredSignals={answeredSignals} signalValues={signalValues} compact />
           </div>
 
-          {CHAPTERS.map((chapter) => (
+          {chapters.map((chapter) => (
             <Chapter
               active={activeChapter === chapter.id}
               answer={answers[chapter.id]}
               chapter={chapter}
+              chapters={chapters}
               images={images.sets?.[chapter.imageKey] ?? [images[chapter.imageKey]]}
               key={chapter.id}
               onAnswer={answerSignal}

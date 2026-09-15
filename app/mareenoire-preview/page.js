@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import MareeNoirePageClient from "../../components/mareenoire/MareeNoirePageClient";
-import { getMareeNoirePageData } from "../../lib/mareenoire-page";
+import { getMareeNoireExperiencePageData } from "../../lib/mareenoire-page";
 
 export function generateMetadata() {
-  const page = getMareeNoirePageData();
+  const page = getMareeNoireExperiencePageData();
 
   if (!page) {
     return {};
@@ -20,7 +20,7 @@ export function generateMetadata() {
 }
 
 export default function MareeNoirePreviewPage() {
-  const page = getMareeNoirePageData();
+  const page = getMareeNoireExperiencePageData();
 
   if (!page) {
     return null;

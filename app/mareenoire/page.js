@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import MareeNoirePageClient from "../../components/mareenoire/MareeNoirePageClient";
 import { isCampaignActiveStatus } from "../../lib/campaign-access";
-import { getMareeNoirePageData } from "../../lib/mareenoire-page";
+import { getMareeNoireExperiencePageData } from "../../lib/mareenoire-page";
 import { getCurrentPanelAccessRecord } from "../../lib/panel-session-server";
 
 export function generateMetadata() {
-  const page = getMareeNoirePageData();
+  const page = getMareeNoireExperiencePageData();
 
   if (!page) {
     return {};
@@ -52,7 +52,7 @@ export default async function MareeNoirePage() {
     redirect(gate.redirectPath);
   }
 
-  const page = getMareeNoirePageData();
+  const page = getMareeNoireExperiencePageData();
 
   if (!page) {
     notFound();
